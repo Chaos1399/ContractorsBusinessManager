@@ -1,0 +1,6 @@
+framework module Pods_RangelEnterprisesBMTests {
+  umbrella header "Pods-RangelEnterprisesBMTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

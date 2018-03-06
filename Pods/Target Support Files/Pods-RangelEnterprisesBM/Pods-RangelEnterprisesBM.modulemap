@@ -1,0 +1,6 @@
+framework module Pods_RangelEnterprisesBM {
+  umbrella header "Pods-RangelEnterprisesBM-umbrella.h"
+
+  export *
+  module * { export * }
+}
