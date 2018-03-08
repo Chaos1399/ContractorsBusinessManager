@@ -24,7 +24,6 @@
 		C40D609F203F540A006D5F76 /* ASchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D609E203F540A006D5F76 /* ASchedule.swift */; };
 		C40D60A1203F5418006D5F76 /* AViewJobTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D60A0203F5418006D5F76 /* AViewJobTime.swift */; };
 		C40D60A3203F542A006D5F76 /* AAddJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D60A2203F542A006D5F76 /* AAddJob.swift */; };
-		C40D60A5203F5434006D5F76 /* AEditJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D60A4203F5434006D5F76 /* AEditJob.swift */; };
 		C40D60A7203F558D006D5F76 /* AReviseHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D60A6203F558D006D5F76 /* AReviseHours.swift */; };
 		C40D60A9203F5DF0006D5F76 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D60A8203F5DF0006D5F76 /* Login.swift */; };
 		C40D60AB203F66F5006D5F76 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D60AA203F66F5006D5F76 /* SignUp.swift */; };
@@ -36,7 +35,9 @@
 		C40DC177204B5F50003BE37E /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40DC176204B5F50003BE37E /* CustomTabBar.swift */; };
 		C40DC179204B65BA003BE37E /* EeditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40DC178204B65BA003BE37E /* EeditProfile.swift */; };
 		C40DC17B204B684A003BE37E /* AeditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40DC17A204B684A003BE37E /* AeditProfile.swift */; };
+		C40E79E9205092E1002539D7 /* calendarDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40E79E8205092E1002539D7 /* calendarDayCell.swift */; };
 		C42B3548204631F100EACFCB /* CustomVCSuper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42B3547204631F100EACFCB /* CustomVCSuper.swift */; };
+		C4BB50DE2050DFB80043F709 /* ScheduledWorkday.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB50DD2050DFB80043F709 /* ScheduledWorkday.swift */; };
 		C4C924B7203E5FCE00499CDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4C924B6203E5FCE00499CDC /* GoogleService-Info.plist */; };
 		C4C924B9203E643B00499CDC /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C924B8203E643B00499CDC /* Job.swift */; };
 		C4C924BB203E659800499CDC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C924BA203E659800499CDC /* Location.swift */; };
@@ -99,7 +100,6 @@
 		C40D609E203F540A006D5F76 /* ASchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASchedule.swift; sourceTree = "<group>"; };
 		C40D60A0203F5418006D5F76 /* AViewJobTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AViewJobTime.swift; sourceTree = "<group>"; };
 		C40D60A2203F542A006D5F76 /* AAddJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAddJob.swift; sourceTree = "<group>"; };
-		C40D60A4203F5434006D5F76 /* AEditJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AEditJob.swift; sourceTree = "<group>"; };
 		C40D60A6203F558D006D5F76 /* AReviseHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AReviseHours.swift; sourceTree = "<group>"; };
 		C40D60A8203F5DF0006D5F76 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		C40D60AA203F66F5006D5F76 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
@@ -111,7 +111,9 @@
 		C40DC176204B5F50003BE37E /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		C40DC178204B65BA003BE37E /* EeditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EeditProfile.swift; sourceTree = "<group>"; };
 		C40DC17A204B684A003BE37E /* AeditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AeditProfile.swift; sourceTree = "<group>"; };
+		C40E79E8205092E1002539D7 /* calendarDayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendarDayCell.swift; sourceTree = "<group>"; };
 		C42B3547204631F100EACFCB /* CustomVCSuper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVCSuper.swift; sourceTree = "<group>"; };
+		C4BB50DD2050DFB80043F709 /* ScheduledWorkday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWorkday.swift; sourceTree = "<group>"; };
 		C4C924B6203E5FCE00499CDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C4C924B8203E643B00499CDC /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
 		C4C924BA203E659800499CDC /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				C4C924C0203E68CC00499CDC /* PayPeriod.swift */,
 				C4C924C2203E69B300499CDC /* User.swift */,
 				C4C924BE203E67EF00499CDC /* Workday.swift */,
+				C4BB50DD2050DFB80043F709 /* ScheduledWorkday.swift */,
 			);
 			path = CustomClasses;
 			sourceTree = "<group>";
@@ -236,7 +239,6 @@
 				C40D609A203F53EB006D5F76 /* ACountHours.swift */,
 				C4089D85204DB5F800776366 /* AddClient.swift */,
 				C4089D87204DEB6400776366 /* AddJobDetail.swift */,
-				C40D60A4203F5434006D5F76 /* AEditJob.swift */,
 				C40DC17A204B684A003BE37E /* AeditProfile.swift */,
 				C40D6098203F53D6006D5F76 /* AMenu.swift */,
 				C40D60A6203F558D006D5F76 /* AReviseHours.swift */,
@@ -264,6 +266,7 @@
 				C40DC0F4204A7FE3003BE37E /* jobTimeCell.swift */,
 				C40DC0F6204A801D003BE37E /* jobListingCell.swift */,
 				C40DC0F8204A8073003BE37E /* payHistoryCell.swift */,
+				C40E79E8205092E1002539D7 /* calendarDayCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -668,17 +671,18 @@
 				C40D609D203F53FB006D5F76 /* AViewCalendar.swift in Sources */,
 				C4C924BD203E670A00499CDC /* Client.swift in Sources */,
 				C40D60A3203F542A006D5F76 /* AAddJob.swift in Sources */,
+				C4BB50DE2050DFB80043F709 /* ScheduledWorkday.swift in Sources */,
 				C4089D88204DEB6400776366 /* AddJobDetail.swift in Sources */,
 				C40DC0F1204A7FA0003BE37E /* scheduleCell.swift in Sources */,
 				C4C924C3203E69B300499CDC /* User.swift in Sources */,
 				C40D6099203F53D6006D5F76 /* AMenu.swift in Sources */,
 				C40D609B203F53EB006D5F76 /* ACountHours.swift in Sources */,
-				C40D60A5203F5434006D5F76 /* AEditJob.swift in Sources */,
 				C4089D86204DB5F800776366 /* AddClient.swift in Sources */,
 				C40D6097203F53C6006D5F76 /* EPayHistory.swift in Sources */,
 				C4F97663203D562D00BA10B7 /* AppDelegate.swift in Sources */,
 				C4C924C1203E68CC00499CDC /* PayPeriod.swift in Sources */,
 				C40D608F203F52A9006D5F76 /* EMenu.swift in Sources */,
+				C40E79E9205092E1002539D7 /* calendarDayCell.swift in Sources */,
 				C40D609F203F540A006D5F76 /* ASchedule.swift in Sources */,
 				C4C924BF203E67EF00499CDC /* Workday.swift in Sources */,
 				C42B3548204631F100EACFCB /* CustomVCSuper.swift in Sources */,

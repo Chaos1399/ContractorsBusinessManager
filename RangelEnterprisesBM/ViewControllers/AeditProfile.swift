@@ -19,12 +19,8 @@ class AeditProfile: CustomVCSuper, UITextFieldDelegate {
     @IBOutlet weak var dButton: UIButton!
     @IBOutlet weak var sButton: UIButton!
     
-    var userbase : DatabaseReference?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        userbase = Database.database().reference().child("Users")
         
         dButton.isEnabled = false
         sButton.isEnabled = false
@@ -48,7 +44,7 @@ class AeditProfile: CustomVCSuper, UITextFieldDelegate {
     }
     
     @IBAction func didPressSubmit(_ sender: UIButton) {
-        self.userbase?.queryOrderedByKey().queryEqual(toValue: nameField.text!).observeSingleEvent(of: .value, with: { snapshot in
+        self.userBase!.queryOrderedByKey().queryEqual(toValue: nameField.text!).observeSingleEvent(of: .value, with: { snapshot in
             if snapshot.exists() {
                 let tempU = User.init(key: self.nameField.text!, snapshot: snapshot)
                 
@@ -70,8 +66,7 @@ class AeditProfile: CustomVCSuper, UITextFieldDelegate {
                     tempU.admin = false
                 }
                 
-                let tempRef = self.userbase?.child(self.nameField.text!)
-                tempRef?.setValue(tempU.toAnyObject(withRef: tempRef!))
+                self.userBase!.child(self.nameField.text!).setValue(tempU.toAnyObject())
             }
         })
         
@@ -81,9 +76,9 @@ class AeditProfile: CustomVCSuper, UITextFieldDelegate {
         performSegue(withIdentifier: "unwindToPrev", sender: nil)
     }
     @IBAction func didPressDelete(_ sender: UIButton) {
-        self.userbase?.queryOrderedByKey().queryEqual(toValue: nameField.text!).observeSingleEvent(of: .value, with: { snapshot in
+        self.userBase!.queryOrderedByKey().queryEqual(toValue: nameField.text!).observeSingleEvent(of: .value, with: { snapshot in
             if snapshot.exists() {
-                self.userbase?.child(self.nameField.text!).removeValue()
+                self.userBase!.child(self.nameField.text!).removeValue()
             }
             else {
                 let alert = UIAlertController (title: "Error", message: "User not found, please check your spelling.\nIt is case sensitive.", preferredStyle: .alert)

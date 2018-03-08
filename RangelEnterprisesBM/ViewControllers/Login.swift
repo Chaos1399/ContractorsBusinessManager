@@ -16,29 +16,14 @@ class Login: CustomVCSuper, UITextFieldDelegate {
     @IBOutlet weak var passInput: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
-    var userbase : DatabaseReference?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        userbase = Database.database().reference().child("Users")
         
         loginButton.isEnabled = false
         
         nameInput.text = ""
         passInput.text = ""
-        
-        let df = DateFormatter ()
-        df.timeStyle = .none
-        df.dateStyle = .short
-        /*
-        let job1 = Job.init(type: "Paint Doors", start: df.date(from: "Jan 1, 2017")!, end: df.date(from: "Jan 2, 2018")!, details: nil)
-        let loc1 = Location.init(address: "60 Casa", jobs: [job1])
-        let client = Client.init(name: "Bea", billingAddress: "Somewhere", email: "Something", heldProperties: [loc1])
-        
-        let clientbase = Database.database().reference().child("Clients").child("Bea")
-        clientbase.setValue(client.toAnyObject())*/
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -68,7 +53,7 @@ class Login: CustomVCSuper, UITextFieldDelegate {
     @IBAction func didPressLogin(_ sender: UIButton) {
         
         if let username = nameInput.text, let password = passInput.text {
-            self.userbase?.queryOrderedByKey().queryEqual(toValue: username).observe(.value, with: { snapshot in
+            self.userBase?.queryOrderedByKey().queryEqual(toValue: username).observe(.value, with: { snapshot in
                 
                 if snapshot.exists()  {
                     self.user = User.init(key: username, snapshot: snapshot)

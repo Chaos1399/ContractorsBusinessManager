@@ -16,14 +16,9 @@ class EeditProfile: CustomVCSuper, UITextFieldDelegate {
     @IBOutlet weak var confirmField: UITextField!
     @IBOutlet weak var subButton: UIButton!
     
-    var userbase : DatabaseReference?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        userbase = Database.database().reference().child("Users")
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -35,7 +30,7 @@ class EeditProfile: CustomVCSuper, UITextFieldDelegate {
     }
     
     @IBAction func didPressSubmit(_ sender: UIButton) {
-        self.userbase?.queryOrderedByKey().queryEqual(toValue: user!.name).observeSingleEvent(of: .value, with: { snapshot in
+        self.userBase!.queryOrderedByKey().queryEqual(toValue: user!.name).observeSingleEvent(of: .value, with: { snapshot in
             if snapshot.exists() {
                 let tempU = User.init(key: self.user!.name, snapshot: snapshot)
                 
@@ -69,8 +64,7 @@ class EeditProfile: CustomVCSuper, UITextFieldDelegate {
                     self.present (alert, animated: true, completion: nil)
                 }
                 
-                let tempRef = self.userbase?.child(self.user!.name)
-                tempRef?.setValue(tempU.toAnyObject(withRef: tempRef!))
+                self.userBase!.child(self.user!.name).setValue(tempU.toAnyObject())
             }
         })
         

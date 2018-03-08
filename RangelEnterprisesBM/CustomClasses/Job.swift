@@ -22,12 +22,17 @@ class Job : Codable {
         self.details = details
     }
     
-    init(key: String, object: AnyObject) {
-        let val = object as! [String : AnyObject]
+    init(key: Int, snapshot: DataSnapshot) {
+        let temp = snapshot.value as! [AnyObject]
+        let val = temp [key] as! [String : AnyObject]
+        
+        let df = DateFormatter ()
+        df.timeStyle = .none
+        df.dateFormat = "MM-dd-yy"
         
         type = val ["type"] as! String
-        startDate = val ["start"] as! Date
-        endDate = val ["end"] as! Date
+        startDate = df.date(from: (val ["start"] as! String))!
+        endDate = df.date(from: (val ["end"] as! String))!
         details = val ["details"] as? String
     }
     
@@ -41,7 +46,7 @@ class Job : Codable {
     func toAnyObject () -> Any {
         let df = DateFormatter.init()
         df.timeStyle = .none
-        df.dateFormat = "MM/DD/YY"
+        df.dateFormat = "MM-dd-yy"
         
         return [
             "type" : type,

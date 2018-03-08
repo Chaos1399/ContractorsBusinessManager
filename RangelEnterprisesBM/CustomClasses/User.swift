@@ -10,17 +10,19 @@ import Foundation
 import FirebaseDatabase
 
 class User: Codable {
-    var name: String
-    var password: String
-    var email: String
-    var pph: Double
-    var sickTime: Double
-    var vacayTime: Double
-    var admin: Bool
-    var toWork: [String]?
-    var history: [PayPeriod]?
+    var name : String
+    var password : String
+    var email : String
+    var pph : Double
+    var sickTime : Double
+    var vacayTime : Double
+    var admin : Bool
+    var toWork : String
+    var history : String
+    var numDaysScheduled : Int
+    var numPeriods : Int
     
-    init (name: String, password: String, email: String, payPerHour pph: Double, sickTime: Double, vacayTime: Double, admin: Bool, scheduledWork toWork: [String]?, payPeriodHistory history: [Any]?) {
+    init (name: String, password: String, email: String, payPerHour pph: Double, sickTime: Double, vacayTime: Double, admin: Bool, scheduledWork toWork: String, numDays numDaysScheduled: Int, payPeriodHistory history: String, numPayPeriods numPeriods: Int) {
         self.name = name
         self.password = password
         self.email = email
@@ -29,7 +31,9 @@ class User: Codable {
         self.vacayTime = vacayTime
         self.admin = admin
         self.toWork = toWork
-        self.history = (history as? [PayPeriod])
+        self.numDaysScheduled = numDaysScheduled
+        self.history = history
+        self.numPeriods = numPeriods
     }
     
     init (key: String, snapshot: DataSnapshot) {
@@ -44,8 +48,10 @@ class User: Codable {
         sickTime = val ["sickTime"] as! Double
         vacayTime = val ["vacationTime"] as! Double
         admin = val ["admin"] as! Bool
-        toWork = val ["scheduledToWork"] as? [String]
-        history = val ["payPeriodHistory"] as? [PayPeriod]
+        toWork = val ["scheduledToWork"] as! String
+        numDaysScheduled = val ["numDays"] as! Int
+        history = val ["payPeriodHistory"] as! String
+        numPeriods = val ["numPeriods"] as! Int
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -57,25 +63,14 @@ class User: Codable {
         case vacayTime = "vacationTime"
         case admin
         case toWork = "scheduledToWork"
+        case numDaysScheduled = "numDays"
         case history = "payPeriodHistory"
+        case numPeriods
     }
     
-    func toAnyObject (withRef ref : DatabaseReference) -> Any {
+    func toAnyObject () -> Any {
         let df = DateFormatter.init()
         df.dateStyle = .medium
-        let tempRef = ref.child("payPeriodHistory")
-        
-        if history != nil {
-            var tempArr = [Any]()
-            for period in history! {
-                tempArr.append(period.toAnyObject(withRef: tempRef))
-            }
-            
-            tempRef.setValue(tempArr)
-        }
-        else {
-            tempRef.setValue("")
-        }
         
         return [
             "name" : name,
@@ -85,7 +80,9 @@ class User: Codable {
             "sickTime" : sickTime,
             "vacationTime" : vacayTime,
             "admin" : admin,
-            "scheduledToWork" : toWork ?? ""
-        ]
+            "scheduledToWork" : toWork,
+            "numDays" : numDaysScheduled,
+            "payPeriodHistory" : history,
+            "numPeriods" : numPeriods ]
     }
 }

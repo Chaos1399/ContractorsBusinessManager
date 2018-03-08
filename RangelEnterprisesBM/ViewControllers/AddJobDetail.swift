@@ -17,6 +17,12 @@ class AddJobDetail: CustomVCSuper, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if job != nil {
+            jobField.text = job!.type
+            startPicker.setDate(job!.startDate, animated: false)
+            endPicker.setDate(job!.endDate, animated: false)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,7 +41,7 @@ class AddJobDetail: CustomVCSuper, UITextFieldDelegate {
     }
     
     @IBAction func didPressCancel(_ sender: UIButton) {
-        performSegue(withIdentifier: "unwindToPrev", sender: nil)
+        performSegue(withIdentifier: "unwindToAddJob", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

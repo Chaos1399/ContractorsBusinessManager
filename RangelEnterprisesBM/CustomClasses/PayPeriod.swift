@@ -13,15 +13,33 @@ class PayPeriod: Codable {
     var startDate : Date
     var endDate : Date
     var number : Int
-    var totalHours : Int
-    var days : [Workday]
+    var totalHours : Double
+    var days : String
+    var numDays : Int
     
-    init (start startDate: Date, end endDate: Date, period number: Int, hours totalHours: Int, days: [Any]) {
+    init (start startDate: Date, end endDate: Date, period number: Int, hours totalHours: Double, days: String, numDays: Int) {
         self.startDate = startDate
         self.endDate = endDate
         self.number = number
         self.totalHours = totalHours
-        self.days = days as! [Workday]
+        self.days = days
+        self.numDays = numDays
+    }
+    
+    init (key: Int, snapshot: DataSnapshot) {
+        let temp = snapshot.value as! [AnyObject]
+        let val = temp [key] as! [String : AnyObject]
+        
+        let df = DateFormatter ()
+        df.timeStyle = .none
+        df.dateFormat = "MM-dd-yy"
+        
+        startDate = df.date(from: val ["start"] as! String)!
+        endDate = df.date (from: val ["end"] as! String)!
+        number = val ["period"] as! Int
+        totalHours = val ["hours"] as! Double
+        days = val ["days"] as! String
+        numDays = val ["numDays"] as! Int
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -30,25 +48,21 @@ class PayPeriod: Codable {
         case number = "period"
         case totalHours = "hours"
         case days
+        case numDays
     }
     
-    func toAnyObject (withRef ref: DatabaseReference) -> Any {
+    func toAnyObject () -> Any {
         let df = DateFormatter.init()
-        df.dateStyle = .medium
-        
-        let tempRef = ref.child("days")
-        var tempArr = [Any]()
-        for day in days {
-            tempArr.append(day.toAnyObject())
-        }
-        
-        tempRef.setValue(tempArr)
+        df.locale = Locale (identifier: "en_US")
+        df.dateFormat = "MM-dd-yy"
         
         return [
             "start" : df.string(from: startDate),
             "end" : df.string(from: endDate),
             "period" : number,
-            "hours" : totalHours
+            "hours" : totalHours,
+            "days" : days,
+            "numDays" : numDays
         ]
     }
 }

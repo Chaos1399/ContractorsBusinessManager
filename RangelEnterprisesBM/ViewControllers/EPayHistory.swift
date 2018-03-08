@@ -16,7 +16,6 @@ class EPayHistory: CustomVCSuper, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

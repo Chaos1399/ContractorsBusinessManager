@@ -14,13 +14,9 @@ class AddClient: CustomVCSuper, UITextFieldDelegate {
     @IBOutlet var emailField: UITextField!
     @IBOutlet weak var addressField: UITextField!
     @IBOutlet weak var subButton: UIButton!
-    
-    var clientbase : DatabaseReference?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        clientbase = Database.database().reference().child("Clients")
         
         subButton.isEnabled = false
     }
@@ -41,9 +37,9 @@ class AddClient: CustomVCSuper, UITextFieldDelegate {
     }
     
     @IBAction func didPressSubmit(_ sender: UIButton) {
-        let tempRef = clientbase?.child(nameField.text!)
+        let tempRef = clientBase!.child(nameField.text!)
         
-        tempRef?.setValue (Client.init(name: nameField.text!, billingAddress: addressField.text!, email: emailField.text!, heldProperties: nil).toAnyObject())
+        tempRef.setValue (Client.init(name: nameField.text!, billingAddress: addressField.text!, email: emailField.text!, heldProperties: locationBase!.child(nameField.text!).url, numProperties: 0))
     }
     @IBAction func didPressCancel(_ sender: UIButton) {
         performSegue(withIdentifier: "unwindToPrev", sender: nil)

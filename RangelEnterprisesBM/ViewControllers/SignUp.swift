@@ -16,11 +16,8 @@ class SignUp: CustomVCSuper, UITextFieldDelegate {
     @IBOutlet weak var pphField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
     
-    var userbase : DatabaseReference?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        userbase = Database.database().reference().child("Users")
         signUpButton.isEnabled = false
     }
 
@@ -41,10 +38,9 @@ class SignUp: CustomVCSuper, UITextFieldDelegate {
     }
     
     @IBAction func didPressSignUp(_ sender: UIButton) {
-        let tempRef = userbase?.child(nameField.text!)
-        
-        self.user = User (name: self.nameField.text!, password: self.passField.text!, email: self.emailField.text!, payPerHour: Double (self.pphField.text!)!, sickTime: 0.0, vacayTime: 0.0, admin: false, scheduledWork: nil, payPeriodHistory: nil)
-        tempRef?.setValue(self.user?.toAnyObject(withRef: tempRef!))
+        let toWorkURL = Database.database().reference().child("Schedules").child(self.nameField.text!).url
+        self.user = User (name: self.nameField.text!, password: self.passField.text!, email: self.emailField.text!, payPerHour: Double (self.pphField.text!)!, sickTime: 0.0, vacayTime: 0.0, admin: false, scheduledWork: toWorkURL, numDays: 0, payPeriodHistory: self.historyBase!.child(self.nameField.text!).url, numPayPeriods: 0)
+        userBase!.child(nameField.text!).setValue(self.user?.toAnyObject())
         
         performSegue(withIdentifier: "unwindToPrev", sender: nil)
     }

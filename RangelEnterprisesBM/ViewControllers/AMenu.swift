@@ -15,8 +15,11 @@ class AMenu: CustomVCSuper {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        (segue.destination as! CustomVCSuper).user = self.user
+    }
 
+    // Tab change buttons
     @IBAction func countHours(_ sender: UIButton) {
         self.tabBarController?.selectedIndex = 1
     }
@@ -30,6 +33,7 @@ class AMenu: CustomVCSuper {
         self.tabBarController?.selectedIndex = 4
     }
 
+    // Segue performing buttons
     @IBAction func addWorker(_ sender: UIButton) {
         performSegue(withIdentifier: "signUp", sender: nil)
     }
@@ -41,11 +45,5 @@ class AMenu: CustomVCSuper {
     }
     @IBAction func addClient(_ sender: UIButton) {
         performSegue(withIdentifier: "addClient", sender: nil)
-    }
-    
-    @IBAction func unwindToAMenu (_ segue: UIStoryboardSegue) {}
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        (segue.destination as! CustomVCSuper).user = self.user
     }
 }
