@@ -13,7 +13,7 @@ Admin version functionality:
    - Add clients do the database
    - Add locations for a client to the database
    - Add jobs for a client & location to the database
-   - Add employees to the database to the database
+   - Add employees to the database
    - Edit employee information (name, email, hourly pay, sick time, vacation time, admin status)
 Employee version functionality:
    - View where you are scheduled to work for any given day
@@ -32,7 +32,7 @@ Firebase/Core
 Firebase/Database
 JTAppleCalendar
 
-What follows is the state of development of my project, I list the things I have built to full functionality, and what I plan to do in the future
+What follows is the state of development of my project, I list the things I have built to full functionality, and what I plan to do in the future.
 
 
 Full Functionality:
