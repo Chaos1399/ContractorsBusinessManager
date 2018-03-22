@@ -30,10 +30,10 @@ Employee version functionality:
 API's I use:
 
 
-Firebase
-Firebase/Core
-Firebase/Database
-JTAppleCalendar
+   - Firebase
+   - Firebase/Core
+   - Firebase/Database
+   - JTAppleCalendar
 
 What follows is the state of development of my project, I list the things I have built to full functionality, and what I plan to do in the future.
 
