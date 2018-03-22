@@ -6,32 +6,29 @@ Developer Name: Cristian Rangel
 Overview:
 
 There are two versions of the app, the admin version and the employee version.
-<<<<<<< HEAD
 
 Admin version functionality:
 
-Count all the hours worked at a job, and sum up the labor cost of them all
-Schedule employees to work at a given place on a given day or set of days, doing a certain job
-View all concurrent jobs for any given day
-Revise the hours of any employee on any day, in case they forgot to clock in / out or were sick / on vacation
-Add clients to the database
-Add locations for a client to the database
-Add jobs for a client & location to the database
-Add employees to the database
-Edit employee information (name, email, hourly pay, sick time, vacation time, admin status)
+   - Count all the hours worked at a job, and sum up the labor cost of them all
+   - Schedule employees to work at a given place on a given day or set of days, doing a certain job
+   - View all concurrent jobs for any given day
+   - Revise the hours of any employee on any day, in case they forgot to clock in / out or were sick / on vacation
+   - Add clients to the database
+   - Add locations for a client to the database
+   - Add jobs for a client & location to the database
+   - Add employees to the database
+   - Edit employee information (name, email, hourly pay, sick time, vacation time, admin status)
 
 Employee version functionality:
 
-View where you are scheduled to work for any given day
-Clock in and out
-View how much sick / vacation time you have accumulated
-Use up to 4 days of sick / vacation time at once
-View your hour totals for previous pay periods
-Search through previous pay periods by period number or date to view your hours for that pay period
-Edit your information (name, email, and password)
+   - View where you are scheduled to work for any given day
+   - Clock in and out
+   - View how much sick / vacation time you have accumulated
+   - Use up to 4 days of sick / vacation time at once
+   - View your hour totals for previous pay periods
+   - Search through previous pay periods by period number or date to view your hours for that pay period
+   - Edit your information (name, email, and password)
 
-=======
->>>>>>> 205045c4abe375dbfc2306c01060ae15d34da595
 
 Admin version functionality:
    - Count all the hours worked at a job, and sum up the labor cost of them all
@@ -44,8 +41,6 @@ Admin version functionality:
    - Add employees to the database
    - Edit employee information (name, email, hourly pay, sick time, vacation time, admin status)
 
-
-<<<<<<< HEAD
 
 Special Notes:
 
@@ -78,7 +73,6 @@ Firebase/Database
 JTAppleCalendar
 
 
-=======
 Employee version functionality:
    - View where you are scheduled to work for any given day
    - Clock in and out
@@ -87,29 +81,27 @@ Employee version functionality:
    - View your hour totals for previous pay periods
    - Search through previous pay periods by period number or date to view your hours for that pay period
    - Edit your information (name, email, and password)
->>>>>>> 205045c4abe375dbfc2306c01060ae15d34da595
 
 What follows is the state of development of my project, I list the things I have built to full functionality, and what I plan to do in the future.
 
 API's I use:
 
-<<<<<<< HEAD
-Page Navigation
-Login
-Sign Up
-Employee Edit Profile
-Admin Edit Profile
-Admin Add Client
-Admin Add Job
-Page navigation
-Employee ClockInOut
-Employee ViewSchedule (see bug below)
-Employee Timebank
-Employee PayPeriodHistory
-Admin ViewCalendar
-Admin Schedule
-Admin ViewJobTime
-Admin Revise Hours
+   - Page Navigation
+   - Login
+   - Sign Up
+   - Employee Edit Profile
+   - Admin Edit Profile
+   - Admin Add Client
+   - Admin Add Job
+   - Page navigation
+   - Employee ClockInOut
+   - Employee ViewSchedule (see bug below)
+   - Employee Timebank
+   - Employee PayPeriodHistory
+   - Admin ViewCalendar
+   - Admin Schedule
+   - Admin ViewJobTime
+   - Admin Revise Hours
 
 Future Functionality:
 
@@ -202,7 +194,6 @@ Employee version:
 
    - Over 9 hour workday notification
    - Ability to request schedule changes
-=======
 
    - Firebase
    - Firebase/Core
@@ -244,7 +235,6 @@ Admin version:
    - View job timelines graphically on the schedule calendar
 
 Employee version:
->>>>>>> 205045c4abe375dbfc2306c01060ae15d34da595
 
    - Over 9 hour workday notification
    - Ability to request schedule changes
