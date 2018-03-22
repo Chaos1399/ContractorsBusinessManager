@@ -40,22 +40,22 @@ What follows is the state of development of my project, I list the things I have
 
 Full Functionality:
 
-Page navigation
-Login
-Sign Up
-Admin version count hours
-Admin version view calendar
-Admin version schedule employee view
-Admin version view estimated job time
-Admin version revise hours
-Admin Edit Profile
-Admin Add Client
-Admin Add Job
-Employee Edit Profile
-Employee clock in / out
-Employee sick / vacation time bank usage
-Employee version view calendar
-Employee version view pay period history
+   - Page navigation
+   - Login
+   - Sign Up
+   - Admin version count hours
+   - Admin version view calendar
+   - Admin version schedule employee view
+   - Admin version view estimated job time
+   - Admin version revise hours
+   - Admin Edit Profile
+   - Admin Add Client
+   - Admin Add Job
+   - Employee Edit Profile
+   - Employee clock in / out
+   - Employee sick / vacation time bank usage
+   - Employee version view calendar
+   - Employee version view pay period history
 
 
 Future Functionality:
