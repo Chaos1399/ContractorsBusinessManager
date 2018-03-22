@@ -10,12 +10,14 @@ import UIKit
 import FirebaseDatabase
 
 class EeditProfile: CustomVCSuper, UITextFieldDelegate {
+    // MARK: - Outlets
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passField: UITextField!
     @IBOutlet weak var confirmField: UITextField!
     @IBOutlet weak var subButton: UIButton!
     
+    // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -23,21 +25,28 @@ class EeditProfile: CustomVCSuper, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
     }
     
+    // MARK: - TextField Method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
         return true
     }
     
+    // MARK: - Button Methods
     @IBAction func didPressSubmit(_ sender: UIButton) {
         self.userBase!.queryOrderedByKey().queryEqual(toValue: user!.name).observeSingleEvent(of: .value, with: { snapshot in
             if snapshot.exists() {
                 let tempU = User.init(key: self.user!.name, snapshot: snapshot)
+                var didChangeName : Bool = false
                 
                 if self.nameField.hasText {
-                    tempU.name = self.nameField.text! }
+                    tempU.name = self.nameField.text!
+                    didChangeName = true
+                }
                 if self.emailField.hasText {
-                    tempU.email = self.emailField.text! }
+                    tempU.email = self.emailField.text!
+                    
+                }
                 
                 if self.passField.hasText && self.confirmField.hasText && self.passField.text! == self.confirmField.text! {
                     print ("in change")
@@ -64,7 +73,26 @@ class EeditProfile: CustomVCSuper, UITextFieldDelegate {
                     self.present (alert, animated: true, completion: nil)
                 }
                 
-                self.userBase!.child(self.user!.name).setValue(tempU.toAnyObject())
+                if didChangeName {
+                    var pos : Int = -1
+                    let name = self.user!.name
+                    self.userBase!.child(tempU.name).setValue(tempU.toAnyObject())
+                    self.userBase!.child(name).removeValue()
+                    
+                    let persistenceRef = Database.database().reference().child("PersistenceStartup").child("Employees")
+                    
+                    for i in 0..<self.employeeList.count {
+                        if self.employeeList [i] == name {
+                            pos = i
+                            break
+                        }
+                    }
+                    
+                    self.employeeList [pos] = tempU.name
+                    persistenceRef.child(pos.description).setValue(tempU.name)
+                } else {
+                    self.userBase!.child(self.user!.name).setValue(tempU.toAnyObject())
+                }
             }
         })
         

@@ -13,43 +13,51 @@ class ScheduledWorkday: Codable {
     var client : String
     var location : String
     var job : String
-    var date : Date
+    var startDate : Date
+    var endDate : Date
     
-    init (client: String, loc: String, job: String, date: Date) {
+    init (client: String, loc: String, job: String, startDate: Date, endDate: Date) {
         self.client = client
         self.location = loc
         self.job = job
-        self.date = date
+        self.startDate = startDate
+        self.endDate = endDate
     }
     
     init (key: Int, snapshot: DataSnapshot) {
-        let temp = snapshot.value as! [AnyObject]
-        let val = temp [key] as! [String : AnyObject]
-        
+        var val : [String : AnyObject]
         let df = DateFormatter ()
-        df.timeStyle = .none
         df.dateFormat = "MM-dd-yy"
+        
+        if let temp = snapshot.value as? [AnyObject] {
+            val = temp [key] as! [String : AnyObject]
+        } else {
+            let temp = snapshot.value as! [String : AnyObject]
+            val = temp [key.description] as! [String : AnyObject]
+        }
         
         client = val ["client"] as! String
         location = val ["location"] as! String
         job = val ["job"] as! String
-        date = df.date (from: val ["date"] as! String)!
+        startDate = df.date (from: val ["start"] as! String)!
+        endDate = df.date (from: val ["end"] as! String)!
     }
     
     private enum CodingKeys: String, CodingKey {
         case client
         case location
         case job
-        case date
+        case startDate = "start"
+        case endDate = "end"
     }
     
     func toAnyObject () -> Any {
         let df = DateFormatter ()
-        df.timeStyle = .none
-        df.dateFormat = "MM/dd/yy"
+        df.dateFormat = "MM-dd-yy"
         
         return [
-            "date" : df.string(from: date),
+            "start" : df.string(from: startDate),
+            "end" : df.string(from: endDate),
             "client" : client,
             "location" : location,
             "job" : job ]

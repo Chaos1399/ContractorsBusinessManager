@@ -9,181 +9,34 @@
 import UIKit
 import FirebaseDatabase
 
-// duplicates location list, doesnt show all clients, there is an issue with third job getting messed up, turned into a dictionary instead of an array
+// duplicates location list, doesnt show all clients
 
-class EClockIn: CustomVCSuper, UIPickerViewDataSource, UIPickerViewDelegate {
-    @IBOutlet weak var jobSelector: UIPickerView!
+class EClockIn: CustomVCSuper {
+    // MARK: - Outlets
     @IBOutlet weak var clockInOut: UIButton!
     @IBOutlet weak var numHours: UILabel!
-    // Placeholder inits
+    @IBOutlet weak var clientLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var jobLabel: UILabel!
+    
+    // MARK: - Global Variables
     var start : Date = Date.init()
     var end : Date = Date.init()
     var isIn : Bool = false
-    
     let cal = Calendar.init(identifier: .gregorian)
-    let hiPri = DispatchQueue.global(qos: .userInitiated)
-    let fetchGroup = DispatchGroup ()
-    var propertyList : [Location] = []
-    var jobList : [Job] = []
+    var selectedClient : String?
+    var selectedLocation : Location?
+    var selectedJob : String?
     
+    // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        hiPri.async {
-            self.initialPickerSetup()
-        }
-        self.fetchGroup.wait()
-        jobSelector.reloadAllComponents()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func hitClock(_ sender: UIButton) {
-        var newDay : Workday
-        
-        if !isIn {
-            start = Date.init()
-            clockInOut.setTitle("Clock Out", for: .normal)
-        }
-        else {
-            let df = DateFormatter()
-            df.locale = Locale (identifier: "en_Us")
-            df.timeStyle = .medium
-            df.dateStyle = .none
-            
-            end = Date.init()
-            clockInOut.setTitle("Clock In", for: .normal)
-            //Dividing by 60 to get minutes from seconds. Remember to change back to hours
-            let time = (end.timeIntervalSince(start) / 60).rounded()
-            numHours.text = time.description
-            var done : Bool
-            if  (time / 8) >= 1 {
-                done = true
-            } else {
-                done = false
-            }
-            
-            if (propertyList.count > 0) && (jobList.count > 0) {
-                newDay = Workday.init(date: start, hours: time, done: done, forClient: clientList [jobSelector.selectedRow(inComponent: 0)], atLocation: propertyList [jobSelector.selectedRow(inComponent: 1)].address, doingJob: jobList [jobSelector.selectedRow(inComponent: 2)].type)
-            } else {
-                newDay = Workday.init(date: start, hours: time, done: done, forClient: clientList [jobSelector.selectedRow(inComponent: 0)], atLocation: "60 Casa", doingJob: "Painting Doors")
-            }
-            
-            hiPri.async {
-                self.addDay (newDay)
-            }
-            self.fetchGroup.wait()
-        }
-        isIn = !isIn
-    }
-    
-    // TableView things
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 3
-    }
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-            return clientList.count
-        } else if component == 1 {
-            return propertyList.count
-        } else {
-            return jobList.count
-        }
-    }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if component == 0 {
-            return clientList [row]
-        }
-        else if component == 1 {
-            if propertyList.count > row {
-                return propertyList [row].address
-            } else {
-                return nil
-            }
-        }
-        else {
-            return jobList [row].type
-        }
-    }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if component == 0 {
-            hiPri.async {
-                self.propertyList = []
-                self.jobList = []
-                self.fetchProperties(row)
-                self.fetchGroup.wait()
-                self.fetchJobs(clientRow: row, locRow: 0)
-            }
-            self.fetchGroup.wait()
-        } else if component == 1 {
-            let clientrow = pickerView.selectedRow(inComponent: 0)
-            hiPri.async {
-                self.jobList = []
-                self.fetchJobs(clientRow: clientrow, locRow: row)
-                
-            }
-        }
-        self.fetchGroup.wait()
-        pickerView.reloadAllComponents()
-    }
-    
-    // Custom functions
-    func fetchProperties (_ row: Int) {
-        self.fetchGroup.enter()
-        
-        self.clientBase!.queryOrderedByKey().queryEqual(toValue: clientList [row]).observeSingleEvent(of: .value, with: { (snapshot) in
-            let client = Client.init(key: self.clientList [row], snapshot: snapshot)
-
-            let locRef = Database.database().reference (fromURL: client.properties)
-            
-            for i in 0..<client.numProps {
-                self.fetchGroup.enter()
-                locRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (locSnap) in
-                    if snapshot.exists() {
-                        self.propertyList.append (Location.init(key: i, snapshot: locSnap))
-                    }
-                    self.fetchGroup.leave()
-                })
-            }
-            self.fetchGroup.leave()
-        })
-    }
-    func fetchJobs (clientRow: Int, locRow: Int) {
-        self.fetchGroup.enter()
-        
-        self.clientBase!.queryOrderedByKey().queryEqual(toValue: clientList [clientRow]).observeSingleEvent(of: .value, with: { (snapshot) in
-            let client = Client.init(key: self.clientList [clientRow], snapshot: snapshot)
-            let locRef = Database.database().reference (fromURL: client.properties)
-            
-            for i in 0..<client.numProps {
-                self.fetchGroup.enter()
-                locRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (locSnap) in
-                    if snapshot.exists() {
-                        let tempLoc = Location.init(key: i, snapshot: locSnap)
-                        
-                        if tempLoc.address == self.propertyList [self.jobSelector.selectedRow(inComponent: 1)].address {
-                            
-                            let jobRef = Database.database().reference(fromURL: tempLoc.jobs)
-                            
-                            for j in 0..<tempLoc.numJobs {
-                                self.fetchGroup.enter()
-                                jobRef.queryOrderedByKey().queryEqual(toValue: j.description).observeSingleEvent(of: .value, with: { (jobSnap) in
-                                    if jobSnap.exists() {
-                                        self.jobList.append(Job.init(key: j, snapshot: jobSnap))
-                                    }
-                                    self.fetchGroup.leave()
-                                })
-                            }
-                            self.fetchGroup.leave()
-                            return
-                        }
-                    }
-                    self.fetchGroup.leave()
-                })
-            }
-            self.fetchGroup.leave()
-        })
-    }
+    // MARK: - Custom Methods
     func addDay (_ newDay: Workday) {
         let periodRef = Database.database().reference(fromURL: self.user!.history)
         let toAddYear = self.cal.component(.year, from: newDay.date)
@@ -218,48 +71,41 @@ class EClockIn: CustomVCSuper, UIPickerViewDataSource, UIPickerViewDelegate {
             })
         }
     }
-    func initialPickerSetup () {
-        let client0Name = self.clientList [0]
-        
-        self.fetchGroup.enter()
-        self.clientBase?.queryOrderedByKey().queryEqual(toValue: client0Name).observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.exists() {
-                let client = Client.init(key: client0Name, snapshot: snapshot)
-                
-                let locRef = Database.database().reference(fromURL: client.properties)
-                
-                for i in 0..<client.numProps {
-                    self.fetchGroup.enter()
-                    locRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (locSnap) in
-                        if locSnap.exists() {
-                            let tempLoc = Location.init(key: i, snapshot: locSnap)
-                            self.propertyList.append (tempLoc)
-                        }
-                        self.fetchGroup.leave()
-                    })
-                }
-            }
-            self.fetchGroup.leave()
-        })
-        
-        self.fetchGroup.wait()
-        let loc0 = self.propertyList [0]
-        let jobRef = Database.database().reference(fromURL: loc0.jobs)
-        
-        for i in 0..<loc0.numJobs {
-            self.fetchGroup.enter()
-            jobRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (jobSnap) in
-                if jobSnap.exists() {
-                    let tempJob = Job.init(key: i, snapshot: jobSnap)
-                    self.jobList.append (tempJob)
-                }
-                self.fetchGroup.leave()
-            })
-        }
-        self.fetchGroup.wait()
-    }
     
-    // Change page button
+    // MARK: - Button Methods
+    @IBAction func hitClock(_ sender: UIButton) {
+        var newDay : Workday
+        
+        if !isIn {
+            start = Date.init()
+            clockInOut.setTitle("Clock Out", for: .normal)
+        }
+        else {
+            let formatter = DateFormatter()
+            formatter.timeStyle = .medium
+            formatter.dateStyle = .none
+            
+            end = Date.init()
+            clockInOut.setTitle("Clock In", for: .normal)
+            //Dividing by 60 to get hours from seconds
+            let time = (end.timeIntervalSince(start) / 3600).rounded()
+            numHours.text = time.description
+            var done : Bool
+            if  (time / 8) >= 1 {
+                done = true
+            } else {
+                done = false
+            }
+            
+            newDay = Workday.init(date: start, hours: time, done: done, forClient: selectedClient!, atLocation: self.selectedLocation!.address, doingJob: self.selectedJob!)
+            
+            hiPri.async {
+                self.addDay (newDay)
+                self.fetchGroup.wait()
+            }
+        }
+        isIn = !isIn
+    }
     @IBAction func didPressChangePage(_ sender: UIButton) {
         let actionSheet = UIAlertController (title: "Change Page", message: nil, preferredStyle: .actionSheet)
         let changeToMenu = UIAlertAction (title: "Menu", style: .default, handler: { (action : UIAlertAction) in
@@ -286,4 +132,24 @@ class EClockIn: CustomVCSuper, UIPickerViewDataSource, UIPickerViewDelegate {
         actionSheet.addAction (cancelAction)
         self.present (actionSheet, animated: true, completion: nil)
     }
+    @IBAction func didSelectChoose (_ sender: UIButton) {
+        performSegue(withIdentifier: "goToJobChoose", sender: nil)
+    }
+    
+    // MARK: - Segues
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToJobChoose" {
+            let destVC = segue.destination as! JobChoose
+            
+            destVC.cameFromAdmin = false
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        if selectedClient != nil && selectedLocation != nil && selectedJob != nil {
+            clientLabel.text = selectedClient!
+            locationLabel.text = selectedLocation!.address
+            jobLabel.text = selectedJob!
+        }
+    }
+    @IBAction func unwindToClockIn (_ segue: UIStoryboardSegue) {}
 }

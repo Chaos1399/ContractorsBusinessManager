@@ -10,21 +10,23 @@ import UIKit
 import FirebaseDatabase
 
 class SignUp: CustomVCSuper, UITextFieldDelegate {
+    // MARK: - Outlets
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passField: UITextField!
     @IBOutlet weak var pphField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
     
+    // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         signUpButton.isEnabled = false
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    // MARK: - TextField Method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if nameField.hasText && emailField.hasText && passField.hasText && pphField.hasText {
@@ -37,14 +39,55 @@ class SignUp: CustomVCSuper, UITextFieldDelegate {
         return true
     }
     
-    @IBAction func didPressSignUp(_ sender: UIButton) {
-        let toWorkURL = Database.database().reference().child("Schedules").child(self.nameField.text!).url
-        self.user = User (name: self.nameField.text!, password: self.passField.text!, email: self.emailField.text!, payPerHour: Double (self.pphField.text!)!, sickTime: 0.0, vacayTime: 0.0, admin: false, scheduledWork: toWorkURL, numDays: 0, payPeriodHistory: self.historyBase!.child(self.nameField.text!).url, numPayPeriods: 0)
-        userBase!.child(nameField.text!).setValue(self.user?.toAnyObject())
+    // MARK: - Custom Methods
+    func fetchLatestPayPeriod () -> PayPeriod {
+        var retval : PayPeriod?
         
-        performSegue(withIdentifier: "unwindToPrev", sender: nil)
+        self.fetchGroup.enter()
+        self.userBase!.queryOrderedByKey().queryEqual(toValue: "Admin").observeSingleEvent(of: .value, with: { (userSnap) in
+            if userSnap.exists() {
+                let admin = User.init(key: "Admin", snapshot: userSnap)
+                let pphRef = Database.database().reference(fromURL: admin.history)
+                let paynum = admin.numPeriods - 1
+                
+                self.fetchGroup.enter()
+                pphRef.queryOrderedByKey().queryEqual(toValue: paynum.description).observeSingleEvent(of: .value, with: { (perSnap) in
+                    if perSnap.exists() {
+                        retval = PayPeriod.init(key: paynum, snapshot: perSnap)
+                    }
+                    self.fetchGroup.leave()
+                })
+            }
+            self.fetchGroup.leave()
+        })
+        
+        self.fetchGroup.wait()
+        return retval!
     }
     
+    // MARK: - Button Methods
+    @IBAction func didPressSignUp(_ sender: UIButton) {
+        let name = nameField.text!
+        let toWorkURL = scheduleBase!.url + "/" + name
+        let payURL = Database.database().reference().url + "/Pay Period Histories/" + name
+        self.user = User (name: name, password: self.passField.text!, email: self.emailField.text!, payPerHour: Double (self.pphField.text!)!, sickTime: 0.0, vacayTime: 0.0, admin: false, scheduledWork: toWorkURL, numDays: 0, payPeriodHistory: payURL, numPayPeriods: 1)
+        userBase!.child(name).setValue(self.user!.toAnyObject())
+        self.employeeList.append(name)
+        self.updatePersistentStorage(setClient: false)
+        
+        hiPri.async {
+            var latestPP : PayPeriod = self.fetchLatestPayPeriod()
+            self.fetchGroup.wait()
+            
+            latestPP.days = self.workdayBase!.url + "/" + name + 0.description
+            Database.database().reference(fromURL: payURL).child("0").setValue(latestPP.toAnyObject())
+            
+            self.fetchGroup.wait()
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "unwindToPrev", sender: nil)
+            }
+        }
+    }
     @IBAction func didPressCancel(_ sender: UIButton) {
         performSegue(withIdentifier: "unwindToPrev", sender: nil)
     }

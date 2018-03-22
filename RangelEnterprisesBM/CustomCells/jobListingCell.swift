@@ -15,8 +15,9 @@ class jobListingCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderWidth = 1.0
     }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }

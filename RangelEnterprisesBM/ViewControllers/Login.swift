@@ -10,13 +10,13 @@ import UIKit
 import FirebaseDatabase
 
 class Login: CustomVCSuper, UITextFieldDelegate {
-    
+    // MARK: - Outlets
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var nameInput: UITextField!
     @IBOutlet weak var passInput: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
-    
+    // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,8 +24,17 @@ class Login: CustomVCSuper, UITextFieldDelegate {
         
         nameInput.text = ""
         passInput.text = ""
+        
+        let navbar = self.navigationController?.navigationBar
+        navbar?.setBackgroundImage (UIImage (), for: .default)
+        navbar?.shadowImage = UIImage ()
+        navbar?.alpha = 0.0
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
+    // MARK: - TextField Method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if passInput.isEditing {
             passInput.resignFirstResponder()
@@ -44,17 +53,10 @@ class Login: CustomVCSuper, UITextFieldDelegate {
         return true
     }
     
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    
+    // MARK: - Button Methods
     @IBAction func didPressLogin(_ sender: UIButton) {
-        
         if let username = nameInput.text, let password = passInput.text {
             self.userBase?.queryOrderedByKey().queryEqual(toValue: username).observe(.value, with: { snapshot in
-                
                 if snapshot.exists()  {
                     self.user = User.init(key: username, snapshot: snapshot)
                     
@@ -86,15 +88,14 @@ class Login: CustomVCSuper, UITextFieldDelegate {
             })
         }
     }
-    
     @IBAction func didTap(_ sender: UITapGestureRecognizer) {
         textFieldShouldReturn(nameInput)
         textFieldShouldReturn(passInput)
     }
     
+    // MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         (segue.destination as! CustomTabBar).user = self.user
     }
-    
     @IBAction func unwindToLogin (_ segue: UIStoryboardSegue) {}
 }

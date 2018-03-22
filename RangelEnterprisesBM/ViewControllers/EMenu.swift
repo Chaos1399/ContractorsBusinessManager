@@ -9,17 +9,15 @@
 import UIKit
 
 class EMenu: CustomVCSuper {
+    // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        (segue.destination as! CustomVCSuper).user = self.user
-    }
     
-    // Tab changing buttons
+    // MARK: - Tab Changing Button Methods
     @IBAction func viewSchedule(_ sender: UIButton) {
         self.tabBarController?.selectedIndex = 1
     }
@@ -33,11 +31,16 @@ class EMenu: CustomVCSuper {
         self.tabBarController?.selectedIndex = 4
     }
  
-    // Segue performing buttons
+    // MARK: - Segue Performing Button Methods
     @IBAction func signOut(_ sender: UIButton) {
         performSegue(withIdentifier: "unwindToLogin", sender: nil)
     }
     @IBAction func editUser(_ sender: UIButton) {
         performSegue(withIdentifier: "editUser", sender: nil)
+    }
+    
+    // MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        (segue.destination as! CustomVCSuper).user = self.user
     }
 }

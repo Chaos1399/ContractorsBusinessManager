@@ -1,27 +1,25 @@
 PODS:
-  - Firebase (4.9.0):
-    - Firebase/Core (= 4.9.0)
-  - Firebase/Core (4.9.0):
-    - FirebaseAnalytics (= 4.0.9)
-    - FirebaseCore (= 4.0.15)
-  - Firebase/Database (4.9.0):
+  - Firebase (4.10.0):
+    - Firebase/Core (= 4.10.0)
+  - Firebase/Core (4.10.0):
+    - FirebaseAnalytics (= 4.1.0)
+    - FirebaseCore (= 4.0.16)
+  - Firebase/Database (4.10.0):
     - Firebase/Core
-    - FirebaseDatabase (= 4.1.4)
-  - FirebaseAnalytics (4.0.9):
+    - FirebaseDatabase (= 4.1.5)
+  - FirebaseAnalytics (4.1.0):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseCore (4.0.15):
+  - FirebaseCore (4.0.16):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseDatabase (4.1.4):
-    - FirebaseAnalytics (~> 4.0)
+  - FirebaseDatabase (4.1.5):
+    - FirebaseAnalytics (~> 4.1)
     - FirebaseCore (~> 4.0)
     - leveldb-library (~> 1.18)
   - FirebaseInstanceID (2.0.9):
     - FirebaseCore (~> 4.0)
-  - GeoFire (2.0.1):
-    - Firebase/Database (~> 4.0)
   - GoogleToolboxForMac/Defines (2.1.3)
   - GoogleToolboxForMac/NSData+zlib (2.1.3):
     - GoogleToolboxForMac/Defines (= 2.1.3)
@@ -37,30 +35,19 @@ DEPENDENCIES:
   - Firebase
   - Firebase/Core
   - Firebase/Database
-  - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
   - JTAppleCalendar (~> 7.0)
 
-EXTERNAL SOURCES:
-  GeoFire:
-    :git: https://github.com/firebase/geofire-objc.git
-
-CHECKOUT OPTIONS:
-  GeoFire:
-    :commit: d79f8323efce29d780fc62df39485c50ffd0e6f4
-    :git: https://github.com/firebase/geofire-objc.git
-
 SPEC CHECKSUMS:
-  Firebase: 632216af3ed7f31e3be34776947fdc7546cfb572
-  FirebaseAnalytics: 388b630c15713f5dbf364071f5f3d6077fb52f4e
-  FirebaseCore: 3bd047463058fa6b5d312c97502c52e45401cdfb
-  FirebaseDatabase: de4446507ccd3257fca37d16f40e1540324571fd
+  Firebase: c98c8b1fbcbdccd82539a36c2b17a9b1bb0ee798
+  FirebaseAnalytics: 3dfae28d4a5e06f86c4fae830efc2ad3fadb19bc
+  FirebaseCore: eb9e1a56733ff1094ecf3e28af9069c344b25239
+  FirebaseDatabase: 5f0bc6134c5c237cf55f9e1249d406770a75eafd
   FirebaseInstanceID: d2058a35e9bebda1b6dd42486b84917bde552a9d
-  GeoFire: 3e70a24019dc16816190f533c9cac0d1321c4a71
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   JTAppleCalendar: 2d4f974f9f3c8b4964d51ca1f6e004883c031fbe
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: c80d6d15bd3bb45919926fa865320cb18c787787
+PODFILE CHECKSUM: 4035f9d011132d93faa938bb58cc582a7403e0a8
 
 COCOAPODS: 1.4.0

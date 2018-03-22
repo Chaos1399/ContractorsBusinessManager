@@ -7,81 +7,124 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
-class AViewJobTime: CustomVCSuper {
+class AViewJobTime: CustomVCSuper, UITableViewDelegate, UITableViewDataSource {
+    // MARK: - Outlets
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var jobTimeTable: UITableView!
     
+    // MARK: - Global Variables
+    var selectedDate : Date?
+    let cal = Calendar.init(identifier: .gregorian)
+    var currentclients : [String] = []
+    var currentlocations : [String] = []
+    var currentjobs : [Job] = []
+    
+    // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupDate()
-    }
-    
-    func setupDate () {
-        let date = Date.init()
-        let today = Calendar.init(identifier: .gregorian)
-        let day = today.component(.day, from: date)
-        let monthname : String
-        let year = today.component(.year, from: date)
+        jobTimeTable.allowsSelection = false
         
-        switch today.component(.month, from: date) {
-        case 1:
-            monthname = "January"
-        case 2:
-            monthname = "February"
-        case 3:
-            monthname = "March"
-        case 4:
-            monthname = "April"
-        case 5:
-            monthname = "May"
-        case 6:
-            monthname = "June"
-        case 7:
-            monthname = "July"
-        case 8:
-            monthname = "August"
-        case 9:
-            monthname = "September"
-        case 10:
-            monthname = "October"
-        case 11:
-            monthname = "November"
-        default:
-            monthname = "December"
+        let dateString = cal.monthName(from: selectedDate!, spanish: false) + " \(cal.component(.day, from: selectedDate!))," +
+        " \(cal.component(.year, from: selectedDate!))"
+        dateLabel.text = dateString
+        
+        
+        hiPri.async {
+            if self.clientList.count == 0 {
+                self.clientListInit()
+                self.fetchGroup.wait()
+            }
+            self.fetchJobList()
+            self.fetchGroup.wait()
+            DispatchQueue.main.async {
+                self.jobTimeTable.reloadData()
+            }
         }
-        
-        dateLabel.text = monthname + " \(day), \(year)"
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func didPressChangePage(_ sender: UIButton) {
-        let actionSheet = UIAlertController (title: "Change Page", message: nil, preferredStyle: .actionSheet)
-        let changeToMenu = UIAlertAction (title: "Menu", style: .default, handler: { (action : UIAlertAction) in
-            self.tabBarController?.selectedIndex = 0
-        })
-        let changetoCountHours = UIAlertAction (title: "Count Hours", style: .default, handler:
-        { (action : UIAlertAction) in
-            self.tabBarController?.selectedIndex = 1
-        })
-        let changeToAddJob = UIAlertAction (title: "Add Job", style: .default, handler:
-        { (action : UIAlertAction) in
-            self.tabBarController?.selectedIndex = 3
-        })
-        let changetoReviseHours = UIAlertAction (title: "Revise Hours", style: .default, handler:
-        { (action : UIAlertAction) in
-            self.tabBarController?.selectedIndex = 5
-        })
-        let cancelAction = UIAlertAction (title: "Cancel", style: .cancel, handler: nil)
+    // MARK: - TableView Methods
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return currentjobs.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "jobTimeCell") as! jobTimeCell
+        let row = indexPath.row
         
-        actionSheet.addAction (changeToMenu)
-        actionSheet.addAction (changetoCountHours)
-        actionSheet.addAction (changeToAddJob)
-        actionSheet.addAction (changetoReviseHours)
-        actionSheet.addAction (cancelAction)
-        self.present (actionSheet, animated: true, completion: nil)
+        cell.clientLabel.text = currentclients [row]
+        cell.addressLabel.text = currentlocations [row]
+        cell.jobLabel.text = currentjobs [row].type
+        cell.startLabel.text = self.df.string(from: currentjobs [row].startDate)
+        cell.endLabel.text = self.df.string(from: currentjobs [row].endDate)
+        
+        return cell
+    }
+    
+    // MARK: - Custom Methods
+    func fetchJobList () {
+        let selectedYear = cal.component(.year, from: selectedDate!)
+        let selectedMonth = cal.component(.month, from: selectedDate!)
+        let selectedDay = cal.component(.day, from: selectedDate!)
+        
+        for clientName in self.clientList {
+            self.fetchGroup.enter()
+            self.clientBase!.queryOrderedByKey().queryEqual(toValue: clientName).observeSingleEvent(of: .value, with: { (clientSnap) in
+                if clientSnap.exists() {
+                    let tempClient = Client.init(key: clientName, snapshot: clientSnap)
+                    let propRef = Database.database().reference(fromURL: tempClient.properties)
+                    
+                    for i in 0..<tempClient.numProps {
+                        self.fetchGroup.enter()
+                        propRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (propSnap) in
+                            if propSnap.exists() {
+                                let tempProp = Location.init(key: i, snapshot: propSnap)
+                                let jobRef = Database.database().reference(fromURL: tempProp.jobs)
+                                
+                                for j in 0..<tempProp.numJobs {
+                                    self.fetchGroup.enter()
+                                    jobRef.queryOrderedByKey().queryEqual(toValue: j.description).observeSingleEvent(of: .value, with: { (jobSnap) in
+                                        if jobSnap.exists() {
+                                            let tempJob = Job.init(key: j, snapshot: jobSnap)
+                                            
+                                            let startYear = self.cal.component(.year, from: tempJob.startDate)
+                                            let startMonth = self.cal.component(.month, from: tempJob.startDate)
+                                            let startDay = self.cal.component(.day, from: tempJob.startDate)
+                                            
+                                            let endYear = self.cal.component(.year, from: tempJob.endDate)
+                                            let endMonth = self.cal.component(.month, from: tempJob.endDate)
+                                            let endDay = self.cal.component(.day, from: tempJob.endDate)
+                                            
+                                            
+                                            if (startYear <= selectedYear) && (endYear >= selectedYear) &&
+                                                ((startMonth < selectedMonth) || ((startMonth == selectedMonth) && (startDay <= selectedDay))) &&
+                                                ((endMonth > selectedMonth) || ((endMonth == selectedMonth) && (endDay >= selectedDay))) {
+                                                
+                                                self.currentclients.append(tempClient.name)
+                                                self.currentlocations.append(tempProp.address)
+                                                self.currentjobs.append(tempJob)
+                                            }
+                                        }
+                                        self.fetchGroup.leave()
+                                    })
+                                }
+                            }
+                            self.fetchGroup.leave()
+                        })
+                    }
+                }
+                self.fetchGroup.leave()
+            })
+        }
+    }
+    
+    // MARK: - Button Methods
+    @IBAction func didPressBack(_ sender: UIButton) {
+        performSegue(withIdentifier: "unwindToCalendar", sender: nil)
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 
 class AeditProfile: CustomVCSuper, UITextFieldDelegate {
+    // MARK: - Outlets
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var payField: UITextField!
@@ -19,17 +20,18 @@ class AeditProfile: CustomVCSuper, UITextFieldDelegate {
     @IBOutlet weak var dButton: UIButton!
     @IBOutlet weak var sButton: UIButton!
     
+    // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dButton.isEnabled = false
         sButton.isEnabled = false
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    // MARK: - TextField Method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if nameField.hasText {
@@ -43,6 +45,7 @@ class AeditProfile: CustomVCSuper, UITextFieldDelegate {
         return true
     }
     
+    // MARK: - Button Methods
     @IBAction func didPressSubmit(_ sender: UIButton) {
         self.userBase!.queryOrderedByKey().queryEqual(toValue: nameField.text!).observeSingleEvent(of: .value, with: { snapshot in
             if snapshot.exists() {

@@ -45,6 +45,10 @@
 		C4C924BF203E67EF00499CDC /* Workday.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C924BE203E67EF00499CDC /* Workday.swift */; };
 		C4C924C1203E68CC00499CDC /* PayPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C924C0203E68CC00499CDC /* PayPeriod.swift */; };
 		C4C924C3203E69B300499CDC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C924C2203E69B300499CDC /* User.swift */; };
+		C4D1028C20563D0700CEFAF9 /* GlossyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D1028B20563D0700CEFAF9 /* GlossyButton.swift */; };
+		C4EB57F5205893A700263F78 /* AAddToSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EB57F4205893A700263F78 /* AAddToSchedule.swift */; };
+		C4F5C6FD205F218C00D02AC9 /* JobChoose.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F5C6FC205F218C00D02AC9 /* JobChoose.swift */; };
+		C4F5C6FF205F224C00D02AC9 /* DateTimeChoose.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F5C6FE205F224C00D02AC9 /* DateTimeChoose.swift */; };
 		C4F97663203D562D00BA10B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F97662203D562D00BA10B7 /* AppDelegate.swift */; };
 		C4F97668203D562D00BA10B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4F97666203D562D00BA10B7 /* Main.storyboard */; };
 		C4F9766A203D562E00BA10B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4F97669203D562E00BA10B7 /* Assets.xcassets */; };
@@ -121,6 +125,10 @@
 		C4C924BE203E67EF00499CDC /* Workday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workday.swift; sourceTree = "<group>"; };
 		C4C924C0203E68CC00499CDC /* PayPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriod.swift; sourceTree = "<group>"; };
 		C4C924C2203E69B300499CDC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C4D1028B20563D0700CEFAF9 /* GlossyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossyButton.swift; sourceTree = "<group>"; };
+		C4EB57F4205893A700263F78 /* AAddToSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAddToSchedule.swift; sourceTree = "<group>"; };
+		C4F5C6FC205F218C00D02AC9 /* JobChoose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobChoose.swift; sourceTree = "<group>"; };
+		C4F5C6FE205F224C00D02AC9 /* DateTimeChoose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeChoose.swift; sourceTree = "<group>"; };
 		C4F9765F203D562D00BA10B7 /* RangelEnterprisesBM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RangelEnterprisesBM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4F97662203D562D00BA10B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4F97667203D562D00BA10B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -236,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				C40D60A2203F542A006D5F76 /* AAddJob.swift */,
+				C4EB57F4205893A700263F78 /* AAddToSchedule.swift */,
 				C40D609A203F53EB006D5F76 /* ACountHours.swift */,
 				C4089D85204DB5F800776366 /* AddClient.swift */,
 				C4089D87204DEB6400776366 /* AddJobDetail.swift */,
@@ -245,13 +254,17 @@
 				C40D609E203F540A006D5F76 /* ASchedule.swift */,
 				C40D609C203F53FB006D5F76 /* AViewCalendar.swift */,
 				C40D60A0203F5418006D5F76 /* AViewJobTime.swift */,
+				C40DC176204B5F50003BE37E /* CustomTabBar.swift */,
 				C42B3547204631F100EACFCB /* CustomVCSuper.swift */,
+				C4F5C6FE205F224C00D02AC9 /* DateTimeChoose.swift */,
 				C40D6090203F52F8006D5F76 /* EClockIn.swift */,
 				C40DC178204B65BA003BE37E /* EeditProfile.swift */,
 				C40D608E203F52A9006D5F76 /* EMenu.swift */,
 				C40D6096203F53C6006D5F76 /* EPayHistory.swift */,
 				C40D6092203F539F006D5F76 /* ESchedule.swift */,
 				C40D6094203F53B3006D5F76 /* ETimeBank.swift */,
+				C4D1028B20563D0700CEFAF9 /* GlossyButton.swift */,
+				C4F5C6FC205F218C00D02AC9 /* JobChoose.swift */,
 				C40D60A8203F5DF0006D5F76 /* Login.swift */,
 				C40D60AA203F66F5006D5F76 /* SignUp.swift */,
 			);
@@ -308,7 +321,6 @@
 			isa = PBXGroup;
 			children = (
 				C4F97666203D562D00BA10B7 /* Main.storyboard */,
-				C40DC176204B5F50003BE37E /* CustomTabBar.swift */,
 				C40DC0EF204A7F6D003BE37E /* CustomCells */,
 				C40D608C203F4E36006D5F76 /* CustomClasses */,
 				C40D608D203F4EB1006D5F76 /* ViewControllers */,
@@ -486,7 +498,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-RangelEnterprisesBM/Pods-RangelEnterprisesBM-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GeoFire/GeoFire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -494,7 +505,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GeoFire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTAppleCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -667,6 +677,7 @@
 				C4C924B9203E643B00499CDC /* Job.swift in Sources */,
 				C40D6095203F53B3006D5F76 /* ETimeBank.swift in Sources */,
 				C4C924BB203E659800499CDC /* Location.swift in Sources */,
+				C4EB57F5205893A700263F78 /* AAddToSchedule.swift in Sources */,
 				C40DC0F7204A801D003BE37E /* jobListingCell.swift in Sources */,
 				C40D609D203F53FB006D5F76 /* AViewCalendar.swift in Sources */,
 				C4C924BD203E670A00499CDC /* Client.swift in Sources */,
@@ -678,11 +689,14 @@
 				C40D6099203F53D6006D5F76 /* AMenu.swift in Sources */,
 				C40D609B203F53EB006D5F76 /* ACountHours.swift in Sources */,
 				C4089D86204DB5F800776366 /* AddClient.swift in Sources */,
+				C4D1028C20563D0700CEFAF9 /* GlossyButton.swift in Sources */,
 				C40D6097203F53C6006D5F76 /* EPayHistory.swift in Sources */,
+				C4F5C6FF205F224C00D02AC9 /* DateTimeChoose.swift in Sources */,
 				C4F97663203D562D00BA10B7 /* AppDelegate.swift in Sources */,
 				C4C924C1203E68CC00499CDC /* PayPeriod.swift in Sources */,
 				C40D608F203F52A9006D5F76 /* EMenu.swift in Sources */,
 				C40E79E9205092E1002539D7 /* calendarDayCell.swift in Sources */,
+				C4F5C6FD205F218C00D02AC9 /* JobChoose.swift in Sources */,
 				C40D609F203F540A006D5F76 /* ASchedule.swift in Sources */,
 				C4C924BF203E67EF00499CDC /* Workday.swift in Sources */,
 				C42B3548204631F100EACFCB /* CustomVCSuper.swift in Sources */,

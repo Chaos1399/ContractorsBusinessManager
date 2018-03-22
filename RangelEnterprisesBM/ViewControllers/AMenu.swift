@@ -9,17 +9,15 @@
 import UIKit
 
 class AMenu: CustomVCSuper {
+    // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        (segue.destination as! CustomVCSuper).user = self.user
-    }
 
-    // Tab change buttons
+    // MARK: - Tab Change Button Methods
     @IBAction func countHours(_ sender: UIButton) {
         self.tabBarController?.selectedIndex = 1
     }
@@ -33,7 +31,7 @@ class AMenu: CustomVCSuper {
         self.tabBarController?.selectedIndex = 4
     }
 
-    // Segue performing buttons
+    // MARK: - Segue Performing Button Methods
     @IBAction func addWorker(_ sender: UIButton) {
         performSegue(withIdentifier: "signUp", sender: nil)
     }
@@ -45,5 +43,10 @@ class AMenu: CustomVCSuper {
     }
     @IBAction func addClient(_ sender: UIButton) {
         performSegue(withIdentifier: "addClient", sender: nil)
+    }
+    
+    // MARK: - Segues
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        (segue.destination as! CustomVCSuper).user = self.user
     }
 }

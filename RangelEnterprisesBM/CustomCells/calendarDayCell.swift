@@ -12,4 +12,9 @@ import JTAppleCalendar
 class calendarDayCell: JTAppleCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var selectionView: UIView!
+    
+    override func draw(_ rect: CGRect) {
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderWidth = 0.5
+    }
 }

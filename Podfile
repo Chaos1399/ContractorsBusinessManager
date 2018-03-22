@@ -8,7 +8,6 @@ target 'RangelEnterprisesBM' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'JTAppleCalendar', '~> 7.0'
-  pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'
 
   # Pods for RangelEnterprisesBM
 

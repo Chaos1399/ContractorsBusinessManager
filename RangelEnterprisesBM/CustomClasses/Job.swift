@@ -23,12 +23,16 @@ class Job : Codable {
     }
     
     init(key: Int, snapshot: DataSnapshot) {
-        let temp = snapshot.value as! [AnyObject]
-        let val = temp [key] as! [String : AnyObject]
-        
+        var val : [String : AnyObject]
         let df = DateFormatter ()
-        df.timeStyle = .none
         df.dateFormat = "MM-dd-yy"
+        
+        if let temp = snapshot.value as? [AnyObject] {
+            val = temp [key] as! [String : AnyObject]
+        } else {
+            let temp = snapshot.value as! [String : AnyObject]
+            val = temp [key.description] as! [String : AnyObject]
+        }
         
         type = val ["type"] as! String
         startDate = df.date(from: (val ["start"] as! String))!

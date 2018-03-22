@@ -10,11 +10,13 @@ import UIKit
 import FirebaseDatabase
 
 class ETimeBank: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
+    // MARK: - Outlets
     @IBOutlet weak var sickTimeLabel: UILabel!
     @IBOutlet weak var vacayTimeLabel: UILabel!
     @IBOutlet weak var hourPicker: UIPickerView!
     @IBOutlet weak var timeTypeSwitch: UISwitch!
     
+    // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,7 +27,7 @@ class ETimeBank: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
         super.didReceiveMemoryWarning()
     }
     
-    // TableView things
+    // MARK: - TableView Methods
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -36,41 +38,71 @@ class ETimeBank: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
         return ((row + 1) * 8).description
     }
     
+    // MARK: - Button Methods
     @IBAction func didPressUse(_ sender: UIButton) {
         let dayOffset = 86400
-        let df = DateFormatter ()
-        df.locale = Locale (identifier: "en_US")
-        df.timeStyle = .none
-        df.dateFormat = "MM/dd/yy"
-        
-        sickTimeLabel.text = user!.sickTime.description
+        var dayRef : DatabaseReference?
+        var curPer : PayPeriod?
+        var lastDay : Date = Date.init()
+        let perRef = Database.database().reference(fromURL: user!.history)
+        var msg : String = "Sick"
+        let sick_vacayTime = Double ((hourPicker.selectedRow(inComponent: 0) + 1) * 8)
         
         if !timeTypeSwitch.isOn {
-            
-            /*if sickDays == nil {
-                user!.history = []
-                user!.history!.append (PayPeriod (start: df.date(from: "01/01/18")!, end: df.date(from: "01/15/18")!, period: 0, hours: 8, days: []))
-                sickDays = user!.history!.last!.days
-            }
-            let lastDate : Date = sickDays?.last?.date ?? Date.init()
-            for i in 0...hourPicker.selectedRow(inComponent: 0) {
-                let nextDate = Date.addingTimeInterval(lastDate) (TimeInterval(dayOffset * (i + 1)))
-                let nextDay = Workday.init(date: nextDate, hours: 8.0, done: true, forClient: "Sick", atLocation: "Sick", doingJob: "Sick")
-                
-                sickTimeLabel.text = sickTimeLabel.text! + " - \(i + 1)"
-                
-                sickDays!.append (nextDay)
-            }
-            
-            user!.history!.last!.days = sickDays!
-            user!.sickTime -= Double ((hourPicker.selectedRow(inComponent: 0) + 1) * 8)
-            
-            self.userbase!.child(user!.name).setValue(user!.toAnyObject())*/
+            msg = "Sick"
+            self.user!.sickTime -= sick_vacayTime
         } else {
-            vacayTimeLabel.text = vacayTimeLabel.text! + " - \(hourPicker.selectedRow(inComponent: 0) + 1)"
+            msg = "Vacation"
+            self.user!.vacayTime -= sick_vacayTime
+        }
+        self.userBase!.child(self.user!.name).setValue(self.user!.toAnyObject())
+        
+        hiPri.async {
+            self.fetchGroup.enter()
+            perRef.queryOrderedByKey().queryEqual(toValue: (self.user!.numPeriods - 1).description).observeSingleEvent(of: .value, with: { (perSnap) in
+                if perSnap.exists() {
+                    curPer = PayPeriod.init(key: (self.user!.numPeriods - 1), snapshot: perSnap)
+                    
+                    dayRef = Database.database().reference(fromURL: curPer!.days)
+                }
+                self.fetchGroup.leave()
+            })
+            self.fetchGroup.wait()
+            
+            self.fetchGroup.enter()
+            dayRef!.queryOrderedByKey().queryEqual(toValue: (curPer!.numDays - 1).description).observeSingleEvent(of: .value, with: { (daySnap) in
+                if daySnap.exists() {
+                    lastDay = Workday.init(key: (curPer!.numDays - 1), snapshot: daySnap).date
+                }
+                self.fetchGroup.leave()
+            })
+            
+            self.fetchGroup.wait()
+            DispatchQueue.main.async {
+                if dayRef != nil {
+                    var i : Int = 0
+                    var interval : TimeInterval = Double(dayOffset)
+                    
+                    repeat {
+                        curPer!.numDays += 1
+                        curPer!.totalHours += 8
+                        self.sickTimeLabel.text = self.user!.sickTime.description
+                        self.vacayTimeLabel.text = self.user!.vacayTime.description
+                        if i != 0 { interval = Double (dayOffset * i) }
+                        
+                        dayRef!.child((curPer!.numDays - 1).description).setValue(Workday.init(date: Date.init(timeInterval: interval, since: lastDay), hours: 8, done: true, forClient: msg, atLocation: msg, doingJob: msg).toAnyObject())
+                        self.historyBase!.child(self.user!.name).child(curPer!.number.description).setValue(curPer!.toAnyObject())
+                        
+                        i += 1
+                    } while i <= self.hourPicker.selectedRow(inComponent: 0)
+                    
+                    self.fetchGroup.wait()
+                } else {
+                    self.presentAlert(alertTitle: "Error", alertMessage: "Something bad happened", actionTitle: "Umm?", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+                }
+            }
         }
     }
-    
     @IBAction func didPressChangePage(_ sender: UIButton) {
         let actionSheet = UIAlertController (title: "Change Page", message: nil, preferredStyle: .actionSheet)
         let changeToMenu = UIAlertAction (title: "Menu", style: .default) { (action : UIAlertAction) in

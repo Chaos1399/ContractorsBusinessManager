@@ -10,21 +10,23 @@ import UIKit
 import FirebaseDatabase
 
 class AddClient: CustomVCSuper, UITextFieldDelegate {
+    // MARK: - Outlets
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet var emailField: UITextField!
     @IBOutlet weak var addressField: UITextField!
     @IBOutlet weak var subButton: UIButton!
 
+    // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         subButton.isEnabled = false
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    // MARK: - TextField Method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if nameField.hasText && emailField.hasText && addressField.hasText {
@@ -36,10 +38,19 @@ class AddClient: CustomVCSuper, UITextFieldDelegate {
         return true
     }
     
+    // MARK: - Button Methods
     @IBAction func didPressSubmit(_ sender: UIButton) {
-        let tempRef = clientBase!.child(nameField.text!)
+        let name : String = nameField.text!
+        let address : String = addressField.text!
+        let email : String = emailField.text!
+        let tempClientRef = clientBase!.child(name)
+        let locRef = locationBase!.url + "/" + name
         
-        tempRef.setValue (Client.init(name: nameField.text!, billingAddress: addressField.text!, email: emailField.text!, heldProperties: locationBase!.child(nameField.text!).url, numProperties: 0))
+        clientList.append(nameField.text!)
+        self.updatePersistentStorage(setClient: true)
+        
+        tempClientRef.setValue (Client.init(name: name, billingAddress: address, email: email, heldProperties: locRef, numProperties: 0).toAnyObject())
+        performSegue(withIdentifier: "unwindToPrev", sender: nil)
     }
     @IBAction func didPressCancel(_ sender: UIButton) {
         performSegue(withIdentifier: "unwindToPrev", sender: nil)
