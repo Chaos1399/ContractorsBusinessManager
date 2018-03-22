@@ -15,6 +15,8 @@ Admin version functionality:
    - Add jobs for a client & location to the database
    - Add employees to the database
    - Edit employee information (name, email, hourly pay, sick time, vacation time, admin status)
+
+
 Employee version functionality:
    - View where you are scheduled to work for any given day
    - Clock in and out
@@ -26,6 +28,7 @@ Employee version functionality:
 
 
 API's I use:
+
 
 Firebase
 Firebase/Core
@@ -57,17 +60,17 @@ Employee version view pay period history
 
 Future Functionality:
 
-Android App
-Web-based App
+   - Android App
+   - Web-based App
 
 Admin version:
 
-Upload invoices to edit and email to clients
-Alert system to send important news to employees with notifications and / or email
-View job timelines graphically on the schedule calendar
+   - Upload invoices to edit and email to clients
+   - Alert system to send important news to employees with notifications and / or email
+   - View job timelines graphically on the schedule calendar
 
 Employee version:
 
-Over 9 hour workday notification
-Ability to request schedule changes
+   - Over 9 hour workday notification
+   - Ability to request schedule changes
 
