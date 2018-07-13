@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ASchedule"
+    android:background="@color/primary">
+
+    <Spinner
+        android:id="@+id/asE"
+        android:layout_width="238dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/asScheduleList"
+        android:layout_width="395dp"
+        android:layout_height="318dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/primaryDark"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/asE"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/asAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/primaryAccent"
+        android:text="@string/schedule"
+        android:onClick="asDidPressAdd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/asScheduleList"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <Button
+        android:id="@+id/asSearchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@android:string/search_go"
+        android:onClick="asGetScheduledList"
+        app:layout_constraintBottom_toBottomOf="@id/asE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/asE"
+        app:layout_constraintTop_toTopOf="@id/asE" />
+</android.support.constraint.ConstraintLayout>

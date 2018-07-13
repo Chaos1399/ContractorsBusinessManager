@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".AddJob"
+    tools:layout_editor_absoluteY="81dp" >
+
+    <TextView
+        android:id="@+id/ajendlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginTop="116dp"
+        android:text="@string/end_date"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ajLocSpinner" />
+
+    <Spinner
+        android:id="@+id/ajEndMonth"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ajendlabel" />
+
+    <Spinner
+        android:id="@+id/ajEndDay"
+        android:layout_width="143dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintBottom_toBottomOf="@id/ajEndMonth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/aasStartMonth"
+        app:layout_constraintTop_toTopOf="@id/ajEndMonth" />
+
+    <Spinner
+        android:id="@+id/ajStartDay"
+        android:layout_width="143dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintBottom_toBottomOf="@id/ajStartMonth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/aasStartMonth"
+        app:layout_constraintTop_toTopOf="@id/ajStartMonth" />
+
+    <Spinner
+        android:id="@+id/ajStartMonth"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ajstartlabel" />
+
+    <TextView
+        android:id="@+id/ajstartlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/start_date"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ajLocSpinner" />
+
+    <TextView
+        android:id="@+id/ajclientLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/client"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/ajClientSpinner"
+        app:layout_constraintEnd_toStartOf="@id/ajClientSpinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ajClientSpinner" />
+
+    <TextView
+        android:id="@+id/ajlocationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/location"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/ajLocSpinner"
+        app:layout_constraintEnd_toStartOf="@id/ajLocSpinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ajLocSpinner" />
+
+    <Spinner
+        android:id="@+id/ajClientSpinner"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/ajLocSpinner"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ajClientSpinner" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/ajJobTIL"
+        android:layout_width="395dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ajjoblabel">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/ajJobET"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/job"
+            android:inputType="textMultiLine" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/ajjoblabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/job_des"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ajEndMonth" />
+
+    <Button
+        android:id="@+id/ajSaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/primaryAccent"
+        android:onClick="ajDidPressSave"
+        android:text="@string/save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ajJobTIL" />
+
+</android.support.constraint.ConstraintLayout>

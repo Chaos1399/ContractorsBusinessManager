@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">Contractor\'s Business Manager</string>
+
+    <!-- Error strings -->
+    <string name="error_invalid_name">This name is invalid</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+
+    <!-- Page Titles -->
+    <string name="count_hours">Count Hours</string>
+    <string name="view_calendar">View Calendar</string>
+    <string name="revise_hours">Revise Hours</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="edit_emp">Edit Employee</string>
+    <string name="add_client">Add Client</string>
+    <string name="add_emp">Add Employee</string>
+    <string name="clock_in">Clock In</string>
+    <string name="schedule">Schedule</string>
+    <string name="view_history"> Pay Period History</string>
+    <string name="timebank">Time Bank</string>
+    <string name="choose_job">Choose Job</string>
+    <string name="choose_day">Choose Day</string>
+    <string name="add_job">Add Job</string>
+    <string name="menu">Menu</string>
+    <string name="view_job_times">View Concurrent Jobs</string>
+    <string name="schedule_emp">Schedule Employee</string>
+    <string name="edit_client">Edit Client</string>
+    <string name="edit_workday">Edit Workday</string>
+
+    <!-- Strings needed for Drawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">@string/app_name</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Login -->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="logout">Logout</string>
+
+    <!-- Buttons -->
+    <string name="emp">Employee</string>
+    <string name="admin">Admin</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="calculate">Calculate</string>
+
+    <!-- Labels -->
+    <!-- Hours and Pay -->
+    <string name="pph">Pay Per Hour</string>
+    <string name="pay_period">Pay Period</string>
+    <string name="hourTotals">Hours Worked</string>
+    <string name="hours">Hours</string>
+    <string name="pay">Pay</string>
+    <string name="totals">Total</string>
+
+    <!-- Date and Time -->
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="sick_time">Sick Time</string>
+    <string name="vaca_time">Vacation Time</string>
+
+    <!-- Names -->
+    <string name="name">Name</string>
+    <string name="oname">Original Name</string>
+    <string name="nname">New Name</string>
+    <string name="client">Client</string>
+
+    <!-- Addresses -->
+    <string name="location">Location</string>
+    <string name="address">Address</string>
+    <string name="email">Email</string>
+
+    <!-- Jobs -->
+    <string name="job">Job</string>
+    <string name="job_des">Job Description</string>
+    <string name="title_activity_test">Sign in</string>
+</resources>

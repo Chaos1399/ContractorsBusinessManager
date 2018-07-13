@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="128dp"
+    android:background="@color/primaryDark"
+    tools:layout_editor_absoluteY="81dp" >
+
+    <TextView
+        android:id="@+id/asbLocLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/location"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textColor="@color/secondaryAccent"
+        app:layout_constraintBottom_toTopOf="@id/asbJobLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/asbClientLabel" />
+
+    <TextView
+        android:id="@+id/asbEDLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/end_date"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textColor="@color/secondaryAccent"
+        app:layout_constraintStart_toEndOf="@id/asbminuslabel"
+        app:layout_constraintTop_toTopOf="@id/asbminuslabel"
+        app:layout_constraintBottom_toBottomOf="@id/asbminuslabel"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/asbSDLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/start_date"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textColor="@color/secondaryAccent"
+        app:layout_constraintEnd_toStartOf="@id/asbminuslabel"
+        app:layout_constraintTop_toTopOf="@id/asbminuslabel"
+        app:layout_constraintBottom_toBottomOf="@id/asbminuslabel"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/asbJobLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/job"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textColor="@color/secondaryAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/asbLocLabel" />
+
+    <TextView
+        android:id="@+id/asbClientLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/client"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/asbSDLabel" />
+
+    <TextView
+        android:id="@+id/asbminuslabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:textSize="16sp"
+        android:textColor="@color/secondaryAccent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
+</android.support.constraint.ConstraintLayout>

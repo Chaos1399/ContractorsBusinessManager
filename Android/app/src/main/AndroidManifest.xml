@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="calpoly.crrangel.edu.contractorsbusinessmanager">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Login"
+            android:label="@string/sign_in">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AdminSuperclass" />
+        <activity android:name=".EmpSuperclass" />
+        <activity
+            android:name=".EMenu"
+            android:parentActivityName=".Login" />
+        <activity
+            android:name=".ClockIn"
+            android:label="@string/clock_in"
+            android:parentActivityName=".EMenu" />
+        <activity
+            android:name=".TimeBank"
+            android:label="@string/timebank"
+            android:parentActivityName=".EMenu" />
+        <activity
+            android:name=".PayHistory"
+            android:label="@string/view_history"
+            android:parentActivityName=".EMenu" />
+        <activity
+            android:name=".ViewSchedule"
+            android:label="@string/view_calendar"
+            android:parentActivityName=".EMenu" />
+        <activity
+            android:name=".EEditProfile"
+            android:label="@string/edit_profile"
+            android:parentActivityName=".EMenu" />
+        <activity
+            android:name=".AMenu"
+            android:label="@string/menu"
+            android:parentActivityName=".Login"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.Login" />
+        </activity>
+        <activity
+            android:name=".CountHours"
+            android:label="@string/count_hours"
+            android:parentActivityName=".AMenu"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.AMenu" />
+        </activity>
+        <activity
+            android:name=".AddUser"
+            android:label="@string/add_emp"
+            android:parentActivityName=".AMenu"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.AMenu" />
+        </activity>
+        <activity
+            android:name=".AddJob"
+            android:label="@string/add_job"
+            android:parentActivityName=".AMenu" />
+        <activity
+            android:name=".ReviseHours"
+            android:label="@string/revise_hours"
+            android:parentActivityName=".AMenu"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.AMenu" />
+        </activity>
+        <activity
+            android:name=".AViewCalendar"
+            android:label="@string/view_calendar"
+            android:parentActivityName=".AMenu"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.AMenu" />
+        </activity>
+        <activity
+            android:name=".ViewJobTime"
+            android:label="@string/view_job_times"
+            android:parentActivityName=".AViewCalendar" />
+        <activity
+            android:name=".ASchedule"
+            android:label="@string/schedule_emp"
+            android:parentActivityName=".AViewCalendar" />
+        <activity
+            android:name=".AAddToSchedule"
+            android:label="@string/schedule_emp"
+            android:parentActivityName=".ASchedule" />
+        <activity
+            android:name=".AEditProfile"
+            android:label="@string/edit_emp"
+            android:parentActivityName=".AMenu" />
+        <activity
+            android:name=".AddClient"
+            android:label="@string/add_client"
+            android:parentActivityName=".AMenu" />
+        <activity
+            android:name=".EditClient"
+            android:label="@string/edit_client"
+            android:parentActivityName=".AMenu" />
+        <activity
+            android:name=".EditWorkday"
+            android:label="@string/edit_workday"
+            android:parentActivityName=".ReviseHours" />
+        <activity
+            android:name=".test"
+            android:label="@string/title_activity_test"></activity>
+    </application>
+
+</manifest>

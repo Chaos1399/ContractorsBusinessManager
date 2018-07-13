@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".CountHours"
+    tools:showIn="@layout/app_bar_count_hours" >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/hourTotalList"
+        android:layout_width="395dp"
+        android:layout_height="268dp"
+        android:layout_marginTop="316dp"
+        android:background="@color/primaryDark"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/clientLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/client"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/chClientSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/chClientSpinner" />
+
+    <TextView
+        android:id="@+id/locationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/location"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/chLocSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/chLocSpinner" />
+
+    <TextView
+        android:id="@+id/jobLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/job"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/chJobSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/chJobSpinner" />
+
+    <TextView
+        android:id="@+id/chPayPeriodLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/chPeriodNum"
+        app:layout_constraintEnd_toStartOf="@id/chPeriodNum"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/chPeriodNum"
+        tools:text="@string/pay_period" />
+
+    <Spinner
+        android:id="@+id/chClientSpinner"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@id/chLocSpinner"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Spinner
+        android:id="@+id/chLocSpinner"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@id/chJobSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/chClientSpinner" />
+
+    <Spinner
+        android:id="@+id/chJobSpinner"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@id/chPeriodNum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/chLocSpinner" />
+
+    <Button
+        android:id="@+id/chCalculateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="244dp"
+        android:background="@color/primaryAccent"
+        android:onClick="chDidPressCalculate"
+        android:text="@string/calculate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/chPeriodNum"
+        android:layout_width="228dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/pay_period"
+        android:imeOptions="actionNone"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@id/chCalculateButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/chJobSpinner" />
+
+</android.support.constraint.ConstraintLayout>

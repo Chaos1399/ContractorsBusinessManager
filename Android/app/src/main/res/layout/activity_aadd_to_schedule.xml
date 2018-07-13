@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".AAddToSchedule"
+    tools:layout_editor_absoluteY="81dp" >
+
+    <TextView
+        android:id="@+id/aasclientLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/client"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/aasClientSpinner"
+        app:layout_constraintEnd_toStartOf="@id/aasClientSpinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/aasClientSpinner" />
+
+    <TextView
+        android:id="@+id/aaslocationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/location"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/aasLocSpinner"
+        app:layout_constraintEnd_toStartOf="@id/aasLocSpinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/aasLocSpinner" />
+
+    <TextView
+        android:id="@+id/aasjobLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/job"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/aasJobSpinner"
+        app:layout_constraintEnd_toStartOf="@id/aasJobSpinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/aasJobSpinner" />
+
+    <TextView
+        android:id="@+id/aasstartlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/start_date"
+        android:textSize="24sp"
+        android:textColor="@color/secondaryAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aasJobSpinner" />
+
+    <Spinner
+        android:id="@+id/aasClientSpinner"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/aasLocSpinner"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aasClientSpinner" />
+
+    <Spinner
+        android:id="@+id/aasJobSpinner"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aasLocSpinner" />
+
+    <Spinner
+        android:id="@+id/aasStartMonth"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aasstartlabel" />
+
+    <Spinner
+        android:id="@+id/aasStartDay"
+        android:layout_width="143dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/aasStartMonth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/aasStartMonth"
+        app:layout_constraintTop_toTopOf="@id/aasStartMonth"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Spinner
+        android:id="@+id/aasEndMonth"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aasendlabel" />
+
+    <Spinner
+        android:id="@+id/aasEndDay"
+        android:layout_width="143dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/aasEndMonth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/aasEndMonth"
+        app:layout_constraintTop_toTopOf="@id/aasEndMonth" />
+
+    <TextView
+        android:id="@+id/aasendlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/end_date"
+        android:textSize="24sp"
+        android:textColor="@color/secondaryAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aasStartMonth" />
+
+    <Button
+        android:id="@+id/aasSaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/save"
+        android:background="@color/primaryAccent"
+        android:onClick="aasDidPressSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aasEndMonth" />
+
+</android.support.constraint.ConstraintLayout>
