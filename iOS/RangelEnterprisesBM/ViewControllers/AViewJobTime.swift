@@ -33,7 +33,7 @@ class AViewJobTime: CustomVCSuper, UITableViewDelegate, UITableViewDataSource {
         
         
         hiPri.async {
-            if self.clientList.count == 0 {
+            if self.clientNameList.count == 0 {
                 self.clientListInit()
                 self.fetchGroup.wait()
             }
@@ -72,7 +72,7 @@ class AViewJobTime: CustomVCSuper, UITableViewDelegate, UITableViewDataSource {
         let selectedMonth = cal.component(.month, from: selectedDate!)
         let selectedDay = cal.component(.day, from: selectedDate!)
         
-        for clientName in self.clientList {
+        for clientName in self.clientNameList {
             self.fetchGroup.enter()
             self.clientBase!.queryOrderedByKey().queryEqual(toValue: clientName).observeSingleEvent(of: .value, with: { (clientSnap) in
                 if clientSnap.exists() {

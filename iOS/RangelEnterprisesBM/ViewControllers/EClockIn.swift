@@ -90,14 +90,8 @@ class EClockIn: CustomVCSuper {
             //Dividing by 60 to get hours from seconds
             let time = (end.timeIntervalSince(start) / 3600).rounded()
             numHours.text = time.description
-            var done : Bool
-            if  (time / 8) >= 1 {
-                done = true
-            } else {
-                done = false
-            }
             
-            newDay = Workday.init(date: start, hours: time, done: done, forClient: selectedClient!, atLocation: self.selectedLocation!.address, doingJob: self.selectedJob!)
+            newDay = Workday.init(date: start, hours: time, forClient: selectedClient!, atLocation: self.selectedLocation!.address, doingJob: self.selectedJob!)
             
             hiPri.async {
                 self.addDay (newDay)

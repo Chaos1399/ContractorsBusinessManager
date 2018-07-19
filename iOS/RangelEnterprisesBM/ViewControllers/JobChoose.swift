@@ -25,7 +25,7 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
         super.viewDidLoad()
         
         hiPri.async {
-            if self.clientList.count == 0 {
+            if self.clientNameList.count == 0 {
                 self.clientListInit()
                 self.fetchGroup.wait()
             }
@@ -46,7 +46,7 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == 0 {
-            return clientList.count
+            return clientNameList.count
         } else if pickerView.tag == 1 {
             return locationList.count
         } else {
@@ -55,7 +55,7 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView.tag == 0 {
-            return clientList [row]
+            return clientNameList [row]
         } else if pickerView.tag == 1 {
             return locationList [row].address
         } else {
@@ -67,7 +67,7 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
             self.locationList = []
             self.jobList = []
             hiPri.async {
-                self.fetchLocations(forClient: self.clientList [row])
+                self.fetchLocations(forClient: self.clientNameList [row])
                 self.fetchGroup.wait()
                 self.fetchJobs(forLocation: self.locationList [0])
                 self.fetchGroup.wait()
@@ -126,7 +126,7 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
         }
     }
     func initialPickerSetup () {
-        let client0Name = self.clientList [0]
+        let client0Name = self.clientNameList [0]
         
         self.fetchGroup.enter()
         self.clientBase!.queryOrderedByKey().queryEqual(toValue: client0Name).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -193,13 +193,13 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
         if segue.identifier == "unwindToClockInWithSub" {
             let destVC = segue.destination as! EClockIn
             
-            destVC.selectedClient = clientList [self.clientPicker.selectedRow(inComponent: 0)]
+            destVC.selectedClient = clientNameList [self.clientPicker.selectedRow(inComponent: 0)]
             destVC.selectedLocation = locationList [self.locationPicker.selectedRow(inComponent: 0)]
             destVC.selectedJob = jobList [self.jobPicker.selectedRow(inComponent: 0)].type
         } else if segue.identifier == "unwindToCountHoursWithSub" {
             let destVC = segue.destination as! ACountHours
             
-            destVC.selectedClient = clientList [self.clientPicker.selectedRow(inComponent: 0)]
+            destVC.selectedClient = clientNameList [self.clientPicker.selectedRow(inComponent: 0)]
             destVC.selectedLocation = locationList [self.locationPicker.selectedRow(inComponent: 0)].address
             destVC.selectedJob = jobList [self.jobPicker.selectedRow(inComponent: 0)].type
         }

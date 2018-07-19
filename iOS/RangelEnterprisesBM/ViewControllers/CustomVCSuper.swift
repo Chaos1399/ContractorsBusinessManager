@@ -8,15 +8,19 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 
 class CustomVCSuper: UIViewController {
     var user : User?
-    var clientList : [String] = []
-    var employeeList : [String] = []
+    var clientUidList : [String] = []
+    var clientNameList : [String] = []
+    var employeeUidList : [String] = []
+    var employeeNameList : [String] = []
     static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let clientURL = documentsDirectory.appendingPathComponent("Client List")
     static let employeeURL = documentsDirectory.appendingPathComponent("Employee List")
-    var theDefaults = UserDefaults.standard
+    let theDefaults = UserDefaults.standard
+    var dbroot : DatabaseReference?
     var clientBase : DatabaseReference?
     var locationBase : DatabaseReference?
     var jobBase : DatabaseReference?
@@ -28,24 +32,24 @@ class CustomVCSuper: UIViewController {
     let fetchGroup = DispatchGroup ()
     let df = DateFormatter ()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        clientBase = Database.database().reference().child ("Clients")
-        locationBase = Database.database().reference().child ("Locations")
-        jobBase = Database.database().reference().child ("Jobs")
-        userBase = Database.database().reference().child ("Users")
-        workdayBase = Database.database().reference().child ("Workdays")
-        historyBase = Database.database().reference().child ("Pay Period Histories")
-        scheduleBase = Database.database().reference().child ("Schedules")
+        dbroot = Database.database().reference().child("Businesses/Rangel Enterprises Inc")
+        clientBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Clients")
+        locationBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Locations")
+        jobBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Jobs")
+        userBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Users")
+        workdayBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Workdays")
+        historyBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/PayPeriodHistories")
+        scheduleBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Schedules")
         
-        if clientList.count == 0 {
+        if clientNameList.count == 0 && Auth.auth().currentUser != nil {
             hiPri.async {
                 self.clientListInit()
             }
         }
-        if employeeList.count == 0 {
+        if employeeNameList.count == 0 && Auth.auth().currentUser != nil {
             hiPri.async {
                 self.employeeListInit()
             }
@@ -72,37 +76,26 @@ class CustomVCSuper: UIViewController {
     
     
     func clientListInit () {
-        if clientList.count == 0 {
-            let persistenceRef = Database.database().reference().child("PersistenceStartup")
-            var clientNum : Int = -1
+        if clientNameList.count == 0 {
+            let persistenceRef = Database.database().reference().child("Businesses/Rangel Enterprises Inc/PersistenceStartup")
             
             self.fetchGroup.enter()
-            persistenceRef.queryOrderedByKey().queryEqual(toValue: "ClientSize").observeSingleEvent(of: .value, with: { (sizeSnap) in
-                if sizeSnap.exists() {
-                    let temp = sizeSnap.value as! [String : Int]
-                    
-                    clientNum = temp ["ClientSize"] as Int!
+            persistenceRef.queryOrderedByKey().queryEqual(toValue: "Clients").observeSingleEvent(of: .value, with: { (clistSnap) in
+                if clistSnap.exists() {
+                    for ind in clistSnap.children {
+                        let client = ind as! DataSnapshot
+                        self.decodePersistenceStartup(withSnapshot: client, forClientList: true)
+                    }
                 }
                 self.fetchGroup.leave()
             })
-            
-            self.fetchGroup.wait()
-            for i in 0..<clientNum {
-                self.fetchGroup.enter()
-                persistenceRef.queryOrderedByKey().queryEqual(toValue: "Clients").observeSingleEvent(of: .value, with: { (clistSnap) in
-                    if clistSnap.exists() {
-                        self.decodePersistenceStartup(forKey: i, withSnapshot: clistSnap, forClientList: true)
-                    }
-                    self.fetchGroup.leave()
-                })
-            }
         } else {
             if theDefaults.object(forKey: "lastUpdate") as? Date != nil {
                 do {
                     let data = try Data(contentsOf: CustomVCSuper.clientURL)
                     let decoder = JSONDecoder()
                     let tempArr = try decoder.decode([String].self, from: data)
-                    self.clientList = tempArr
+                    self.clientNameList = tempArr
                 } catch {
                     print(error)
                 }
@@ -110,37 +103,26 @@ class CustomVCSuper: UIViewController {
         }
     }
     func employeeListInit () {
-        if employeeList.count == 0 {
-            let persistenceRef = Database.database().reference().child("PersistenceStartup")
-            var empNum : Int = -1
+        if employeeNameList.count == 0 {
+            let persistenceRef = Database.database().reference().child("Businesses/Rangel Enterprises Inc/PersistenceStartup")
             
             self.fetchGroup.enter()
-            persistenceRef.queryOrderedByKey().queryEqual(toValue: "EmployeeSize").observeSingleEvent(of: .value, with: { (sizeSnap) in
-                if sizeSnap.exists() {
-                    let temp = sizeSnap.value as! [String : Int]
-                    
-                    empNum = temp ["EmployeeSize"] as Int!
+            persistenceRef.queryOrderedByKey().queryEqual(toValue: "Employees").observeSingleEvent(of: .value, with: { (elistSnap) in
+                if elistSnap.exists() {
+                    for ind in elistSnap.children {
+                        let emp = ind as! DataSnapshot
+                        self.decodePersistenceStartup(withSnapshot: emp, forClientList: false)
+                    }
                 }
                 self.fetchGroup.leave()
             })
-            
-            self.fetchGroup.wait()
-            for i in 0..<empNum {
-                self.fetchGroup.enter()
-                persistenceRef.queryOrderedByKey().queryEqual(toValue: "Employees").observeSingleEvent(of: .value, with: { (clistSnap) in
-                    if clistSnap.exists() {
-                        self.decodePersistenceStartup(forKey: i, withSnapshot: clistSnap, forClientList: false)
-                    }
-                    self.fetchGroup.leave()
-                })
-            }
         } else {
             if theDefaults.object(forKey: "lastUpdate") as? Date != nil {
                 do {
                     let data = try Data(contentsOf: CustomVCSuper.employeeURL)
                     let decoder = JSONDecoder()
                     let tempArr = try decoder.decode([String].self, from: data)
-                    employeeList = tempArr
+                    employeeNameList = tempArr
                 } catch {
                     print(error)
                 }
@@ -148,34 +130,38 @@ class CustomVCSuper: UIViewController {
         }
     }
     
-    func decodePersistenceStartup (forKey key: Int, withSnapshot snap: DataSnapshot, forClientList: Bool) {
-        var val : String
+    func decodePersistenceStartup (withSnapshot snap: DataSnapshot, forClientList: Bool) {
+        var val : [String]
         
         if let wholesnap = snap.value as? [AnyObject] {
-            let temp = wholesnap [key] as! [String]
-            val = temp [key]
+            let temp = wholesnap as! [String]
+            val = temp
         } else {
             let wholesnap = snap.value as! [String : AnyObject]
             if forClientList {
                 let temp = wholesnap ["Clients"] as! [String]
-                val = temp [key]
+                val = temp
             } else {
                 let temp = wholesnap ["Employees"] as! [String]
-                val = temp [key]
+                val = temp
             }
         }
         
         if forClientList {
-            if key >= clientList.count {
-                clientList.append(val)
-            } else {
-                clientList [key] = val
+            for key in 0..<val.count {
+                if key >= clientNameList.count {
+                    clientNameList.append(val [key])
+                } else {
+                    clientNameList [key] = val [key]
+                }
             }
         } else {
-            if key >= employeeList.count {
-                employeeList.append(val)
-            } else {
-                employeeList [key] = val
+            for key in 0..<val.count {
+                if key >= employeeNameList.count {
+                    employeeNameList.append(val [key])
+                } else {
+                    employeeNameList [key] = val [key]
+                }
             }
         }
     }
@@ -185,10 +171,10 @@ class CustomVCSuper: UIViewController {
         let encoder = JSONEncoder()
         do {
             if setClient {
-                let jsonData = try encoder.encode(clientList)
+                let jsonData = try encoder.encode(clientNameList)
                 try jsonData.write(to: CustomVCSuper.clientURL)
             } else {
-                let jsonData = try encoder.encode(employeeList)
+                let jsonData = try encoder.encode(employeeNameList)
                 try jsonData.write(to: CustomVCSuper.employeeURL)
             }
             

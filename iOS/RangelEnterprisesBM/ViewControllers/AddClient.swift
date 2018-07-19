@@ -46,7 +46,7 @@ class AddClient: CustomVCSuper, UITextFieldDelegate {
         let tempClientRef = clientBase!.child(name)
         let locRef = locationBase!.url + "/" + name
         
-        clientList.append(nameField.text!)
+        clientNameList.append(nameField.text!)
         self.updatePersistentStorage(setClient: true)
         
         tempClientRef.setValue (Client.init(name: name, billingAddress: address, email: email, heldProperties: locRef, numProperties: 0).toAnyObject())

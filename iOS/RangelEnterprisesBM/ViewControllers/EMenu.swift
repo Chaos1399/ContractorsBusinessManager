@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class EMenu: CustomVCSuper {
     // MARK: - Required VC Methods
@@ -33,6 +34,11 @@ class EMenu: CustomVCSuper {
  
     // MARK: - Segue Performing Button Methods
     @IBAction func signOut(_ sender: UIButton) {
+        do {
+            try Auth.auth().signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
         performSegue(withIdentifier: "unwindToLogin", sender: nil)
     }
     @IBAction func editUser(_ sender: UIButton) {

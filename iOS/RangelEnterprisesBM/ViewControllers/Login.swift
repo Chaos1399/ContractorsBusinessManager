@@ -8,11 +8,12 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 
 class Login: CustomVCSuper, UITextFieldDelegate {
     // MARK: - Outlets
     @IBOutlet weak var logo: UIImageView!
-    @IBOutlet weak var nameInput: UITextField!
+    @IBOutlet weak var emailInput: UITextField!
     @IBOutlet weak var passInput: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
@@ -22,7 +23,7 @@ class Login: CustomVCSuper, UITextFieldDelegate {
         
         loginButton.isEnabled = false
         
-        nameInput.text = ""
+        emailInput.text = ""
         passInput.text = ""
         
         let navbar = self.navigationController?.navigationBar
@@ -43,7 +44,7 @@ class Login: CustomVCSuper, UITextFieldDelegate {
         }
         textField.resignFirstResponder()
         
-        if passInput.hasText && nameInput.hasText {
+        if passInput.hasText && emailInput.hasText {
             loginButton.isEnabled = true
         }
         else {
@@ -55,41 +56,35 @@ class Login: CustomVCSuper, UITextFieldDelegate {
     
     // MARK: - Button Methods
     @IBAction func didPressLogin(_ sender: UIButton) {
-        if let username = nameInput.text, let password = passInput.text {
-            self.userBase?.queryOrderedByKey().queryEqual(toValue: username).observe(.value, with: { snapshot in
-                if snapshot.exists()  {
-                    self.user = User.init(key: username, snapshot: snapshot)
-                    
-                    if password == self.user!.password {
-                        if self.user!.admin {
-                            self.performSegue(withIdentifier: "loginA", sender: nil)
+        if let email = emailInput.text, let password = passInput.text {
+            Auth.auth().signIn(withEmail: email, password: password) { (adr, error) in
+                if let authUser = adr?.user {
+                    self.userBase?.queryOrderedByKey().queryEqual(toValue: authUser.uid).observe(.value, with: { snapshot in
+                        if snapshot.exists()  {
+                            self.user = User.init(key: authUser.uid, snapshot: snapshot)
+                            
+                            if self.user!.admin {
+                                self.performSegue(withIdentifier: "loginA", sender: nil)
+                            }
+                            else {
+                                self.performSegue(withIdentifier: "loginE", sender: nil)
+                            }
                         }
                         else {
-                            self.performSegue(withIdentifier: "loginE", sender: nil)
+                            let alert = UIAlertController (title: "Error", message: "Invalid Username/Password", preferredStyle: .alert)
+                            let defaultAction = UIAlertAction (title: "OK", style: .default, handler: nil)
+                            
+                            alert.addAction(defaultAction)
+                            
+                            self.present (alert, animated: true, completion: nil)
                         }
-                    }
-                    else {
-                        let alert = UIAlertController (title: "Error", message: "Invalid Password", preferredStyle: .alert)
-                        let defaultAction = UIAlertAction (title: "OK", style: .default, handler: nil)
-                        
-                        alert.addAction(defaultAction)
-                        
-                        self.present (alert, animated: true, completion: nil)
-                    }
+                    })
                 }
-                else {
-                    let alert = UIAlertController (title: "Error", message: "Invalid Username", preferredStyle: .alert)
-                    let defaultAction = UIAlertAction (title: "OK", style: .default, handler: nil)
-                    
-                    alert.addAction(defaultAction)
-                    
-                    self.present (alert, animated: true, completion: nil)
-                }
-            })
+            }
         }
     }
     @IBAction func didTap(_ sender: UITapGestureRecognizer) {
-        textFieldShouldReturn(nameInput)
+        textFieldShouldReturn(emailInput)
         textFieldShouldReturn(passInput)
     }
     

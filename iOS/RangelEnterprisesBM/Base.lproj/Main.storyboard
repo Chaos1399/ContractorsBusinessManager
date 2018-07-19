@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZA8-XQ-Vg5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZA8-XQ-Vg5">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Bodoni72-Book-SmallCaps.ttf">
-            <string>BodoniSvtyTwoSCITCTT-Book</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Navigation Controller-->
         <scene sceneID="VTi-Da-rEx">
@@ -48,7 +43,7 @@
                                     <constraint firstAttribute="height" constant="75" id="r6E-dV-yyH"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="gje-iD-CWQ">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="gje-iD-CWQ">
                                 <rect key="frame" x="88" y="311" width="200" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="suj-F6-HxN"/>
@@ -56,7 +51,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" textContentType="username"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" textContentType="email"/>
                                 <connections>
                                     <outlet property="delegate" destination="AXC-lS-aVz" id="ieP-HA-ce4"/>
                                 </connections>
@@ -90,7 +85,7 @@
                                     <action selector="didPressLogin:" destination="AXC-lS-aVz" eventType="touchUpInside" id="lla-Ya-uDK"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rangel Enterprises Inc." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQV-aM-fHU">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rangel Enterprises, Inc." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQV-aM-fHU">
                                 <rect key="frame" x="16" y="147" width="343" height="124"/>
                                 <fontDescription key="fontDescription" name="BodoniSvtyTwoSCITCTT-Book" family="Bodoni 72 Smallcaps" pointSize="48"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -122,9 +117,9 @@
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="iUI-mR-cap"/>
                     <connections>
+                        <outlet property="emailInput" destination="gje-iD-CWQ" id="lTZ-tk-FZG"/>
                         <outlet property="loginButton" destination="uCO-ce-adW" id="qsb-XV-yz5"/>
                         <outlet property="logo" destination="bwv-DA-tmA" id="Gwl-5j-EsB"/>
-                        <outlet property="nameInput" destination="gje-iD-CWQ" id="lTZ-tk-FZG"/>
                         <outlet property="passInput" destination="WqE-t2-C9P" id="G2n-FU-GeS"/>
                         <segue destination="qBc-WC-kRs" kind="presentation" identifier="loginE" id="PH8-vz-GVL"/>
                         <segue destination="3fO-uY-ACl" kind="presentation" identifier="loginA" id="bUh-tF-yV4"/>
@@ -148,7 +143,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="xci-1P-Mwn">
-                                <rect key="frame" x="79" y="318" width="216" height="30"/>
+                                <rect key="frame" x="79.5" y="318" width="216" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hvn-QG-LUf" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
@@ -213,7 +208,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="GXF-vl-KBb">
-                                <rect key="frame" x="133" y="106" width="225.5" height="30"/>
+                                <rect key="frame" x="133" y="106" width="226" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next"/>
@@ -222,7 +217,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="3kQ-xv-5cb">
-                                <rect key="frame" x="133" y="144" width="225.5" height="30"/>
+                                <rect key="frame" x="133" y="144" width="226" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
@@ -231,7 +226,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="U8L-QL-KA0">
-                                <rect key="frame" x="133" y="182" width="225.5" height="30"/>
+                                <rect key="frame" x="133" y="182" width="226" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
@@ -240,7 +235,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="VVP-mT-B6o">
-                                <rect key="frame" x="133" y="220" width="225.5" height="30"/>
+                                <rect key="frame" x="133" y="220" width="226" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
@@ -331,7 +326,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAf-kv-Gi1" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="63" y="168" width="250" height="51.5"/>
+                                <rect key="frame" x="63" y="168" width="249.5" height="51.5"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -348,7 +343,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XgW-YK-8co" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="63" y="227.5" width="250" height="52"/>
+                                <rect key="frame" x="63" y="227.5" width="249.5" height="52"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -365,7 +360,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUo-ns-GF5" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="63" y="287.5" width="250" height="51.5"/>
+                                <rect key="frame" x="63" y="287.5" width="249.5" height="51.5"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -382,7 +377,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jWy-LR-Hhb" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="63" y="347" width="250" height="52"/>
+                                <rect key="frame" x="63" y="347" width="249.5" height="52"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -399,7 +394,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dw6-cq-s2f" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="63" y="407" width="250" height="51.5"/>
+                                <rect key="frame" x="63" y="407" width="249.5" height="51.5"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -416,7 +411,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eod-VQ-VJh" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="63" y="466.5" width="250" height="52"/>
+                                <rect key="frame" x="63" y="466.5" width="249.5" height="52"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -433,7 +428,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69m-u7-xBb" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="63" y="526.5" width="250" height="51.5"/>
+                                <rect key="frame" x="63" y="526.5" width="249.5" height="51.5"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -535,7 +530,7 @@
                                 <rect key="frame" x="16" y="293" width="343" height="236"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="hourCountCell" rowHeight="35" id="yrl-Zz-Kdh" customClass="hourCountCell" customModule="RangelEnterprisesBM" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="hourCountCell" rowHeight="35" id="yrl-Zz-Kdh" customClass="hourCountCell" customModule="RangelEnterprisesBM" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yrl-Zz-Kdh" id="qnc-go-YVC">
@@ -543,7 +538,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="51v-1d-HGC">
-                                                    <rect key="frame" x="0.0" y="5" width="193" height="25"/>
+                                                    <rect key="frame" x="0.0" y="5" width="185" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="lsE-4R-akB"/>
                                                     </constraints>
@@ -552,7 +547,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PPH" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HRV-bx-0ey">
-                                                    <rect key="frame" x="243" y="5" width="100" height="25"/>
+                                                    <rect key="frame" x="235" y="5" width="100" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="GBA-CA-kHl"/>
                                                         <constraint firstAttribute="width" constant="100" id="M70-4j-YfK"/>
@@ -562,7 +557,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HRS" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zoj-2a-Ult">
-                                                    <rect key="frame" x="193" y="5" width="50" height="25"/>
+                                                    <rect key="frame" x="185" y="5" width="50" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="QbM-gT-3X7"/>
                                                         <constraint firstAttribute="height" constant="25" id="bvX-mb-Oua"/>
@@ -595,7 +590,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Vy-Vg-Ypc" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="112" y="234" width="150" height="30"/>
+                                <rect key="frame" x="112.5" y="234" width="150" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -968,7 +963,7 @@
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hlo-hI-AGt">
-                                                                            <rect key="frame" x="-3" y="-7" width="96" height="103"/>
+                                                                            <rect key="frame" x="-3" y="-7" width="96" height="102"/>
                                                                             <color key="backgroundColor" red="0.40267997620000001" green="0.58533455919999999" blue="0.62663941059999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         </view>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KJ4-LI-BYe">
@@ -1164,7 +1159,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BrX-fO-0t8" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="137" y="400" width="100" height="40"/>
+                                <rect key="frame" x="137.5" y="400" width="100" height="40"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -1182,7 +1177,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJ3-WC-mwI" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="137.5" y="352" width="100" height="40"/>
+                                <rect key="frame" x="138" y="352" width="100" height="40"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -1230,7 +1225,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="RrD-zI-Hzs">
-                                <rect key="frame" x="149" y="169" width="211.5" height="30"/>
+                                <rect key="frame" x="149" y="169" width="211" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
@@ -1239,7 +1234,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Bmy-Cl-7ug">
-                                <rect key="frame" x="149" y="226" width="211.5" height="30"/>
+                                <rect key="frame" x="149" y="226" width="211" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
@@ -1254,7 +1249,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="abl-du-wNS">
-                                <rect key="frame" x="149" y="284" width="211.5" height="30"/>
+                                <rect key="frame" x="149" y="284" width="211" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
@@ -1325,7 +1320,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VUX-uX-XiT" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="127" y="384" width="120" height="39"/>
+                                <rect key="frame" x="127.5" y="384" width="120" height="39"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -1344,7 +1339,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6eJ-Mf-ZfU" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="127" y="336" width="120" height="40"/>
+                                <rect key="frame" x="127.5" y="336" width="120" height="40"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -1910,7 +1905,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="dayCell" id="pWG-s1-aaa" customClass="calendarDayCell" customModule="RangelEnterprisesBM">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="dayCell" id="pWG-s1-aaa" customClass="calendarDayCell" customModule="RangelEnterprisesBM">
                                                 <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -2243,7 +2238,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aBC-wS-gHh">
-                                                            <rect key="frame" x="-3" y="-7" width="96" height="103"/>
+                                                            <rect key="frame" x="-3" y="-7" width="96" height="102"/>
                                                             <color key="backgroundColor" red="0.40267997620000001" green="0.58533455919999999" blue="0.62663941059999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XS6-H3-2kb">
@@ -2330,7 +2325,7 @@
                                 </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ruR-Tc-4Sv" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="162" y="551" width="50" height="30"/>
+                                <rect key="frame" x="162.5" y="551" width="50" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -2545,7 +2540,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xe2-OJ-s5l" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="137" y="420" width="100" height="40"/>
+                                <rect key="frame" x="137.5" y="420" width="100" height="40"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -2633,7 +2628,7 @@
                                 <rect key="frame" x="33" y="159" width="311" height="325"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="scheduleCell" rowHeight="175" id="FVw-dQ-4F0" customClass="scheduleCell" customModule="RangelEnterprisesBM" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="scheduleCell" rowHeight="175" id="FVw-dQ-4F0" customClass="scheduleCell" customModule="RangelEnterprisesBM" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="311" height="175"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FVw-dQ-4F0" id="Th7-8u-3vl">
@@ -2761,7 +2756,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POn-n8-HJ1" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
-                                <rect key="frame" x="138" y="514" width="100" height="30"/>
+                                <rect key="frame" x="137.5" y="514" width="100" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" staticText="YES"/>
                                 </accessibility>
@@ -2903,7 +2898,7 @@
                                 </date>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WHr-9S-DpE">
-                                <rect key="frame" x="137" y="320" width="100" height="27"/>
+                                <rect key="frame" x="137.5" y="320" width="100" height="27"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="27" id="Xyx-V1-da5"/>
                                     <constraint firstAttribute="width" constant="100" id="jIh-WA-jWN"/>
@@ -2914,7 +2909,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="Doc-EK-vlG">
-                                <rect key="frame" x="79" y="535" width="216" height="30"/>
+                                <rect key="frame" x="79.5" y="535" width="216" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeV-77-l8a" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
@@ -2982,7 +2977,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qgq-Ir-C8e">
-                                <rect key="frame" x="132" y="170" width="110" height="30"/>
+                                <rect key="frame" x="132.5" y="170" width="110" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="110" id="OLR-bO-0aH"/>
                                     <constraint firstAttribute="height" constant="30" id="xh9-3y-8Wr"/>
@@ -3081,7 +3076,7 @@
                                 <rect key="frame" x="16" y="133.5" width="343" height="513.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="jobTimeCell" rowHeight="200" id="rI4-Cl-Zg4" customClass="jobTimeCell" customModule="RangelEnterprisesBM" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="jobTimeCell" rowHeight="200" id="rI4-Cl-Zg4" customClass="jobTimeCell" customModule="RangelEnterprisesBM" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rI4-Cl-Zg4" id="2Hb-Wp-rbl">
@@ -3636,7 +3631,7 @@
                                 <rect key="frame" x="102.5" y="191" width="256.5" height="217"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="jobListingCell" rowHeight="100" id="ODp-Bf-PhQ" customClass="jobListingCell" customModule="RangelEnterprisesBM" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="jobListingCell" rowHeight="100" id="ODp-Bf-PhQ" customClass="jobListingCell" customModule="RangelEnterprisesBM" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="256.5" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ODp-Bf-PhQ" id="y7r-TF-Zk2" customClass="UITableViewCell">
@@ -3644,13 +3639,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="UHb-v4-Hfg">
-                                                    <rect key="frame" x="15" y="11" width="233" height="61"/>
+                                                    <rect key="frame" x="15" y="11" width="233.5" height="61"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="886-C3-gPn">
-                                                            <rect key="frame" x="0.0" y="0.0" width="133" height="61"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="133.5" height="61"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="twY-9H-7Oh">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="133" height="61"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="133.5" height="61"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B8e-hc-7UG">
                                                                             <rect key="frame" x="0.0" y="0.0" width="44" height="21"/>
@@ -3683,7 +3678,7 @@
                                                             </constraints>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3Cz-7y-SxO">
-                                                            <rect key="frame" x="133" y="0.0" width="100" height="40"/>
+                                                            <rect key="frame" x="133.5" y="0.0" width="100" height="40"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/31/18" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="ToN-a5-7PF">
                                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="20"/>
@@ -3765,7 +3760,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="qlM-zs-hoQ">
-                                <rect key="frame" x="79" y="494" width="216" height="30"/>
+                                <rect key="frame" x="79.5" y="494" width="216" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QMb-k9-bOu" customClass="GlossyButton" customModule="RangelEnterprisesBM" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
@@ -4178,7 +4173,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sick Time Available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bYc-uA-cKV">
-                                <rect key="frame" x="115" y="75" width="146.5" height="40"/>
+                                <rect key="frame" x="114.5" y="75" width="146.5" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="wp0-zH-nsQ"/>
                                 </constraints>
@@ -4187,7 +4182,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMh-GB-udv">
-                                <rect key="frame" x="138" y="123" width="100" height="30"/>
+                                <rect key="frame" x="137.5" y="123" width="100" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="ARz-3m-Mp4"/>
                                     <constraint firstAttribute="width" constant="100" id="iv9-vV-dnl"/>
@@ -4257,13 +4252,13 @@
                                 <color key="onTintColor" red="0.40267997620000001" green="0.58533455919999999" blue="0.62663941059999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vacation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3f-q2-Dag">
-                                <rect key="frame" x="228" y="484" width="70" height="22"/>
+                                <rect key="frame" x="228" y="483.5" width="70" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sick" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3c-M8-Sk6">
-                                <rect key="frame" x="112.5" y="484" width="34.5" height="22"/>
+                                <rect key="frame" x="112.5" y="483.5" width="34.5" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -4334,7 +4329,7 @@
                                 <rect key="frame" x="16" y="94" width="343" height="311"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="payHistoryCell" id="zxM-js-Izs" customClass="payHistoryCell" customModule="RangelEnterprisesBM" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="payHistoryCell" id="zxM-js-Izs" customClass="payHistoryCell" customModule="RangelEnterprisesBM" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="25"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zxM-js-Izs" id="lte-0g-urb">
@@ -4481,7 +4476,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="dGs-aS-BwJ">
-                                <rect key="frame" x="137" y="455" width="100" height="76"/>
+                                <rect key="frame" x="137.5" y="455" width="100" height="76"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="soQ-8j-Qcp">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>

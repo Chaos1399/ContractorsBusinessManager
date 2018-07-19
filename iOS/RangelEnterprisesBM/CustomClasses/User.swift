@@ -11,7 +11,6 @@ import FirebaseDatabase
 
 class User: Codable {
     var name : String
-    var password : String
     var email : String
     var pph : Double
     var sickTime : Double
@@ -22,9 +21,8 @@ class User: Codable {
     var numDaysScheduled : Int
     var numPeriods : Int
     
-    init (name: String, password: String, email: String, payPerHour pph: Double, sickTime: Double, vacayTime: Double, admin: Bool, scheduledWork toWork: String, numDays numDaysScheduled: Int, payPeriodHistory history: String, numPayPeriods numPeriods: Int) {
+    init (name: String, email: String, payPerHour pph: Double, sickTime: Double, vacayTime: Double, admin: Bool, scheduledWork toWork: String, numDays numDaysScheduled: Int, payPeriodHistory history: String, numPayPeriods numPeriods: Int) {
         self.name = name
-        self.password = password
         self.email = email
         self.pph = pph
         self.sickTime = sickTime
@@ -37,26 +35,23 @@ class User: Codable {
     }
     
     init (key: String, snapshot: DataSnapshot) {
-        name = key
-        
         let temp = snapshot.value as! [String : AnyObject]
         let val = temp [key] as! [String : AnyObject]
         
-        password = val ["password"] as! String
+        name = val ["name"] as! String
         email = val ["email"] as! String
         pph = val ["pph"] as! Double
-        sickTime = val ["sickTime"] as! Double
-        vacayTime = val ["vacationTime"] as! Double
+        sickTime = val ["sicktime"] as! Double
+        vacayTime = val ["vacaytime"] as! Double
         admin = val ["admin"] as! Bool
-        toWork = val ["scheduledToWork"] as! String
+        toWork = val ["scheduled"] as! String
         numDaysScheduled = val ["numDays"] as! Int
         history = val ["payPeriodHistory"] as! String
-        numPeriods = val ["numPeriods"] as! Int
+        numPeriods = val ["numPers"] as! Int
     }
     
     private enum CodingKeys: String, CodingKey {
         case name
-        case password
         case email
         case pph
         case sickTime
@@ -74,7 +69,6 @@ class User: Codable {
         
         return [
             "name" : name,
-            "password" : password,
             "email" : email,
             "pph" : pph,
             "sickTime" : sickTime,

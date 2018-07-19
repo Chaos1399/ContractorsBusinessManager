@@ -12,15 +12,13 @@ import FirebaseDatabase
 class Workday: Codable {
     var date : Date
     var hours : Double
-    var clockedOut : Bool
     var client : String
     var location : String
     var job : String
     
-    init (date: Date, hours: Double, done clockedOut: Bool, forClient client: String, atLocation location: String, doingJob job: String) {
+    init (date: Date, hours: Double, forClient client: String, atLocation location: String, doingJob job: String) {
         self.date = date
         self.hours = hours
-        self.clockedOut = clockedOut
         self.client = client
         self.location = location
         self.job = job
@@ -40,7 +38,6 @@ class Workday: Codable {
         
         date = df.date (from: val ["date"] as! String)!
         hours = val ["hours"] as! Double
-        clockedOut = val ["done"] as! Bool
         client = val ["client"] as! String
         location = val ["location"] as! String
         job = val ["job"] as! String
@@ -49,7 +46,6 @@ class Workday: Codable {
     private enum CodingKeys: String, CodingKey {
         case date
         case hours
-        case clockedOut = "done"
         case client
         case location
         case job
@@ -63,7 +59,6 @@ class Workday: Codable {
         return [
             "date" : df.string(from: date),
             "hours" : hours,
-            "done" : clockedOut,
             "client" : client,
             "location" : location,
             "job" : job ]

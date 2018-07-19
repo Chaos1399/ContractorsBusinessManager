@@ -70,9 +70,9 @@ class SignUp: CustomVCSuper, UITextFieldDelegate {
         let name = nameField.text!
         let toWorkURL = scheduleBase!.url + "/" + name
         let payURL = Database.database().reference().url + "/Pay Period Histories/" + name
-        self.user = User (name: name, password: self.passField.text!, email: self.emailField.text!, payPerHour: Double (self.pphField.text!)!, sickTime: 0.0, vacayTime: 0.0, admin: false, scheduledWork: toWorkURL, numDays: 0, payPeriodHistory: payURL, numPayPeriods: 1)
+        self.user = User (name: name, email: self.emailField.text!, payPerHour: Double (self.pphField.text!)!, sickTime: 0.0, vacayTime: 0.0, admin: false, scheduledWork: toWorkURL, numDays: 0, payPeriodHistory: payURL, numPayPeriods: 1)
         userBase!.child(name).setValue(self.user!.toAnyObject())
-        self.employeeList.append(name)
+        self.employeeNameList.append(name)
         self.updatePersistentStorage(setClient: false)
         
         hiPri.async {

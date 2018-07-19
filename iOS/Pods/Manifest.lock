@@ -1,28 +1,36 @@
 PODS:
-  - Firebase (4.10.0):
-    - Firebase/Core (= 4.10.0)
-  - Firebase/Core (4.10.0):
-    - FirebaseAnalytics (= 4.1.0)
-    - FirebaseCore (= 4.0.16)
-  - Firebase/Database (4.10.0):
-    - Firebase/Core
-    - FirebaseDatabase (= 4.1.5)
-  - FirebaseAnalytics (4.1.0):
-    - FirebaseCore (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - Firebase (5.4.0):
+    - Firebase/Core (= 5.4.0)
+  - Firebase/Auth (5.4.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (= 5.0.2)
+  - Firebase/Core (5.4.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 5.0.1)
+  - Firebase/CoreOnly (5.4.0):
+    - FirebaseCore (= 5.0.5)
+  - Firebase/Database (5.4.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (= 5.0.2)
+  - FirebaseAnalytics (5.0.1):
+    - FirebaseCore (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - nanopb (~> 0.3)
-  - FirebaseCore (4.0.16):
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseDatabase (4.1.5):
-    - FirebaseAnalytics (~> 4.1)
-    - FirebaseCore (~> 4.0)
+  - FirebaseAuth (5.0.2):
+    - FirebaseCore (~> 5.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseCore (5.0.5):
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+  - FirebaseDatabase (5.0.2):
+    - FirebaseCore (~> 5.0)
     - leveldb-library (~> 1.18)
-  - FirebaseInstanceID (2.0.9):
-    - FirebaseCore (~> 4.0)
-  - GoogleToolboxForMac/Defines (2.1.3)
-  - GoogleToolboxForMac/NSData+zlib (2.1.3):
-    - GoogleToolboxForMac/Defines (= 2.1.3)
+  - FirebaseInstanceID (3.1.1):
+    - FirebaseCore (~> 5.0)
+  - GoogleToolboxForMac/Defines (2.1.4)
+  - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - GTMSessionFetcher/Core (1.1.15)
   - JTAppleCalendar (7.1.5)
   - leveldb-library (1.20)
   - nanopb (0.3.8):
@@ -33,21 +41,38 @@ PODS:
 
 DEPENDENCIES:
   - Firebase
+  - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
   - JTAppleCalendar (~> 7.0)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseAuth
+    - FirebaseCore
+    - FirebaseDatabase
+    - FirebaseInstanceID
+    - GoogleToolboxForMac
+    - GTMSessionFetcher
+    - JTAppleCalendar
+    - leveldb-library
+    - nanopb
+
 SPEC CHECKSUMS:
-  Firebase: c98c8b1fbcbdccd82539a36c2b17a9b1bb0ee798
-  FirebaseAnalytics: 3dfae28d4a5e06f86c4fae830efc2ad3fadb19bc
-  FirebaseCore: eb9e1a56733ff1094ecf3e28af9069c344b25239
-  FirebaseDatabase: 5f0bc6134c5c237cf55f9e1249d406770a75eafd
-  FirebaseInstanceID: d2058a35e9bebda1b6dd42486b84917bde552a9d
-  GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
+  Firebase: d66f4f29c23f22d96808d9abc174d81d8eee968f
+  FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
+  FirebaseAuth: 096e457cdd4274412a66c4a35874787e411f5a03
+  FirebaseCore: 42b3267233bd21a5abd54117ccc38ca3dd0f8e83
+  FirebaseDatabase: 27be5ac5bc75e0b17537b2bbfada8258addcc8cd
+  FirebaseInstanceID: f3f0657372592ecdfdfe2cac604a5a75758376a6
+  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
+  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   JTAppleCalendar: 2d4f974f9f3c8b4964d51ca1f6e004883c031fbe
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: 4035f9d011132d93faa938bb58cc582a7403e0a8
+PODFILE CHECKSUM: 42bb5ad60eb4ee59b7a8ab1d55cc23fa24715892
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

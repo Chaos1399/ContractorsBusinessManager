@@ -147,7 +147,7 @@ class AAddJob: CustomVCSuper, UITextFieldDelegate, UITabBarDelegate, UITableView
     }
     func fetchJobsURL (withClient cFieldText: String, withLocation lFieldText: String) {
         self.fetchGroup.enter()
-        // Find client in clientBase
+        // Find client in clientBase!
         self.clientBase!.queryOrderedByKey().queryEqual(toValue: cFieldText).observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.exists() {
                 let client = Client (key: cFieldText, snapshot: snapshot)
@@ -232,7 +232,7 @@ class AAddJob: CustomVCSuper, UITextFieldDelegate, UITabBarDelegate, UITableView
     @IBAction func didSelectSubmit(_ sender: UIButton) {
         removeDups()
         
-        // Query clientBase to get the client info
+        // Query clientBase! to get the client info
         self.clientBase!.queryOrderedByKey().queryEqual(toValue: self.clientField.text!).observeSingleEvent(of: .value, with: { (snapshot) in
             let client = Client (key: self.clientField.text!, snapshot: snapshot)
             

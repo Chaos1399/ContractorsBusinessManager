@@ -70,11 +70,11 @@ class ACountHours: CustomVCSuper, UITableViewDelegate, UITableViewDataSource {
         var tempUserList : [User] = []
         
         hiPri.async {
-            for i in 0..<self.employeeList.count {
+            for i in 0..<self.employeeNameList.count {
                 self.fetchGroup.enter()
-                self.userBase!.queryOrderedByKey().queryEqual(toValue: self.employeeList [i]).observeSingleEvent(of: .value, with: { (empSnap) in
+                self.userBase!.queryOrderedByKey().queryEqual(toValue: self.employeeNameList [i]).observeSingleEvent(of: .value, with: { (empSnap) in
                     if empSnap.exists() {
-                        tempUserList.append(User.init(key: self.employeeList [i], snapshot: empSnap))
+                        tempUserList.append(User.init(key: self.employeeNameList [i], snapshot: empSnap))
                     }
                     self.fetchGroup.leave()
                 })

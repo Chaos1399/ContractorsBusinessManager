@@ -90,7 +90,7 @@ class ETimeBank: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
                         self.vacayTimeLabel.text = self.user!.vacayTime.description
                         if i != 0 { interval = Double (dayOffset * i) }
                         
-                        dayRef!.child((curPer!.numDays - 1).description).setValue(Workday.init(date: Date.init(timeInterval: interval, since: lastDay), hours: 8, done: true, forClient: msg, atLocation: msg, doingJob: msg).toAnyObject())
+                        dayRef!.child((curPer!.numDays - 1).description).setValue(Workday.init(date: Date.init(timeInterval: interval, since: lastDay), hours: 8, forClient: msg, atLocation: msg, doingJob: msg).toAnyObject())
                         self.historyBase!.child(self.user!.name).child(curPer!.number.description).setValue(curPer!.toAnyObject())
                         
                         i += 1

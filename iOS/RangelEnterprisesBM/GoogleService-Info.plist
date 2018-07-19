@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>194512526635-vhpimnka4cn4kabb66rsb2m31i1vvt6d.apps.googleusercontent.com</string>
+	<string>843216091731-0edss7lk9ec8v0c1re1n9rt5up8gg1pl.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.194512526635-vhpimnka4cn4kabb66rsb2m31i1vvt6d</string>
+	<string>com.googleusercontent.apps.843216091731-0edss7lk9ec8v0c1re1n9rt5up8gg1pl</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAm4YSaYY5kLGQ3BuhAABQZobjSyghnlDc</string>
+	<string>AIzaSyBhFvYFgpa4cu4BngMeWSYm2os1vWtyCr4</string>
 	<key>GCM_SENDER_ID</key>
-	<string>194512526635</string>
+	<string>843216091731</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>edu.calpoly.crrangel.RangelEnterprisesBM</string>
+	<string>edu.calpoly.crrangel.CBM</string>
 	<key>PROJECT_ID</key>
-	<string>rangelincbsnssmngr</string>
+	<string>contractor-s-business-manager</string>
 	<key>STORAGE_BUCKET</key>
-	<string>rangelincbsnssmngr.appspot.com</string>
+	<string>contractor-s-business-manager.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:194512526635:ios:c8226ea5aa6aedf8</string>
+	<string>1:843216091731:ios:2d9102bc246e02d8</string>
 	<key>DATABASE_URL</key>
-	<string>https://rangelincbsnssmngr.firebaseio.com</string>
+	<string>https://contractor-s-business-manager.firebaseio.com</string>
 </dict>
 </plist>
