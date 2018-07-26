@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "Businesses": {
+      ".indexOn": ".key",
+      ".read": true,
+      ".write": true
+    }
+  }
+}

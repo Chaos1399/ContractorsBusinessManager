@@ -1,0 +1,92 @@
+@viewport {
+  width: device-width;
+  zoom: 1.0;
+}
+
+header {
+  background-color: #791b23;
+  text-align: center;
+  padding: 20px;
+}
+
+body {
+  background: #791b23;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.topnav {
+  overflow: hidden;
+  background: #6e1023;
+  color: white;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  padding: 14px 16px;
+}
+
+.topnav a:hover {
+  background: #6795a0;
+  color: black;
+}
+
+.message {
+  background: #791b23;
+  color: white;
+}
+
+.message a {
+  background: #6e1023;
+  color: white;
+}
+
+.message a:hover {
+  background: #6795a0;
+  color: black;
+}
+
+.message, .message a {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rbga(0, 0, 0, 0.24);
+}
+
+@media (max-width: 600px) {
+  body, .message {
+    margin-top: 0;
+    box-shadow: none;
+  }
+}
+
+h2 {
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 24px 0 8px;
+}
+
+h1 {
+  color: white;
+  font-weight: 300;
+  font-size: 22px;
+  margin: 0 16px 16px;
+}
+
+p {
+  color: white;
+  line-height: 140%;
+  font-size: 14px;
+  margin: 16px 0 24px;
+}
+
+a {
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px;
+  border-radius: 4px;
+  color: white;
+}

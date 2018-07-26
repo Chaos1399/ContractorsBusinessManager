@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>Contractor's Business Manager Homepage</title>
+
+    <link rel='stylesheet' href='./stylesheets/main.css' media='screen and (orientation: landscape)'>
+    <link rel='stylesheet' href='./stylesheets/mobile.css' media='screen and (orientation: portrait)'>
+
+    <!-- Import and configure the Firebase SDK -->
+    <script src="/__/firebase/5.3.0/firebase-app.js"></script>
+    <script src="/__/firebase/5.3.0/firebase-auth.js"></script>
+    <script src="/__/firebase/5.3.0/firebase-database.js"></script>
+    <script src="/__/firebase/init.js"></script>
+  </head>
+  <body>
+    <div class='message'>
+      <br/>
+      <h1>Menu</h1>
+      <div class='topnav'>
+        <!-- NavBar -->
+        <a href="./email-password.html">Sign In</a>
+        <a href="./index.html">Menu</a>
+        <a href="./count_hours.html">Count Hours</a>
+      </div>
+    </div>
+    <br/><br/><br/>
+   <!-- TO REMOVE -->
+    <div>
+      Firebase sign-in status: <span id="sign-in-status">Unknown</span>
+      <div>Firebase auth <code>currentUser</code> object value:</div>
+      <pre><code id="account-details">null</code></pre>
+    </div>
+
+
+    <script src='./javascripts/init_firebase_sdk.js'></script>
+  <!-- TO REMOVE AFTER TESTING-->
+    <script type='text/javascript'>
+      function initApp() {
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            var displayName = user.displayName;
+            var email = user.email;
+            var uid = user.uid;
+            var providerData = user.providerData;
+
+            document.getElementById('sign-in-status').textContent = 'Signed in';
+            document.getElementById('account-details').textContent = 'Name: ' + displayName + '\nEmail: ' + email + '\nUID: ' + uid + '\nProvider Data: ' + providerData;
+          } else {
+            document.getElementById('sign-in-status').textContent = 'Signed out';
+            document.getElementById('account-details').textContent = 'null';
+          }
+        })
+      };
+
+      window.onload = function() {
+        initApp();
+      };
+    </script>
+  </body>
+</html>
