@@ -1,9 +1,6 @@
 {
   "rules": {
-    "Businesses": {
-      ".indexOn": ".key",
-      ".read": true,
-      ".write": true
-    }
+    ".read": "auth != null",
+    ".write": "auth != null"
   }
 }
