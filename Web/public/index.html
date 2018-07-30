@@ -17,44 +17,49 @@
     <div class='message'>
       <br/>
       <h1>Menu</h1>
+
+      <!-- Top navigation bar with dropdown menus -->
       <div class='topnav'>
-        <!-- NavBar -->
         <a href="./email-password.html">Sign In</a>
-        <a href="./menu.html">Menu</a>
-        <a href="./count_hours.html">Count Hours</a>
+        <a href="./index.html">Menu</a>
+
+        <div class='dropdown'>
+          <button class="dropbtn">Manage Hours</button>
+          <div class="dropdown-content">
+            <a href="./count_hours.html">Count Hours</a>
+            <a href="./revise_hours.html">Revise Hours</a>
+          </div>
+        </div>
+
+        <div class='dropdown'>
+          <button class="dropbtn">Add Things</button>
+          <div class="dropdown-content">
+            <a href="./add_employees.html">Add Employees</a>
+            <a href="./add_clients.html">Add Clients</a>
+            <a href="./add_locations.html">Add Locations</a>
+            <a href="./add_jobs.html">Add Jobs</a>
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <button class="dropbtn">Edit Things</button>
+          <div class="dropdown-content">
+            <a href="./edit_employees.html">Edit Employees</a>
+            <a href="./edit_clients.html">Edit Clients</a>
+            <a href="./edit_locations.html">Edit Locations</a>
+            <a href="./edit_jobs.html">Edit Jobs</a>
+          </div>
+        </div>
+        
+        <div class='dropdown'>
+          <button class="dropbtn">Manage Schedules</button>
+          <div class="dropdown-content">
+            <a href="./schedule.html">Schedule Employees</a>
+            <a href="./job_times.html">View Job Timelines</a>
+          </div>
+        </div>
       </div>
     </div>
-    <br/><br/><br/>
-   <!-- TO REMOVE -->
-    <div>
-      Firebase sign-in status: <span id="sign-in-status">Unknown</span>
-      <div>Firebase auth <code>currentUser</code> object value:</div>
-      <pre><code id="account-details">null</code></pre>
-    </div>
-
-
-  <!-- TO REMOVE AFTER TESTING-->
-    <script type='text/javascript'>
-      function initApp() {
-        firebase.auth().onAuthStateChanged(function(user) {
-          if (user) {
-            var displayName = user.displayName;
-            var email = user.email;
-            var uid = user.uid;
-            var providerData = user.providerData;
-
-            document.getElementById('sign-in-status').textContent = 'Signed in';
-            document.getElementById('account-details').textContent = 'Name: ' + displayName + '\nEmail: ' + email + '\nUID: ' + uid + '\nProvider Data: ' + providerData;
-          } else {
-            document.getElementById('sign-in-status').textContent = 'Signed out';
-            document.getElementById('account-details').textContent = 'null';
-          }
-        })
-      };
-
-      window.onload = function() {
-        initApp();
-      };
-    </script>
+    <p>Ollo.</p>
   </body>
 </html>

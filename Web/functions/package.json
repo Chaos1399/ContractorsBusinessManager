@@ -2,7 +2,7 @@
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
-    "serve": "firebase serve --only functions",
+    "serve": "sudo firebase serve --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "firebase-admin": "~5.13.0",
-    "firebase-functions": "^2.0.0"
+    "firebase-functions": "^2.0.2"
   },
   "private": true
 }

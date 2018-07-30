@@ -1,31 +1,48 @@
-const admin = require ('firebase-admin');
 const functions = require ('firebase-functions');
+const admin = require ('firebase-admin');
 
-const express = require ('express');
-const app = express();
-
-admin.initializeApp();
-
-app.get('/index.html', (request, response) => {
-  response.send(`${Date.now()}`);
+/*
+ * Service Account is specific to the project's location in Firebase. To use
+ * with another project, need to 'Generate a private key' from the Service
+ * Account section of project settings on the Firebase Console, then move
+ * the json into a subfolder of the project parent directory, then add that
+ * relative path here in the require. 'databaseURL' is the URL of the Firebase
+ * Database.
+ */
+const serviceAccount = require ('./key/contractor-s-business-manager-firebase-adminsdk-1stxo-d20fe1fc82.json');
+const app = admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://contractor-s-business-manager.firebaseio.com'
 });
 
-exports.app = functions.https.onRequest(app);
+/*
+ * Function to set Custom Claims, specified by the passed in 'claims'
+ * on the user specified by the passed in 'uid'.
+ */
+exports.setClaimsOnNewUser = functions.https.onCall((data, context) => {
+	var uid = data.uid;
+	var claims = data.claims;
 
-/*fs.readFile('index.html', (err, html) => {
-  if (err) {
-   throw err;
-  }
-
-  const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-type', 'text/html');
-    res.write(html);
-    res.end ();
+	admin.auth().setCustomUserClaims(uid, claims)
+  .then(function () {
+    console.log('Claims set for user ' + uid);
+  })
+  .catch(function(err) {
+  	console.log(err);
   });
+});
 
-  server.listen(port, hostname, () => {
-    console.log('Server started on port ' + port);
-  });
+/*
+ * Function to get the Custom Claims associated with the user
+ * specified by the passed in 'uid'.
+ */
+exports.getUserClaims = functions.https.onCall((data, context) => {
+	var uid = data.uid;
 
-});*/
+	return admin.auth().getUser(uid)
+	  .then((userRecord) => {
+	  	console.log ('user claims:\n' + userRecord.customClaims);
+
+	  	return userRecord.customClaims;
+	  });
+})
