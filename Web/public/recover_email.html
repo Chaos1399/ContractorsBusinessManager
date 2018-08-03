@@ -5,17 +5,33 @@
 		<link rel='stylesheet' href='./stylesheets/main.css' media='screen and (orientation: landscape)'>
     <link rel='stylesheet' href='./stylesheets/mobile.css' media='screen and (orientation: portrait)'>
     
-		<div>
-	    <p style="font-size: 20px">Enter your old email</p>
-	    <input type="text" id="oldemail" placeholder="Old Email"/>
-	    <p style="font-size: 20px">Enter your recovery email</p>
-	    <input type="text" id="newemail" placeholder="New Email"/>
-	    <br/><br/>
-	    <p style="margin-bottom: 0">Administrator: <input type="checkbox" id="admin" value="Admin"></p>
-	    <br/>
-	    <button disabled id="confirm" name="confirm" onclick="didPressConfirm()">Confirm</button>
-	    &nbsp;&nbsp;&nbsp;
-	    <button id="cancel" name="cancel" onclick="didPressCancel()">Cancel</button>
-	  </div>
+    <script type='text/javascript'>
+    	document.addEventListener ('DOMContentLoaded', () => {
+    		window.parent.document.getElementById('title').innerText = 'Recover Email';
+    	});
+    </script>
+
+    <body>
+			<div style="margin: 0 16px 0">
+		    <p style="font-size:20px">Enter your desired email</p>
+		    <input type="text" id="email" placeholder="Email"/>
+		    <br/><br/>
+		  </div>
+
+	    <div style="background:#6795a0">
+	    	<br/>
+		    <p style="font-size:18px;color:black;margin:8px 16px">We strongly encourage you to change your password.</p>
+		    <p style="color:black;margin:8px 16px">Whoever logged in as you last time will still be able to, until you change your password.</p>
+		    <p style="color:black;margin:0 16px">Also, small security heads-up, if you reuse the same password for other sites,<br/>
+		    you may want to change those too.</p>
+		    <br/><br/>
+		  </div>
+
+	    <div style="margin:8px 16px">
+		    <button disabled id="confirm" name="confirm" onclick="didPressConfirm()">Confirm</button>
+		    &nbsp;&nbsp;&nbsp;
+		    <button id="cancel" name="cancel" onclick="didPressCancel()">Cancel</button>
+		  </div>
+		</body>
 	</head>
 </html>

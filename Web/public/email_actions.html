@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset=utf-8 />
-    <title>Contractor's Business Manager Reset Password</title>
+    <title>Contractor's Business Manager Email Action</title>
 
     <link rel='stylesheet' href='./stylesheets/main.css' media='screen and (orientation: landscape)'>
     <link rel='stylesheet' href='./stylesheets/mobile.css' media='screen and (orientation: portrait)'>
@@ -25,6 +25,9 @@
       }
 
       document.addEventListener ('DOMContentLoaded', function () {
+        const iframe = document.getElementById('embeddedpage');
+        iframe.width = document.body.clientWidth;
+
         // Get the action type
         var mode = getParameterByName('mode');
         // Get the one-time code from the query parameter
@@ -54,14 +57,13 @@
       }, false);
 
       function handleResetPassword(auth, actionCode, continueUrl) {
-        var accountEmail;
         // Verify the password reset code is valid.
         auth.verifyPasswordResetCode(actionCode).then(function(email) {
           var accountEmail = email;
 
           // TODO: Show the reset screen with the user's email and ask the user for
           // the new password.
-          document.getElementByID('embeddedpage').src = "./password_reset.html";
+          iframe.src = "./password_reset.html";
 
           // Save the new password.
           auth.confirmPasswordReset(actionCode, newPassword).then(function(resp) {
@@ -69,18 +71,22 @@
 
             // TODO: Display a link back to the app, or sign-in the user directly
             // if the page belongs to the same domain as the app:
-            auth.signInWithEmailAndPassword(accountEmail, newPassword);
+            auth.signInWithEmailAndPassword(accountEmail, newPassword).catch((err) => {
+              console.log ('signInWithEmailAndPassword fail: ' + err);
+            });
 
             // TODO: If a continue URL is available, display a button which on
             // click redirects the user back to the app via continueUrl with
             // additional state determined from that URL's parameters.
-          }).catch(function(error) {
+          }).catch(function(err) {
             // Error occurred during confirmation. The code might have expired or the
             // password is too weak.
+            console.log('confirmPasswordReset fail: ' + err);
           });
-        }).catch(function(error) {
+        }).catch(function(err) {
           // Invalid or expired action code. Ask user to try to reset the password
           // again.
+          console.log('verifyPasswordResetCode fail: ' + err);
         });
       }
 
@@ -97,7 +103,7 @@
           // Account email reverted to restoredEmail
 
           // TODO: Display a confirmation message to the user.
-          document.getElementByID('embeddedpage').src = "./recover_email.html";
+          iframe.src = "./recover_email.html";
 
           // You might also want to give the user the option to reset their password
           // in case the account was compromised:
@@ -118,14 +124,15 @@
 
           // TODO: Display a confirmation message to the user.
           // You could also provide the user with a link back to the app.
-          document.getElementByID('embeddedpage').src = "./verify_email.html";
+          iframe.src = "./verify_email.html";
 
           // TODO: If a continue URL is available, display a button which on
           // click redirects the user back to the app via continueUrl with
           // additional state determined from that URL's parameters.
-        }).catch(function(error) {
+        }).catch(function(err) {
           // Code is invalid or expired. Ask the user to verify their email address
           // again.
+          console.log(err);
         });
       }
     </script>
@@ -133,7 +140,7 @@
   <body>
     <div class='message'>
       <br/>
-      <h1>Reset Password</h1>
+      <h1 id='title'></h1>
       
       <nav>
         <div class='topnav'>
@@ -180,7 +187,7 @@
     </div>
 
     <main>
-      <iframe src='./password-reset.html' id='embeddedpage' height='400px' width='500px' style='background:white;border:none'>
+      <iframe src='./recover_email.html' id='embeddedpage' height='400px' style='background:white;border:none'>
         Sorry, this content had trouble loading.
       </iframe>
     </main>
