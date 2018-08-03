@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel='stylesheet' href='./stylesheets/main.css' media='screen and (orientation: landscape)'>
+    <link rel='stylesheet' href='./stylesheets/mobile.css' media='screen and (orientation: portrait)'>
+    
+		<div>
+	    <p style="font-size: 20px">Enter your old email</p>
+	    <input type="text" id="oldemail" placeholder="Old Email"/>
+	    <p style="font-size: 20px">Enter your recovery email</p>
+	    <input type="text" id="newemail" placeholder="New Email"/>
+	    <br/><br/>
+	    <p style="margin-bottom: 0">Administrator: <input type="checkbox" id="admin" value="Admin"></p>
+	    <br/>
+	    <button disabled id="confirm" name="confirm" onclick="didPressConfirm()">Confirm</button>
+	    &nbsp;&nbsp;&nbsp;
+	    <button id="cancel" name="cancel" onclick="didPressCancel()">Cancel</button>
+	  </div>
+	</head>
+</html>
