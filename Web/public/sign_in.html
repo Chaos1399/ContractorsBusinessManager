@@ -12,7 +12,7 @@
     <script src="/__/firebase/5.0.0/firebase-auth.js"></script>
     <script src="/__/firebase/init.js"></script>
 
-    <script src="/javascripts/email-auth.js"></script>
+    <script src="/javascripts/sign-in.js"></script>
   </head>
   <body>
     <div>
@@ -64,23 +64,26 @@
           <!-- Container for the demo -->
           <div>
             <div>
-              <p>Enter an email and password below and either sign in to an existing account or sign up</p>
+              <p>Enter an email and password below and sign in to an existing account</p>
+              <div>
+                <p id="name-display" style="display:none">Signed out</p>
+                <p id="email-display" style="display:none"></p>
+              </div>
 
               <input style="display:inline; width:auto;" type="text" id="email" name="email" placeholder="Email"/>
               &nbsp;&nbsp;&nbsp;
               <input style="display:inline; width:auto;" type="password" id="password" name="password" placeholder="Password"/>
               <br/><br/>
-              <button disabled id="sign-in" name="signin">Sign In</button>
-              &nbsp;&nbsp;&nbsp;
-              <button disabled id="verify-email" name="verify-email">Send Email Verification</button>
-              &nbsp;&nbsp;&nbsp;
-              <button id="password-reset" name="verify-email">Send Password Reset Email</button>
-
-              <!-- Container where we'll display the user details -->
+              <input type="email" id="newEmail" placeholder="new Email"/>
+              <br/><br/>
               <div>
-                Firebase sign-in status: <span id="sign-in-status">Unknown</span>
-                <div>Firebase auth <code>currentUser</code> object value:</div>
-                <pre><code id="account-details">null</code></pre>
+                <button disabled id="sign-in" name="signin">Sign In</button>
+                &nbsp;&nbsp;&nbsp;
+                <button disabled id="verify-email" name="verify-email">Send Email Verification</button>
+                &nbsp;&nbsp;&nbsp;
+                <button id="password-reset" name="verify-email">Send Password Reset Email</button>
+                <br/>
+                <button onclick="changeEmailRequest()">Change Email</button>
               </div>
             </div>
           </div>

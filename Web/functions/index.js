@@ -18,12 +18,6 @@ const app = admin.initializeApp({
 
 
 /*
- * Email verification must be initiated by the user that needs their email
- * verified, so in the employee version apps
- */
-
-
-/*
  * Function to set Custom Claims, specified by the passed in 'claims'
  * on the user specified by the passed in 'uid'.
  */
@@ -88,8 +82,27 @@ exports.createEmp = functions.https.onCall((data, context) => {
 	  });
 });
 
+/*
+ * Function to get a list of all employees from the business passed as
+ * 'business'
+ */
+exports.listUsers = functions.https.onCall((data, context) => {
+	const business = data.business;
+	const nextPageToken = data.nextPageToken;
 
-
+	admin.auth().listUsers(1000, nextPageToken)
+	.then((result) => {
+		result.users.forEach((userRecord) => {
+			console.log ('user', userRecord.toJSON());
+		});
+		if (result.pageToken) {
+			listUsers({business: business, nextPageToken: result.pageToken}, context);
+		}
+	})
+	.catch ((err) => {
+		console.log (err);
+	})
+})
 
 
 

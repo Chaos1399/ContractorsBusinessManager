@@ -10,10 +10,5 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-  "rewrites": [ {
-    "source" : "/index",
-    "function" : "setClaims"
-  } ]
-  }
+  ] }
 }

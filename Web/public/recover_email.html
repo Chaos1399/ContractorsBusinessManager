@@ -4,34 +4,26 @@
 	<head>
 		<link rel='stylesheet' href='./stylesheets/main.css' media='screen and (orientation: landscape)'>
     <link rel='stylesheet' href='./stylesheets/mobile.css' media='screen and (orientation: portrait)'>
-    
-    <script type='text/javascript'>
-    	document.addEventListener ('DOMContentLoaded', () => {
-    		window.parent.document.getElementById('title').innerText = 'Recover Email';
-    	});
-    </script>
 
-    <body>
-			<div style="margin: 0 16px 0">
-		    <p style="font-size:20px">Enter your desired email</p>
-		    <input type="text" id="email" placeholder="Email"/>
-		    <br/><br/>
-		  </div>
-
-	    <div style="background:#6795a0">
-	    	<br/>
-		    <p style="font-size:18px;color:black;margin:8px 16px">We strongly encourage you to change your password.</p>
-		    <p style="color:black;margin:8px 16px">Whoever logged in as you last time will still be able to, until you change your password.</p>
-		    <p style="color:black;margin:0 16px">Also, small security heads-up, if you reuse the same password for other sites,<br/>
-		    you may want to change those too.</p>
-		    <br/><br/>
-		  </div>
-
-	    <div style="margin:8px 16px">
-		    <button disabled id="confirm" name="confirm" onclick="didPressConfirm()">Confirm</button>
-		    &nbsp;&nbsp;&nbsp;
-		    <button id="cancel" name="cancel" onclick="didPressCancel()">Cancel</button>
-		  </div>
-		</body>
+    <script src="/__/firebase/5.3.0/firebase-app.js"></script>
+    <script src="/__/firebase/5.3.0/firebase-auth.js"></script>
+    <script src="/__/firebase/5.3.0/firebase-database.js"></script>
+    <script src="/__/firebase/5.3.0/firebase-functions.js"></script>
+    <script src="/__/firebase/init.js"></script>
 	</head>
+  <body>
+    <div style="margin:8px 16px">
+    	<p style="font-size:20px">Send password reset?</p>
+	    <button id="send">Send</button>
+	  </div>
+
+    <div style="background:#6795a0">
+    	<br/>
+	    <p style="font-size:18px;color:black;margin:8px 16px">We strongly encourage you to change your password also.</p>
+	    <p style="color:black;margin:8px 16px">Whoever logged in as you last time will still be able to, until you change your password.</p>
+	    <p style="color:black;margin:0 16px">Also, small security heads-up, if you reuse the same password for other sites,<br/>
+	    you may want to change those too.</p>
+	    <br/><br/>
+	  </div>
+	</body>
 </html>
