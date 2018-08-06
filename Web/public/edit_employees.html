@@ -14,8 +14,7 @@
     <script src="/__/firebase/5.3.0/firebase-functions.js"></script>
     <script src="/__/firebase/init.js"></script>
 
-    <!-- Non-existent currently -->
-    <!--script src="../javascripts/edit-emps.js"></script-->
+    <script src="/javascripts/edit-emps.js"></script>
   </head>
   <body>
     <div class='message'>
@@ -27,7 +26,7 @@
         <a href="./index.html">Menu</a>
 
         <div class='dropdown'>
-          <button class="dropbtn">Manage Hours</button>
+          <button class='dropbtn'>Manage Hours</button>
           <div class="dropdown-content">
             <a href="./count_hours.html">Count Hours</a>
             <a href="./revise_hours.html">Revise Hours</a>
@@ -35,7 +34,7 @@
         </div>
 
         <div class='dropdown'>
-          <button class="dropbtn">Add Things</button>
+          <button class='dropbtn'>Add Things</button>
           <div class="dropdown-content">
             <a href="./add_employees.html">Add Employees</a>
             <a href="./add_clients.html">Add Clients</a>
@@ -44,8 +43,8 @@
           </div>
         </div>
 
-        <div class="dropdown">
-          <button class="dropbtn">Edit Things</button>
+        <div class='dropdown'>
+          <button class='dropbtn'>Edit Things</button>
           <div class="dropdown-content">
             <a href="./edit_employees.html">Edit Employees</a>
             <a href="./edit_clients.html">Edit Clients</a>
@@ -55,19 +54,58 @@
         </div>
         
         <div class='dropdown'>
-          <button class="dropbtn">Manage Schedules</button>
+          <button class='dropbtn'>Manage Schedules</button>
           <div class="dropdown-content">
             <a href="./schedule.html">Schedule Employees</a>
             <a href="./job_times.html">View Job Timelines</a>
           </div>
         </div>
       </div>
-      <main>
-        <input list='elist'>
-        <datalist id='elist'>
-          <option value='Cristian Rangel'>
-          <option value='Jose Rangel'>
-        </datalist>
+      <main style="margin-left:16px">
+        <br/><br/>
+        <div>
+          <h2 style="display:inline;font-weight:normal;margin-right:40px">Choose Employee: </h2>
+          
+          <input id='emp' list='elist'>
+          <datalist id='elist'>
+            <option value=''/>
+          </datalist>
+        </div>
+        <div>
+          <div style="display:inline-block;margin-right:92px">
+            <h3 style="font-weight:normal">Pay Per Hour:</h3>
+            <input type='number' id='pphfield' min="0" style="width:100px"/>
+          </div>
+          <div style="display:inline-block">
+            <h3 style="font-weight:normal">Sick Time:</h3>
+            <input type='number' id='sicktime' min="0" style="width:100px"/>
+          </div>
+          <br/>
+          <div style="display:inline-block;margin-right:92px">
+            <h3 style="font-weight:normal">Vacation Time:</h3>
+            <input type='number' id='vacationtime' min="0" style="width:100px"/>
+          </div>
+          <div style="display:inline-block;margin-right:92px">
+            <h3 style="font-weight:normal">Admin:</h3>
+            <input type='checkbox' id='administrator'/>
+          </div>
+          <br/><br/>
+          <div>
+            <button id='confirmButton' onclick="didPressConfirm()">Confirm</button>
+            <button id='deleteButton' onclick="didPressDelete()">Delete</button>
+          </div>
+        </div>
+
+        <div id="confirmModal" class="modal">
+          <div class="modal-content">
+            <span id="close" class="close">&times;</span>
+            <p>Are you changing the Administrator Status?</p>
+            <button id="mYes">Yes</button>
+            &nbsp;&nbsp;
+            <button id="mNo">No</button>
+          </div>
+        </div>
+        
       </main>
     </div>
   </body>

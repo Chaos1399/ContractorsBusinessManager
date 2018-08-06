@@ -48,6 +48,7 @@ function didPressConfirm () {
 	        createEmp({empname: name, email: email,
 	                   admin: admin, business: business})
 	          .then((result) => {
+	          	console.log (name + ' added to Firebase Auth');
 							const uid = result.data.uid;
 
 							dbbase.child('Users/' + uid).set ({
@@ -63,22 +64,23 @@ function didPressConfirm () {
 								vacaytime: 0
 							})
 								.then(() => {
-									console.log('Successful add to database.');
-								})
-								.catch((err) => {
-									console.log('Database write failed: ' + err);
+									console.log(name + ' added to Firebase Database');
 								});
-	            console.log('Successful return from createEmp');
+
+							dbbase.child('PersistenceStartup/Employees').update({
+								uid: name
+							})
 	            alert ('Employee ' + name + ' successfully added.\n' +
-	            	'Your employee\'s temporary password is ' + result.data.pass);
+	            	'Your employee\'s temporary password is ' + result.data.pass +
+	            	'\nPlease encourage them to change it as soon as possible.');
 	          })
 	          .catch((err) => {
-	          	console.log ('createEmp failed: ' + err)
-	            alert ('Error adding employee.');
+	          	console.log ('Employee creation failed\n' + err);
+	            alert ('Error adding employee, please retry.');
 	          });
 	      })
 	      .catch ((err) => {
-	        console.log (err);
+	        console.log ('Error when getting User Claims\n' + err);
 	      });
 	  }
 	});

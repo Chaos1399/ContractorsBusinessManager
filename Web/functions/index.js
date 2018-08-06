@@ -83,26 +83,18 @@ exports.createEmp = functions.https.onCall((data, context) => {
 });
 
 /*
- * Function to get a list of all employees from the business passed as
- * 'business'
+ * Function to delete the employee with the passed 'uid' from Firebase Auth
  */
-exports.listUsers = functions.https.onCall((data, context) => {
-	const business = data.business;
-	const nextPageToken = data.nextPageToken;
+exports.deleteEmp = functions.https.onCall((data, context) => {
+	const uid = data.uid;
 
-	admin.auth().listUsers(1000, nextPageToken)
-	.then((result) => {
-		result.users.forEach((userRecord) => {
-			console.log ('user', userRecord.toJSON());
-		});
-		if (result.pageToken) {
-			listUsers({business: business, nextPageToken: result.pageToken}, context);
-		}
-	})
-	.catch ((err) => {
-		console.log (err);
-	})
+	admin.auth().deleteUser(uid)
+		.then(() => {
+			console.log ('Deleted Employee ' + uid);
+		})
+		.catch ((err) => {
+			console.log ('Error Deleting Employee ' + uid);
+			console.log (err);
+		})
 })
-
-
 

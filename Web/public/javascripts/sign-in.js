@@ -96,7 +96,6 @@ function initApp() {
       }
     } else {
       document.getElementById('sign-in').textContent = 'Sign in';
-      document.getElementById('account-details').textContent = 'null';
     }
     document.getElementById('sign-in').disabled = false;
   });
