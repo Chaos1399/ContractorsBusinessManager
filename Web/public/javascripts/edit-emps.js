@@ -111,7 +111,26 @@ function didPressNo (empToEdit, pph, st, vt) {
  * and the Database
  */
 function didPressDelete () {
+	const deleteEmp = firebase.functions().httpsCallable('deleteEmp');
+	const uid = uidDict[document.getElementById('emp').value];
 
+	deleteEmp({uid: uid})
+		.then(() => {
+			console.log ('Auth Removal Success');
+		})
+		.catch((err) => {
+			console.log ('Auth Removal Error: ' + err);
+		});
+		
+	dbref.child('Users/' + uid).set({})
+		.then(() =>
+		dbref.child('PersistenceStartup/Employees/' + uid).set({}))
+		.then(() => {
+			console.log ('Database Removal Success');
+		})
+		.catch((err) => {
+			console.log ('Database Removal Error: ' + err);
+		});
 }
 
 /*

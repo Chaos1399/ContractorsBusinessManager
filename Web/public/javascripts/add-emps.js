@@ -67,9 +67,11 @@ function didPressConfirm () {
 									console.log(name + ' added to Firebase Database');
 								});
 
-							dbbase.child('PersistenceStartup/Employees').update({
-								uid: name
-							})
+							const updates = {};
+							updates [uid] = name;
+
+							dbbase.child('PersistenceStartup/Employees').update(updates);
+							
 	            alert ('Employee ' + name + ' successfully added.\n' +
 	            	'Your employee\'s temporary password is ' + result.data.pass +
 	            	'\nPlease encourage them to change it as soon as possible.');
