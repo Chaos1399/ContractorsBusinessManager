@@ -11,10 +11,10 @@
     <script src="/__/firebase/5.3.0/firebase-app.js"></script>
     <script src="/__/firebase/5.3.0/firebase-auth.js"></script>
     <script src="/__/firebase/5.3.0/firebase-database.js"></script>
+    <script src="/__/firebase/5.3.0/firebase-functions.js"></script>
     <script src="/__/firebase/init.js"></script>
 
-    <!-- Non-existent currently -->
-    <!--script src="../javascripts/add-clients.js"></script-->
+    <script src="../javascripts/add-clients.js"></script>
   </head>
   <body>
     <div class='message'>
@@ -62,5 +62,28 @@
         </div>
       </div>
     </div>
+
+    <main>
+      <div>
+        <h2 style="font-weight:normal">Enter your client's information, then <wbr/>press Confirm to add them to the database.</h2>
+        <div>
+          <h3>Client Name</h3>
+          <input id="name" placeholder="Name"/>
+        </div>
+        <div>
+          <h3>Client Email</h3>
+          <input id="email" type="email" placeholder="Email"/>
+        </div>
+        <div>
+          <h3>Client Billing Address</h3>
+          <input id="address" placeholder="Billing Address"/>
+        </div>
+        <br/><br/>
+        <div>
+          <button id="confirm" onclick="didPressConfirm()">Confirm</button>
+          <button id="cancel" onclick="didPressCancel()">Cancel</button>
+        </div>
+      </div>
+    </main>
   </body>
 </html>

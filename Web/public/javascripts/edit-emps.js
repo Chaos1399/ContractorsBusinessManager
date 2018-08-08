@@ -62,9 +62,6 @@ function initPage() {
 							snap.forEach(function (snapchild) {
 								// Associate their uid's with their names for db retrieval and setting later
 								uidDict[snapchild.val()] = snapchild.key;
-								/*uidDict.push({
-									key: snapchild.val(),
-									value: snapchild.key});*/
 
 								elem = document.createElement('option');
 								elem.value = snapchild.val();
@@ -149,6 +146,7 @@ function setInDB (uid, pph, st, vt, a) {
 	if (vt !== '') {
 		updates['/Users/' + uid + '/vacaytime'] = vt;
 	}
+	//TODO: change admin state in Auth too
 	if (a !== '') {
 		updates['/Users/' + uid + '/admin'] = a;
 	}
@@ -160,16 +158,6 @@ function setInDB (uid, pph, st, vt, a) {
 	.catch((err) => {
 		console.log(err);
 	});
-}
-
-/*
- * Function to get the DataSnapshot from the database
- */
-/*readFromDB(uid).then((snap) => {
-	//can use snap.val()
-});*/
-function readFromDB (uid) {
-	return dbref.child('Users/' + uid).once('value');
 }
 
 

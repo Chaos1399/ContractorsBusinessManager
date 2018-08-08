@@ -1,6 +1,27 @@
 {
   "rules": {
     ".read": "auth != null",
-    ".write": "auth != null"
+    ".write": "auth != null",
+    "Businesses" : {
+      "$business" : {
+        "Clients" : {
+          ".indexOn" : "name"
+        },
+        "PersistenceStartup" : {
+          "Clients" : {
+            ".indexOn" : ".key"
+          },
+          "Employees" : {
+            ".indexOn" : ".key"
+          }
+        },
+        "Users" : {
+          ".indexOn" : ".key",
+          "$uid" : {
+            ".indexOn" : "name"
+          }
+        }
+      }
+    }
   }
 }

@@ -11,10 +11,10 @@
     <script src="/__/firebase/5.3.0/firebase-app.js"></script>
     <script src="/__/firebase/5.3.0/firebase-auth.js"></script>
     <script src="/__/firebase/5.3.0/firebase-database.js"></script>
+    <script src="/__/firebase/5.3.0/firebase-functions.js"></script>
     <script src="/__/firebase/init.js"></script>
 
-    <!-- Non-existent currently -->
-    <!--script src="../javascripts/add-jobs.js"></script-->
+    <script src="../javascripts/add-jobs.js"></script>
   </head>
   <body>
     <div class='message'>
@@ -62,5 +62,87 @@
         </div>
       </div>
     </div>
+
+    <main>
+      <div>
+        <h2 style="font-weight:normal">Enter the new job's information, then <wbr/>press Confirm to add it to the database.</h2>
+        <div>
+          <h3>Client Name</h3>
+          <input id="client" placeholder="Client"/>
+        </div>
+        <br/>
+
+        <div>
+          <div style="margin-left: 102px">
+            <span class="segmented">
+              <label>
+                <input
+                  type="radio"
+                  name="loc"
+                  value="address"
+                  id="addressBtn"
+                  onclick="didChangeLocSelectStyle()"
+                  checked>
+                <span class="label">Address</span>
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="loc"
+                  value="alias"
+                  id="aliasBtn"
+                  onclick="didChangeLocSelectStyle()">
+                <span class="label">Nickname</span></label>
+            </span>
+          </div>
+          
+          <div id="addressBlock"
+               style="display: inline-block;
+                      border-width: 1px;
+                      border-style: solid;
+                      height: 200px;
+                      vertical-align: top">
+            <h3>Street Address</h3>
+            <input id="streetaddress" placeholder="Street Address"/>
+            <h3>City</h3>
+            <input id="city" placeholder="City"/>
+          </div>
+          <div id="aliasBlock"
+               style="display: inline-block;
+                      border-width: 1px;
+                      border-style: solid;
+                      height: 200px;
+                      right: none;
+                      vertical-align: top;
+                      visibility: hidden">
+            <h3>Location Nickname</h3>
+            <input id="alias" placeholder="Nickname">
+          </div>
+        </div>
+
+        <div>
+          <h3>Job</h3>
+          <input id="type" placeholder="Job"/>
+        </div>
+        <div>
+          <h3>Estimated Start Date</h3>
+          <input id="start" type="date" placeholder="Start Date"/>
+        </div>
+        <div>
+          <h3>Estimated End Date</h3>
+          <input id="end" type="date" placeholder="End Date"/>
+        </div>
+        <div>
+          <h3>(Optional) Detailed Description</h3>
+          <input id="desc" placeholder="Details">
+        </div>
+        <br/><br/>
+        <div>
+          <button id="confirm" onclick="didPressConfirm()">Confirm</button>
+          <button id="cancel" onclick="didPressCancel()">Cancel</button>
+        </div>
+        <br/><br/><br/>
+      </div>
+    </main>
   </body>
 </html>
