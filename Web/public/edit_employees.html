@@ -26,15 +26,7 @@
         <a href="./index.html">Menu</a>
 
         <div class='dropdown'>
-          <button class='dropbtn'>Manage Hours</button>
-          <div class="dropdown-content">
-            <a href="./count_hours.html">Count Hours</a>
-            <a href="./revise_hours.html">Revise Hours</a>
-          </div>
-        </div>
-
-        <div class='dropdown'>
-          <button class='dropbtn'>Add Things</button>
+          <button class='dropbtn'>Add</button>
           <div class="dropdown-content">
             <a href="./add_employees.html">Add Employees</a>
             <a href="./add_clients.html">Add Clients</a>
@@ -44,12 +36,20 @@
         </div>
 
         <div class='dropdown'>
-          <button class='dropbtn'>Edit Things</button>
+          <button class='dropbtn'>Edit</button>
           <div class="dropdown-content">
             <a href="./edit_employees.html">Edit Employees</a>
             <a href="./edit_clients.html">Edit Clients</a>
             <a href="./edit_locations.html">Edit Locations</a>
             <a href="./edit_jobs.html">Edit Jobs</a>
+          </div>
+        </div>
+
+        <div class='dropdown'>
+          <button class='dropbtn'>Manage Hours</button>
+          <div class="dropdown-content">
+            <a href="./count_hours.html">Count Hours</a>
+            <a href="./revise_hours.html">Revise Hours</a>
           </div>
         </div>
         
@@ -61,39 +61,65 @@
           </div>
         </div>
       </div>
-      <main style="margin-left:16px">
+
+      <main>
         <br/><br/>
         <div>
-          <h2 style="display:inline;font-weight:normal;margin-right:40px">Choose Employee: </h2>
+          <h2 style="font-weight:normal">Choose Employee: </h2>
           
-          <input id='emp' list='elist'>
+          <input id='emp' list='elist' onchange="empSelected()">
           <datalist id='elist'>
             <option value=''/>
           </datalist>
         </div>
+
         <div>
-          <div style="display:inline-block;margin-right:92px">
+          <div>
             <h3 style="font-weight:normal">Pay Per Hour:</h3>
             <input type='number' id='pphfield' min="0" style="width:100px"/>
           </div>
-          <div style="display:inline-block">
+          <div>
             <h3 style="font-weight:normal">Sick Time:</h3>
             <input type='number' id='sicktime' min="0" style="width:100px"/>
           </div>
-          <br/>
-          <div style="display:inline-block;margin-right:92px">
+          <div>
             <h3 style="font-weight:normal">Vacation Time:</h3>
             <input type='number' id='vacationtime' min="0" style="width:100px"/>
           </div>
-          <div style="display:inline-block;margin-right:92px">
+          <div>
             <h3 style="font-weight:normal">Admin:</h3>
             <input type='checkbox' id='administrator'/>
           </div>
+
+          <form id="roleForm">
+            <h3 style="font-weight:normal">Employee Roles</h3>
+            <div class="multiselect">
+              <div class="selectBox" onclick="showRoles()">
+                <select>
+                  <option>Select an option</option>
+                </select>
+                <div class="overSelect"></div>
+              </div>
+              <div id="roles">
+                <label for="manager" class="role">
+                  <input type="checkbox" id="manager" class="role"/>Manager</label>
+                <label for="materials-runner" class="role">
+                  <input type="checkbox" id="materials_runner" class="role"/>Materials Runner</label>
+                <label for="trailer-mover" class="role">
+                  <input type="checkbox" id="trailer_mover" class="role"/>Trailer Mover</label>
+                <label for="contractor" class="role">
+                  <input type="checkbox" id="contractor" class="role"/>Contractor</label>
+              </div>
+            </div>
+          </form>
           <br/><br/>
+
           <div>
             <button id='confirmButton' onclick="didPressConfirm()">Confirm</button>
+            <button id='cancelButton' onclick="didPressCancel()">Cancel</button>
             <button id='deleteButton' onclick="didPressDelete()">Delete</button>
           </div>
+          <br/><br/><br/>
         </div>
 
         <div id="confirmModal" class="modal">

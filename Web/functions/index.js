@@ -21,7 +21,7 @@ const app = admin.initializeApp({
  * Function to set Custom Claims, specified by the passed in 'claims'
  * on the user specified by the passed in 'uid'.
  */
-exports.setClaimsOnNewUser = functions.https.onCall((data, context) => {
+exports.setUserClaims = functions.https.onCall((data, context) => {
 	var uid = data.uid;
 	var claims = data.claims;
 

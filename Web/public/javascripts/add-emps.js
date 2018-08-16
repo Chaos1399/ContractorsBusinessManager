@@ -1,3 +1,6 @@
+var expanded = false;
+var justOpened = false;
+
 /*
  * Function to get the currently signed in user, checks to ensure that they
  * are marked as an admin, and then enables the button if so, or sends an alert
@@ -23,7 +26,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 /*
- * OnClick for the confirm button: Gather's the form data and creates a new
+ * Function to handle confirm button press: Gather's the form data and creates a new
  * employee with it, alerting the admin to the employee's temporary password
  */
 function didPressConfirm () {
@@ -34,8 +37,12 @@ function didPressConfirm () {
 	var business = "";
 	const createEmp = firebase.functions().httpsCallable('createEmp');
 	const getUserClaims = firebase.functions().httpsCallable('getUserClaims');
-	const setClaimsOnNewUser = firebase.functions().httpsCallable('setClaimsOnNewUser');
+	const setUserClaims = firebase.functions().httpsCallable('setUserClaims');
 	const db = firebase.database().ref;
+	var uid = false;
+	var updates = {};
+
+	alert ('Adding Employee ' + name + '...');
 
 	firebase.auth().onAuthStateChanged ((user) => {
 	  if (user) {
@@ -45,11 +52,13 @@ function didPressConfirm () {
 	        business = claims.business;
 					const dbbase = firebase.database().ref('Businesses/' + business);
 
+					// Adding to Firebase Auth
 	        createEmp({empname: name, email: email,
 	                   admin: admin, business: business})
+	        	// Adding to Firebase Database
 	          .then((result) => {
 	          	console.log (name + ' added to Firebase Auth');
-							const uid = result.data.uid;
+							uid = result.data.uid;
 
 							dbbase.child('Users/' + uid).set ({
 								name: name,
@@ -67,7 +76,6 @@ function didPressConfirm () {
 									console.log(name + ' added to Firebase Database');
 								});
 
-							const updates = {};
 							updates [uid] = name;
 
 							dbbase.child('PersistenceStartup/Employees').update(updates);
@@ -76,8 +84,22 @@ function didPressConfirm () {
 	            	'Your employee\'s temporary password is ' + result.data.pass +
 	            	'\nPlease encourage them to change it as soon as possible.');
 	          })
+	          // Adding Roles to Auth Claims
+	          .then(() => {
+	          	var newclaims = {};
+
+	          	newclaims['admin'] = admin;
+	          	newclaims['business'] = business;
+	          	newclaims['roles'] = getRoles();
+
+	          	setUserClaims({uid: uid, claims: newclaims})
+	          		.catch((err) => {
+	          			console.log (err);
+	          			alert (err.message);
+	          		});
+	          })
 	          .catch((err) => {
-	          	console.log ('Employee creation failed\n' + err);
+	          	console.log (err);
 	            alert ('Error adding employee, please retry.');
 	          });
 	      })
@@ -89,13 +111,63 @@ function didPressConfirm () {
 }
 
 /*
- * OnCLick for the cancel button
+ * Function to handle cancel button press: resets all fields
  */
 function didPressCancel () {
   document.getElementById('name').value = '';
   document.getElementById('email').value = '';
   document.getElementById('pph').value = '';
   document.getElementById('admin').checked = false;
+
+	document.getElementById('administrator').checked = false;
+	document.getElementById('manager').checked = false;
+	document.getElementById('materials-runner').checked = false;
+	document.getElementById('trailer-mover').checked = false;
+	document.getElementById('contractor').checked = false;
+}
+
+/*
+ * Function to handle role dropdown menu
+ */
+function showRoles() {
+  var roles = document.getElementById("roles");
+  if (!expanded) {
+    roles.style.display = "block";
+    expanded = true;
+    justOpened = true;
+    setTimeout(function () { justOpened = false }, 50);
+  } else {
+    roles.style.display = "none";
+    expanded = false;
+    justOpened = false;
+  }
+}
+
+/*
+ * Function to retrieve all role values and return them as a dictionary
+ */
+function getRoles () {
+	const manager = document.getElementById('manager').checked;
+	const materials_runner = document.getElementById('materials-runner').checked;
+	const trailer_mover = document.getElementById('trailer-mover').checked;
+	const contractor = document.getElementById('contractor').checked;
+	var toret = {};
+
+	toret['manager'] = manager;
+	toret['materials_runner'] = materials_runner;
+	toret['trailer_mover'] = trailer_mover;
+	toret['contractor'] = contractor;
+
+	return toret;
+}
+
+
+
+window.onclick = function(event) {
+  if (expanded && !justOpened && event.target.className !== 'role') {
+  	document.getElementById("roles").style.display = "none";
+    expanded = false;
+  }
 }
 
 

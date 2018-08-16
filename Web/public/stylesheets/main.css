@@ -10,6 +10,12 @@
   }
 }
 
+/* Broad use style rules */
+
+main {
+  margin-left: 16px;
+}
+
 header {
   background-color: #791b23;
   text-align: center;
@@ -83,6 +89,28 @@ button:disabled {
   pointer-events: none;
 }
 
+/* Rules for specific classes */
+
+.message {
+  background: #791b23;
+  color: white;
+}
+
+.message a {
+  background: #6e1023;
+  color: white;
+}
+
+.message a:hover {
+  background: #6795a0;
+  color: black;
+}
+
+.message, .message a {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rbga(0, 0, 0, 0.24);
+}
+
 .topnav {
   overflow: hidden;
   background: #6e1023;
@@ -150,26 +178,6 @@ button:disabled {
   display: block;
 }
 
-.message {
-  background: #791b23;
-  color: white;
-}
-
-.message a {
-  background: #6e1023;
-  color: white;
-}
-
-.message a:hover {
-  background: #6795a0;
-  color: black;
-}
-
-.message, .message a {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
-    0 1px 2px rbga(0, 0, 0, 0.24);
-}
-
 .modal {
   display: none;
   position: fixed;
@@ -234,6 +242,43 @@ button:disabled {
     box-shadow: 3px 2px 10px rgba(0,0,0,.2) inset, -3px 2px 10px rgba(0,0,0,.2) inset;
     color: white;
     text-shadow: -1px -1px rgba(0,0,0,.3);
+}
+
+.multiselect {
+  width: 200px;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+
+/* Rules for specific ID's */
+
+#roles {
+  display: none;
+  border: 1px #dadada solid;
+}
+
+#roles label {
+  display: block;
+}
+
+#roles label:hover {
+  background-color: #6e1023;
 }
 
 

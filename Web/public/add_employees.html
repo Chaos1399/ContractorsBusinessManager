@@ -14,55 +14,53 @@
     <script src="/__/firebase/5.3.0/firebase-functions.js"></script>
     <script src="/__/firebase/init.js"></script>
 
-    <script src="./javascripts/add-emps.js"></script>
+    <script src="/javascripts/add-emps.js"></script>
   </head>
   <body>
     <div class='message'>
       <br/>
       <h1>Add Employees</h1>
       
-      <nav>
-        <div class='topnav'>
-          <a href="./sign_in.html" style="float:right">Sign In</a>
-          <a href="./index.html">Menu</a>
+      <div class='topnav'>
+        <a href="./sign_in.html" style="float:right">Sign In</a>
+        <a href="./index.html">Menu</a>
 
-          <div class='dropdown'>
-            <button class="dropbtn">Manage Hours</button>
-            <div class="dropdown-content">
-              <a href="./count_hours.html">Count Hours</a>
-              <a href="./revise_hours.html">Revise Hours</a>
-            </div>
-          </div>
-
-          <div class='dropdown'>
-            <button class="dropbtn">Add Things</button>
-            <div class="dropdown-content">
-              <a href="./add_employees.html">Add Employees</a>
-              <a href="./add_clients.html">Add Clients</a>
-              <a href="./add_locations.html">Add Locations</a>
-              <a href="./add_jobs.html">Add Jobs</a>
-            </div>
-          </div>
-
-          <div class="dropdown">
-            <button class="dropbtn">Edit Things</button>
-            <div class="dropdown-content">
-              <a href="./edit_employees.html">Edit Employees</a>
-              <a href="./edit_clients.html">Edit Clients</a>
-              <a href="./edit_locations.html">Edit Locations</a>
-              <a href="./edit_jobs.html">Edit Jobs</a>
-            </div>
-          </div>
-          
-          <div class='dropdown'>
-            <button class="dropbtn">Manage Schedules</button>
-            <div class="dropdown-content">
-              <a href="./schedule.html">Schedule Employees</a>
-              <a href="./job_times.html">View Job Timelines</a>
-            </div>
+        <div class='dropdown'>
+          <button class="dropbtn">Add ___</button>
+          <div class="dropdown-content">
+            <a href="./add_employees.html">Employees</a>
+            <a href="./add_clients.html">Clients</a>
+            <a href="./add_locations.html">Locations</a>
+            <a href="./add_jobs.html">Jobs</a>
           </div>
         </div>
-      </nav>
+
+        <div class="dropdown">
+          <button class="dropbtn">Edit ___</button>
+          <div class="dropdown-content">
+            <a href="./edit_employees.html">Employees</a>
+            <a href="./edit_clients.html">Clients</a>
+            <a href="./edit_locations.html">Locations</a>
+            <a href="./edit_jobs.html">Jobs</a>
+          </div>
+        </div>
+
+        <div class='dropdown'>
+          <button class="dropbtn">Manage Hours</button>
+          <div class="dropdown-content">
+            <a href="./count_hours.html">Count Hours</a>
+            <a href="./revise_hours.html">Revise Hours</a>
+          </div>
+        </div>
+        
+        <div class='dropdown'>
+          <button class="dropbtn">Manage Schedules</button>
+          <div class="dropdown-content">
+            <a href="./schedule.html">Schedule Employees</a>
+            <a href="./job_times.html">View Job Timelines</a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <main>
@@ -79,6 +77,30 @@
             <br/><br/>
             <p style="margin-bottom: 0">Administrator: <input type="checkbox" id="admin" value="Admin"></p>
             <br/>
+
+            <form id="roleForm">
+              <h3 style="font-weight:normal">Employee Roles</h3>
+              <div class="multiselect">
+                <div class="selectBox" onclick="showRoles()">
+                  <select>
+                    <option>Select an option</option>
+                  </select>
+                  <div class="overSelect"></div>
+                </div>
+                <div id="roles">
+                  <label for="manager" class="role">
+                    <input type="checkbox" id="manager" class="role"/>Manager</label>
+                  <label for="materials-runner" class="role">
+                    <input type="checkbox" id="materials-runner" class="role"/>Materials Runner</label>
+                  <label for="trailer-mover" class="role">
+                    <input type="checkbox" id="trailer-mover" class="role"/>Trailer Mover</label>
+                  <label for="contractor" class="role">
+                    <input type="checkbox" id="contractor" class="role"/>Contractor</label>
+                </div>
+              </div>
+            </form>
+            <br/><br/>
+
             <button disabled id="confirm" name="confirm" onclick="didPressConfirm()">Confirm</button>
             &nbsp;&nbsp;&nbsp;
             <button id="cancel" name="cancel" onclick="didPressCancel()">Cancel</button>
