@@ -14,7 +14,7 @@
     <script src="/__/firebase/5.3.0/firebase-functions.js"></script>
     <script src="/__/firebase/init.js"></script>
 
-    <script src="../javascripts/add-locations.js"></script>
+    <script src="/javascripts/add-locations.js"></script>
   </head>
   <body>
     <div class='message'>
@@ -26,7 +26,7 @@
         <a href="./index.html">Menu</a>
 
         <div class='dropdown'>
-          <button class="dropbtn">Add ___</button>
+          <button class="dropbtn">Add</button>
           <div class="dropdown-content">
             <a href="./add_employees.html">Employees</a>
             <a href="./add_clients.html">Clients</a>
@@ -36,7 +36,7 @@
         </div>
 
         <div class="dropdown">
-          <button class="dropbtn">Edit ___</button>
+          <button class="dropbtn">Edit</button>
           <div class="dropdown-content">
             <a href="./edit_employees.html">Employees</a>
             <a href="./edit_clients.html">Clients</a>
@@ -70,19 +70,23 @@
           <h3>Client Name</h3>
           <input id="client" placeholder="Client"/>
         </div>
+
         <div>
           <h3>Street Address</h3>
           <input id="streetaddress" placeholder="Street Address"/>
         </div>
+
         <div>
           <h3>City</h3>
           <input id="city" placeholder="City"/>
         </div>
+
         <div>
           <h3>Nickname</h3>
           <input id="alias" placeholder="Nickname"/>
         </div>
         <br/><br/>
+        
         <div>
           <button id="confirm" onclick="didPressConfirm()">Confirm</button>
           <button id="cancel" onclick="didPressCancel()">Cancel</button>

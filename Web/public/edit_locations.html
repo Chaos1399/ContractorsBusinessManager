@@ -11,10 +11,10 @@
     <script src="/__/firebase/5.3.0/firebase-app.js"></script>
     <script src="/__/firebase/5.3.0/firebase-auth.js"></script>
     <script src="/__/firebase/5.3.0/firebase-database.js"></script>
+    <script src="/__/firebase/5.3.0/firebase-functions.js"></script>
     <script src="/__/firebase/init.js"></script>
 
-    <!-- Non-existent currently -->
-    <!--script src="/javascripts/edit-locs.js"></script-->
+    <script src="/javascripts/edit-locations.js"></script>
   </head>
   <body>
     <div class='message'>
@@ -26,7 +26,7 @@
         <a href="./index.html">Menu</a>
 
         <div class='dropdown'>
-          <button class="dropbtn">Add ___</button>
+          <button class="dropbtn">Add</button>
           <div class="dropdown-content">
             <a href="./add_employees.html">Employees</a>
             <a href="./add_clients.html">Clients</a>
@@ -36,7 +36,7 @@
         </div>
 
         <div class="dropdown">
-          <button class="dropbtn">Edit ___</button>
+          <button class="dropbtn">Edit</button>
           <div class="dropdown-content">
             <a href="./edit_employees.html">Employees</a>
             <a href="./edit_clients.html">Clients</a>
@@ -64,6 +64,47 @@
     </div>
 
     <main>
+      <br/>
+      <div>
+        <h2 style="font-weight:normal">Choose Client: </h2>
+        <input id='client' list='clist' onchange="clientSelected(value)">
+        <datalist id='clist'>
+          <option value=''/>
+        </datalist>
+      </div>
+
+
+      <br/>
+      <div>
+        <h2 style="font-weight:normal">Choose Location: </h2>
+        <input id='location' list='llist' onchange="locationSelected(value)">
+        <datalist id='llist'>
+          <option value=''/>
+        </datalist>
+      </div>
+
+      <div>
+        <h3>Edit Street Address</h3>
+        <input id="streetaddress" placeholder="Street Address"/>
+      </div>
+
+      <div>
+        <h3>Edit City</h3>
+        <input id="city" placeholder="City"/>
+      </div>
+
+      <div>
+        <h3>Edit Nickname</h3>
+        <input id="alias" placeholder="Nickname"/>
+      </div>
+      <br/><br/>
+
+      <div>
+        <button id="confirm" onclick="didPressConfirm()">Confirm</button>
+        <button id="cancel" onclick="didPressCancel()">Cancel</button>
+        <button id='deleteButton' onclick="didPressDelete()">Delete</button>
+      </div>
+      <br/><br/>
     </main>
   </body>
 </html>

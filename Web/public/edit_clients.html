@@ -64,10 +64,9 @@
     </div>
 
     <main>
-      <br/><br/>
+      <br/>
       <div>
         <h2 style="font-weight:normal">Choose Client: </h2>
-        
         <input id='client' list='clist' onchange="clientSelected()">
         <datalist id='clist'>
           <option value=''/>
@@ -78,18 +77,22 @@
         <h3>Edit Client Name</h3>
         <input id="name" placeholder="Name"/>
       </div>
+
       <div>
         <h3>Edit Client Email</h3>
         <input id="email" type="email" placeholder="Email"/>
       </div>
+
       <div>
         <h3>Edit Client Billing Address</h3>
         <input id="address" placeholder="Billing Address"/>
       </div>
       <br/><br/>
+
       <div>
         <button id="confirm" onclick="didPressConfirm()">Confirm</button>
         <button id="cancel" onclick="didPressCancel()">Cancel</button>
+        <button id='deleteButton' onclick="didPressDelete()">Delete</button>
       </div>
     </main>
   </body>

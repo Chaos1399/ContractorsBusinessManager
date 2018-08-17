@@ -105,6 +105,31 @@ function didPressCancel () {
 	document.getElementById('client').value = '';
 }
 
+/*
+ * Function to handle delete button press: deletes the client from the Clients,
+ * PersistenceStartup, Locations, and Jobs portions of the database, which
+ * subsequently deletes all locations and jobs associated with that client
+ */
+function didPressDelete () {
+	const cid = cidDict[document.getElementById('client').value];
+
+	dbref.child('Clients/' + cid).set({})
+		.then(() =>
+			dbref.child('PersistenceStartup/' + cid).set({}))
+		.then(() =>
+			dbref.child('Locations/' + cid).set({}))
+		.then(() =>
+			dbref.child('Jobs/ ' + cid).set({}))
+		.then(() => {
+			console.log('Client Removal Success');
+			alert ('Client Successfully Removed!');
+		})
+		.catch ((err) => {
+			console.log (err);
+			alert (err.message);
+		})
+}
+
 
 
 window.onload = function () {

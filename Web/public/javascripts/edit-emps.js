@@ -53,7 +53,7 @@ function initPage() {
 				dbref.child('PersistenceStartup/Employees').orderByValue().once('value')
 					.then((snap) => {
 						if (snap.exists()) {
-							snap.forEach(function (snapchild) {
+							snap.forEach((snapchild) => {
 								// Associate their uid's with their names for db retrieval and setting later
 								uidDict[snapchild.val()] = snapchild.key;
 
@@ -151,7 +151,7 @@ function didPressDelete () {
 			alert ('Employee Successfully Removed!');
 		})
 		.catch((err) => {
-			console.log ('Database Removal Error: ' + err);
+			console.log (err);
 		});
 }
 

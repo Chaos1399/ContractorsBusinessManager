@@ -35,6 +35,7 @@ function didPressConfirm () {
       const business = result.data.business;
       var updates = {};
       var cid, lid, jid;
+      var wasFound = false;
 
       dbref = dbref.child(business);
 
@@ -56,15 +57,21 @@ function didPressConfirm () {
                 lid = snapchild.key;
                 jid = snapchild.val().numJobs;
                 updates['/numJobs'] = (jid + 1);
-              } else if (snapchild.val().streetAddress === streetaddress &&
+                wasFound = true;
+                return true;
+              } else if (!useAlias &&
+                         snapchild.val().streetAddress === streetaddress &&
                          snapchild.val().city === city) {
                 lid = snapchild.key;
                 jid = snapchild.val().numJobs;
                 updates['/numJobs'] = (jid + 1);
-              } else {
-                throw Promise.reject(new Error('Location not found, please check your spelling.\nAlso, your location search type must be selected.'));
+                wasFound = true;
+                return true;
               }
             })
+            if (!wasFound) {
+                throw new Error('Location not found, please check your spelling.\nAlso, the correct location search type must be selected.');
+              }
           }
         })
         .then(() => dbref.child('Locations/' + cid + '/' + lid).update(updates))
@@ -80,7 +87,7 @@ function didPressConfirm () {
         })
         .catch((err) => {
           alert (err.message);
-          console.log (err);
+          console.log ('Error Finding Location');
         });
     });
 }
