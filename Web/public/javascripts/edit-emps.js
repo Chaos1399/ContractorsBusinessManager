@@ -142,17 +142,24 @@ function didPressDelete () {
 		.catch((err) => {
 			console.log ('Auth Removal Error: ' + err);
 		});
-		
-	dbref.child('Users/' + uid).set({})
-		.then(() =>
-		dbref.child('PersistenceStartup/Employees/' + uid).set({}))
-		.then(() => {
-			console.log ('Database Removal Success');
-			alert ('Employee Successfully Removed!');
-		})
-		.catch((err) => {
-			console.log (err);
-		});
+		dbref.child ('Users/' + uid).once ('value')
+			.then((snap) => {
+				if (snap.exists()) {
+					dbref.child('Users/' + uid).set({})
+						.then(() =>
+							dbref.child('PersistenceStartup/Employees/' + uid).set({}))
+						.then(() => {
+							console.log ('Database Removal Success');
+							alert ('Employee Successfully Removed!');
+						})
+						.catch((err) => {
+							console.log (err);
+						});
+					} else {
+						console.log('Employee DNE');
+						alert ('Error Deleting: Employee does not exist.');
+					}
+			});
 }
 
 /*

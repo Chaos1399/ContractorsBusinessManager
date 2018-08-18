@@ -50,10 +50,13 @@ function clientSelected () {
 				document.getElementById('name').value = clientSnap.name;
 				document.getElementById('email').value = clientSnap.email;
 				document.getElementById('address').value = clientSnap.address;
+			} else {
+				throw new Error ('Path not found, please check your spelling.');
 			}
 		})
 		.catch ((err) => {
 			console.log (err);
+			alert (err.message);
 		});
 }
 
@@ -113,21 +116,34 @@ function didPressCancel () {
 function didPressDelete () {
 	const cid = cidDict[document.getElementById('client').value];
 
-	dbref.child('Clients/' + cid).set({})
-		.then(() =>
-			dbref.child('PersistenceStartup/' + cid).set({}))
-		.then(() =>
-			dbref.child('Locations/' + cid).set({}))
-		.then(() =>
-			dbref.child('Jobs/ ' + cid).set({}))
-		.then(() => {
-			console.log('Client Removal Success');
-			alert ('Client Successfully Removed!');
-		})
-		.catch ((err) => {
-			console.log (err);
-			alert (err.message);
-		})
+	if (cid === undefined) {
+		alert ('Client not found, please check your spelling.');
+		return;
+	}
+
+	dbref.child('Clients/' + cid).once('value')
+		.then((snap) => {
+			if (snap.exists()) {
+				dbref.child('Clients/' + cid).set({})
+					.then(() =>
+						dbref.child('PersistenceStartup/' + cid).set({}))
+					.then(() =>
+						dbref.child('Locations/' + cid).set({}))
+					.then(() =>
+						dbref.child('Jobs/ ' + cid).set({}))
+					.then(() => {
+						console.log('Client Removal Success');
+						alert ('Client Successfully Removed!');
+					})
+					.catch ((err) => {
+						console.log (err);
+						alert (err.message);
+					});
+			} else {
+				console.log('Client DNE');
+				alert ('Error Deleting: Client does not exist.');
+			}
+		});
 }
 
 

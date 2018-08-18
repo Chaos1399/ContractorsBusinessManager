@@ -1,5 +1,6 @@
 var cidDict = {};
 var lidDict = {};
+var jidDict = {};
 var expanded = false;
 var justOpened = false;
 var dbref = firebase.database().ref('Businesses');
@@ -69,19 +70,28 @@ function clientSelected (client) {
 }
 
 /*
- * Function to handle field value initialization when a location is selected
+ * Function to handle job list initialization when a location is selected
  */
 function locationSelected (loc) {
-	dbref.child('Locations/' +
+	const list = document.getElementById('jlist');
+	var elem;
+
+	while (list.firstChild) {
+		list.removeChild(list.firstChild);
+	}
+
+	dbref.child('Jobs/' +
 							cidDict[document.getElementById('client').value] +
 							'/' + lidDict[loc]).orderByValue().once('value')
 		.then((snap) => {
 			if (snap.exists()) {
-				const locSnap = snap.val();
+				snap.forEach((snapchild) => {
+					jidDict[snapchild.val().type] = snapchild.key;
 
-				document.getElementById('streetaddress').value = locSnap.streetAddress;
-				document.getElementById('city').value = locSnap.city;
-				document.getElementById('alias').value = locSnap.alias;
+					elem = document.createElement('option');
+					elem.value = snapchild.val().type;
+					list.appendChild (elem);
+				})
 			} else {
 				throw new Error ('Path not found, please check your spelling.');
 			}
@@ -93,43 +103,80 @@ function locationSelected (loc) {
 }
 
 /*
- * Function to handle confirm button press: verifies a client was selected,
- * verifies at least one field is filled, then updates the Database
+ * Function to handle field value initialization when a job is selected
+ */
+function jobSelected (job) {
+	dbref.child('Jobs/' +
+							cidDict[document.getElementById('client').value] + '/' +
+							lidDict[document.getElementById('location').value] + '/' +
+							jidDict[job]).once('value')
+		.then((snap) => {
+			if (snap.exists()) {
+				const jobSnap = snap.val();
+
+				document.getElementById('type').value = jobSnap.type;
+				document.getElementById('start').value = jobSnap.start;
+				document.getElementById('end').value = jobSnap.end;
+				document.getElementById('desc').value =
+					(jobSnap.details === undefined)? '' : jobSnap.details;
+			} else {
+				throw new Error ('Path not found, please check your spelling.');
+			}
+		})
+		.catch((err) => {
+			console.log (err);
+			alert (err.message);
+		})
+}
+
+/*
+ * Function to handle confirm button press: verifies a client and location were
+ * selected, verifies at least one field is filled, then updates the Database
  */
 function didPressConfirm () {
 	const client = document.getElementById('client').value;
-	const locToEdit = document.getElementById('location').value;
-	const newAddress = document.getElementById('streetaddress').value;
-	const newCity = document.getElementById('city').value;
-	const newAlias = document.getElementById('alias').value;
+	const location = document.getElementById('location').value;
+	const jobToEdit = document.getElementById('job').value;
+	const newType = document.getElementById('type').value;
+	const newStart = document.getElementById('start').value;
+	const newEnd = document.getElementById('end').value;
+	const newDesc = document.getElementById('desc').value;
 	var updates = {};
 
 	if (client === '') {
 		alert ('You must choose a client whose location you wish to edit.');
 		return;
-	} else if (locToEdit === '') {
+	} else if (location === '') {
 		alert ('You must choose a location to edit.');
+		return;
+	} else if (jobToEdit === '') {
+		alert ('You must choose a job to edit.');
 		return;
 	}
 
-	if (newAddress !== '') {
-		updates['/streetAddress'] = newAddress;
+	if (newType !== '') {
+		updates['/type'] = newType;
 	}
-	if (newCity !== '') {
-		updates['/city'] = newCity;
+	if (newStart !== '') {
+		updates['/start'] = newStart;
 	}
-	if (newAlias !== '') {
-		updates['/alias'] = newAlias;
+	if (newEnd !== '') {
+		updates['/end'] = newEnd;
+	}
+	if (newDesc !== '') {
+		updates['/details'] = newDesc;
 	}
 
-	dbref.child('/Locations/' + cidDict[client] + '/' + lidDict[locToEdit]).update(updates)
+	dbref.child('Jobs/' + cidDict[client] +
+							'/' + lidDict[location] +
+							'/' + jidDict[jobToEdit]).update(updates)
 		.then(() => {
-			console.log ('Location Update Success');
-			alert ('Successfully Updated Location!');
+			console.log('Job Update Success');
+			alert('Successfully Updated Job!');
 		})
-		.catch ((err) => {
+		.catch((err) => {
 			console.log (err);
-			alert (err.message);
+			alert(err.message);
 		})
 }
 
@@ -139,22 +186,23 @@ function didPressConfirm () {
 function didPressCancel () {
 	document.getElementById('client').value = '';
 	document.getElementById('location').value = '';
-	document.getElementById('streetaddress').value = '';
-	document.getElementById('city').value = '';
-	document.getElementById('alias').value = '';
+	document.getElementById('job').value = '';
+	document.getElementById('type').value = '';
+	document.getElementById('start').value = '';
+	document.getElementById('end').value = '';
+	document.getElementById('desc').value = '';
 }
 
 /*
- * Function to handle delete button press: removes chosen location from the
- * Locations section of the Database, decrements the client's property count,
- * and removes all job listings for that location from the Jobs section of the
- * Database
+ * Function to handle delete button press: removes chosen job from the Jobs
+ * section of the Database, decrements the location's job counter, 
  */
 function didPressDelete () {
 	const cid = cidDict[document.getElementById('client').value];
 	const lid = lidDict[document.getElementById('location').value];
+	const jid = jidDict[document.getElementById('job').value];
 	var updates = {};
-	var numProps = 0;
+	var numJobs = 0;
 
 	if (cid === undefined) {
 		alert ('Client not found, please check your spelling.');
@@ -162,33 +210,34 @@ function didPressDelete () {
 	} else if (lid === undefined) {
 		alert ('Location not found, please check your spelling.');
 		return;
+	} else if (jid === undefined) {
+		alert ('Job not found, please check your spelling.');
+		return;
 	}
 
-	dbref.child('Locations/' + cid + '/' + lid).once('value')
+	dbref.child('Jobs/' + cid + '/' + lid + '/' + jid).once('value')
 		.then((snap) => {
 			if (snap.exists()) {
-				dbref.child('Locations/' + cid + '/' + lid).set({})
+				dbref.child('Jobs/' + cid + '/' + lid + '/' + jid).set({})
 					.then(() =>
-						dbref.child('Clients/' + cid).once('value')
+						dbref.child('Locations/' + cid + '/' + lid).once('value')
 							.then((snap) => {
-								numProps = snap.val().numProps;
-								updates['/numProps'] = (numProps - 1);
+								numJobs = snap.val().numJobs;
+								updates['/numJobs'] = (numJobs - 1);
 							}))
 					.then(() =>
-						dbref.child('Clients/' + cid).update(updates))
-					.then(() =>
-						dbref.child('Jobs/' + cid + '/' + lid).set({}))
+						dbref.child('Locations/' + cid + '/' + lid).update(updates))
 					.then(() => {
-						console.log('Location Removal Success');
-						alert ('Location Successfully Removed!');
+						console.log('Job Removal Success');
+						alert ('Successfully Removed Job!');
 					})
 					.catch ((err) => {
 						console.log (err);
 						alert (err.message);
 					});
 			} else {
-				console.log ('Location DNE');
-				alert ('Error Deleting: Location does not exist.');
+				console.log('Job DNE');
+				alert('Error Deleting: Job does not exist.');
 			}
 		});
 }
