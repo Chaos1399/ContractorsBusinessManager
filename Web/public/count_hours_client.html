@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset=utf-8 />
-    <title>CBM Edit Jobs</title>
+    <title>Count Hours For Client</title>
 
     <link rel='stylesheet' href='./stylesheets/main.css' media='screen and (orientation: landscape)'>
     <link rel='stylesheet' href='./stylesheets/mobile.css' media='screen and (orientation: portrait)'>
@@ -11,15 +11,14 @@
     <script src="/__/firebase/5.3.0/firebase-app.js"></script>
     <script src="/__/firebase/5.3.0/firebase-auth.js"></script>
     <script src="/__/firebase/5.3.0/firebase-database.js"></script>
-    <script src="/__/firebase/5.3.0/firebase-functions.js"></script>
     <script src="/__/firebase/init.js"></script>
 
-    <script src="/javascripts/edit-jobs.js"></script>
+    <script src="/javascripts/count-hours.js"></script>
   </head>
   <body>
     <div class='message'>
       <br/>
-      <h1>Edit Jobs</h1>
+      <h1>Count Hours For Client</h1>
       
       <div class='topnav'>
         <a href="./sign_in.html" style="float:right">Sign In</a>
@@ -70,62 +69,12 @@
         </div>
       </div>
     </div>
-
+    
     <main>
       <br/>
       <div>
-        <h2 style="font-weight:normal">Choose Client: </h2>
-        <input id='client' list='clist' onchange="clientSelected(value)">
-        <datalist id='clist'>
-          <option value=''/>
-        </datalist>
+        <h3>Client</h3>
       </div>
-      <br/>
-
-      <div>
-        <h2 style="font-weight:normal">Choose Location: </h2>
-        <input id='location' list='llist' onchange="locationSelected(value)">
-        <datalist id='llist'>
-          <option value=''/>
-        </datalist>
-      </div>
-      <br/>
-      
-      <div>
-        <h2 style="font-weight:normal">Choose Job: </h2>
-        <input id='job' list='jlist' onchange="jobSelected(value)">
-        <datalist id='jlist'>
-          <option value=''/>
-        </datalist>
-      </div>
-
-      <div>
-        <h3>Edit Job Type</h3>
-        <input id="type" placeholder="Job"/>
-      </div>
-
-      <div>
-        <h3>Edit Estimated Start Date</h3>
-        <input id="start" type="date" placeholder="Start Date"/>
-      </div>
-
-      <div>
-        <h3>Edit Estimated End Date</h3>
-        <input id="end" type="date" placeholder="End Date"/>
-      </div>
-
-      <div>
-        <h3>Edit Detailed Description</h3>
-        <input id="desc" placeholder="Details">
-      </div>
-      <br/><br/>
-
-      <div>
-        <button id="confirm" onclick="didPressConfirm()">Confirm</button>
-        <button id="cancel" onclick="didPressCancel()">Cancel</button>
-        <button id='deleteButton' onclick="didPressDelete()">Delete</button>
-      </div>
-      <br/><br/><br/>
     </main>
   </body>
 </html>

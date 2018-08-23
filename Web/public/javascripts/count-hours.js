@@ -1,10 +1,6 @@
-const admin = require('firebase-admin');
-
-var serviceAccount = require('../../../contractor-s-business-manager-firebase-adminsdk-1stxo-d20fe1fc82.json');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://contractor-s-business-manager.firebaseio.com'
+/*document.getElementById('cnthrslbl').addEventListener("mouseover", () => {
+	document.getElementById('cnthrsdrp').style.display = "block";
 });
-
-console.log(done);
+document.getElementById('cnthrslbl').addEventListener("mouseout", () => {
+	document.getElementById('cnthrsdrp').style.display = "none";
+});*/

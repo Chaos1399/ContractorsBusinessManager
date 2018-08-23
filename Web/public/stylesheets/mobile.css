@@ -3,6 +3,19 @@
   zoom: 1.0;
 }
 
+@media (max-width: 400px) {
+  body, .message {
+    margin-top: 0;
+    box-shadow: none;
+  }
+}
+
+/* Broad use style rules */
+
+main {
+  margin-left: 16px;
+}
+
 header {
   background-color: #791b23;
   text-align: center;
@@ -16,32 +29,76 @@ body {
   padding: 0;
 }
 
-.topnav {
-  overflow: hidden;
+h1 {
+  color: white;
+  font-weight: 300;
+  font-size: 24px;
+  margin: 0 16px 16px;
+}
+
+h2 {
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+  margin: 24px 0 8px;
+}
+
+h3 {
+  color: white;
+  font-weight: normal;
+  font-size: 20px;
+}
+
+p {
+  color: white;
+  line-height: 140%;
+  font-size: 16px;
+  margin: 16px 0 24px;
+}
+
+a {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  padding: 16px;
+  border-radius: 4px;
+  color: white;
+}
+
+input {
+  display: inline;
+  width: auto;
+  font-size: 20px;
+}
+
+button {
+  height: 25px;
+  font-size: 16px;
   background: #6e1023;
   color: white;
+  border: none;
 }
 
-.topnav a {
-  float: center;
-  display: block;
-  padding: 14px 16px;
-  color: white;
-}
-
-.topnav a:hover {
+button:hover {
   background: #6795a0;
   color: black;
 }
 
+button:disabled {
+  color: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* Rules for specific classes */
+
 .message {
   background: #791b23;
-  color: rgba(0, 0, 0, 0.87);
+  color: white;
 }
 
 .message a {
   background: #6e1023;
-  color: black;
+  color: white;
 }
 
 .message a:hover {
@@ -54,39 +111,176 @@ body {
     0 1px 2px rbga(0, 0, 0, 0.24);
 }
 
-@media (max-width: 400px) {
-  body, .message {
-    margin-top: 0;
-    box-shadow: none;
-  }
-}
-
-h2 {
+.topnav {
+  overflow: hidden;
+  background: #6e1023;
   color: white;
-  font-weight: bold;
-  font-size: 16px;
-  margin: 24px 0 8px;
 }
 
-h1 {
-  color: white;
-  font-weight: 300;
-  font-size: 22px;
-  margin: 0 0 16px;
-}
-
-p {
-  color: white;
-  line-height: 140%;
-  font-size: 14px;
-  margin: 16px 0 24px;
-}
-
-a {
+.topnav a {
+  float: left;
   display: block;
-  text-align: center;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 16px;
-  border-radius: 4px;
+  font-size: 20px;
+  padding: 14px 16px;
 }
+
+.topnav a:hover {
+  background: #6795a0;
+  color: black;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+  color: white;
+}
+
+.dropdown .dropbtn {
+  width: auto;
+  height: auto;
+  font-size: 20px; 
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  color: white;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+.topnav a:hover, .dropdown:hover .dropbtn {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  background: #6e1023;
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #6795a0;
+  color: black;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+}
+
+.modal-content {
+  background-color: #791b23;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+}
+
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.segmented {
+    display: inline-block;
+}
+.segmented .label {
+    background-color: #791b23;
+    border: 1px rgba(0, 0, 0, 0.6);
+    border-style: solid none solid solid;
+    color: white;
+    cursor: pointer;
+    float: left;
+    padding: 8px;
+    text-align: center;
+    width: 80px;
+}
+.segmented :first-child .label {
+    border-radius: 10px 0 0 10px;
+}
+.segmented :last-child .label {
+    border-radius: 0 10px 10px 0;
+    border-right-style: solid;
+}
+.segmented input {
+    display: none;
+}
+.segmented input:checked + .label {
+    background-color: #6e1023;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);    
+    border-color: black;
+    box-shadow: 3px 2px 10px rgba(0,0,0,.2) inset, -3px 2px 10px rgba(0,0,0,.2) inset;
+    color: white;
+    text-shadow: -1px -1px rgba(0,0,0,.3);
+}
+
+.multiselect {
+  width: 200px;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+
+/* Rules for specific ID's */
+
+#roles {
+  display: none;
+  border: 1px #dadada solid;
+}
+
+#roles label {
+  display: block;
+}
+
+#roles label:hover {
+  background-color: #6e1023;
+}
+
+
+
+

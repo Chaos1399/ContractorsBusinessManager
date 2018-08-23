@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset=utf-8 />
-    <title>Contractor's Business Manager Email Action</title>
+    <title>CBM Email Action</title>
 
     <link rel='stylesheet' href='./stylesheets/main.css' media='screen and (orientation: landscape)'>
     <link rel='stylesheet' href='./stylesheets/mobile.css' media='screen and (orientation: portrait)'>
@@ -27,7 +27,7 @@
           <a href="./index.html">Menu</a>
 
           <div class='dropdown'>
-            <button class="dropbtn">Add ___</button>
+            <button class="dropbtn">Add</button>
             <div class="dropdown-content">
               <a href="./add_employees.html">Employees</a>
               <a href="./add_clients.html">Clients</a>
@@ -37,7 +37,7 @@
           </div>
 
           <div class="dropdown">
-            <button class="dropbtn">Edit ___</button>
+            <button class="dropbtn">Edit</button>
             <div class="dropdown-content">
               <a href="./edit_employees.html">Employees</a>
               <a href="./edit_clients.html">Clients</a>
@@ -46,13 +46,21 @@
             </div>
           </div>
 
-          <div class='dropdown'>
-            <button class="dropbtn">Manage Hours</button>
-            <div class="dropdown-content">
-              <a href="./count_hours.html">Count Hours</a>
-              <a href="./revise_hours.html">Revise Hours</a>
+          <div class="dropdown">
+          <button class="dropbtn">Manage Hours</button>
+          <div class="dropdown-content">
+            <div id="cnthrsnav"
+                 onmouseover="cnthrsdrp.style.display = 'block'"
+                 onmouseout="cnthrsdrp.style.display = 'none'">
+              <a>Count Hours</a>
+              <div class="dropright" id="cnthrsdrp">
+                <a href="./count_hours_employee.html">For Employees</a>
+                <a href="./count_hours_client.html">For Clients</a>
+              </div>
             </div>
+            <a href="./revise_hours.html">Revise Hours</a>
           </div>
+        </div>
           
           <div class='dropdown'>
             <button class="dropbtn">Manage Schedules</button>

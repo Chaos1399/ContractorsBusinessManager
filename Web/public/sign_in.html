@@ -43,10 +43,18 @@
           </div>
         </div>
 
-        <div class='dropdown'>
+        <div class="dropdown">
           <button class="dropbtn">Manage Hours</button>
           <div class="dropdown-content">
-            <a href="./count_hours.html">Count Hours</a>
+            <div id="cnthrsnav"
+                 onmouseover="cnthrsdrp.style.display = 'block'"
+                 onmouseout="cnthrsdrp.style.display = 'none'">
+              <a>Count Hours</a>
+              <div class="dropright" id="cnthrsdrp">
+                <a href="./count_hours_employee.html">For Employees</a>
+                <a href="./count_hours_client.html">For Clients</a>
+              </div>
+            </div>
             <a href="./revise_hours.html">Revise Hours</a>
           </div>
         </div>

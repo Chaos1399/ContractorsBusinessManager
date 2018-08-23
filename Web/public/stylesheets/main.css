@@ -178,6 +178,30 @@ button:disabled {
   display: block;
 }
 
+.dropdown-content .dropright {
+  position: absolute;
+  float: right;
+  top: 0;
+  left: 100%;
+  display: none;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content:hover .dropright {
+  display: block;
+}
+
+.dropdown-content .dropright a {
+  background: #6e1023;
+  color: white;
+}
+
+.dropdown-content .dropright a:hover {
+  background: #6795a0;
+  color: black;
+}
+
 .modal {
   display: none;
   position: fixed;
