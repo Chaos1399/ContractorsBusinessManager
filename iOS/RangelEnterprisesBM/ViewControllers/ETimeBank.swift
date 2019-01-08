@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 
 class ETimeBank: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
     // MARK: - Outlets
@@ -40,67 +41,103 @@ class ETimeBank: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // MARK: - Button Methods
     @IBAction func didPressUse(_ sender: UIButton) {
+        let comp = hourPicker.selectedRow(inComponent: 0) + 1
+        // Seconds in a day - needed for the date.addingTimeInterval
         let dayOffset = 86400
-        var dayRef : DatabaseReference?
+        var dayRef : DatabaseReference = workdayBase!.child(Auth.auth().currentUser!.uid).child((user!.numPeriods - 1).description)
         var curPer : PayPeriod?
-        var lastDay : Date = Date.init()
+        let today : Date = Date.init()
         let perRef = Database.database().reference(fromURL: user!.history)
-        var msg : String = "Sick"
-        let sick_vacayTime = Double ((hourPicker.selectedRow(inComponent: 0) + 1) * 8)
+        var msg : String
+        let tInterval = Double (comp * 8)
         
+        // Change the field fill types and time use based on
+        // whether it's sick time or vacation time to be used
         if !timeTypeSwitch.isOn {
             msg = "Sick"
-            self.user!.sickTime -= sick_vacayTime
+            self.user!.sickTime -= tInterval
         } else {
             msg = "Vacation"
-            self.user!.vacayTime -= sick_vacayTime
+            self.user!.vacayTime -= tInterval
         }
-        self.userBase!.child(self.user!.name).setValue(self.user!.toAnyObject())
         
+        // Do in background thread
         hiPri.async {
+            var i : Int = 0
+            var interval : TimeInterval
+            
+            
             self.fetchGroup.enter()
+            // Get the last pay period in the database
             perRef.queryOrderedByKey().queryEqual(toValue: (self.user!.numPeriods - 1).description).observeSingleEvent(of: .value, with: { (perSnap) in
                 if perSnap.exists() {
                     curPer = PayPeriod.init(key: (self.user!.numPeriods - 1), snapshot: perSnap)
-                    
-                    dayRef = Database.database().reference(fromURL: curPer!.days)
-                }
-                self.fetchGroup.leave()
-            })
-            self.fetchGroup.wait()
-            
-            self.fetchGroup.enter()
-            dayRef!.queryOrderedByKey().queryEqual(toValue: (curPer!.numDays - 1).description).observeSingleEvent(of: .value, with: { (daySnap) in
-                if daySnap.exists() {
-                    lastDay = Workday.init(key: (curPer!.numDays - 1), snapshot: daySnap).date
-                }
-                self.fetchGroup.leave()
-            })
-            
-            self.fetchGroup.wait()
-            DispatchQueue.main.async {
-                if dayRef != nil {
-                    var i : Int = 0
-                    var interval : TimeInterval = Double(dayOffset)
-                    
-                    repeat {
-                        curPer!.numDays += 1
-                        curPer!.totalHours += 8
-                        self.sickTimeLabel.text = self.user!.sickTime.description
-                        self.vacayTimeLabel.text = self.user!.vacayTime.description
-                        if i != 0 { interval = Double (dayOffset * i) }
-                        
-                        dayRef!.child((curPer!.numDays - 1).description).setValue(Workday.init(date: Date.init(timeInterval: interval, since: lastDay), hours: 8, forClient: msg, atLocation: msg, doingJob: msg).toAnyObject())
-                        self.historyBase!.child(self.user!.name).child(curPer!.number.description).setValue(curPer!.toAnyObject())
-                        
-                        i += 1
-                    } while i <= self.hourPicker.selectedRow(inComponent: 0)
-                    
-                    self.fetchGroup.wait()
                 } else {
-                    self.presentAlert(alertTitle: "Error", alertMessage: "Something bad happened", actionTitle: "Umm?", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+                    print ("Error: no data at: " + perRef.url)
                 }
+                self.fetchGroup.leave()
+            })
+            self.fetchGroup.wait()
+            
+            // If today is not out of the bounds of the current pay period,
+            // but the user wants to use enough time to roll over onto a new pay period
+             if (self.df.string(from: today.addingTimeInterval(Double(comp * dayOffset))) > self.df.string(from: curPer!.endDate)) {
+                // Loop to add sick or vacation days while they are within the bounds of the current pay period
+                while (self.df.string(from: today.addingTimeInterval(Double(i * dayOffset))) <= self.df.string(from: curPer!.endDate)) {
+                    curPer!.numDays += 1
+                    curPer!.totalHours += 8
+                    interval = Double (dayOffset * i)
+                    let tempDay = Workday.init(date: today.addingTimeInterval(interval), hours: 8, forClient: msg, atLocation: msg, doingJob: msg)
+                    
+                    dayRef.child((curPer!.numDays - 1).description).setValue(tempDay.toAnyObject())
+                    
+                    i += 1
+                }
+                perRef.child((self.user!.numPeriods - 1).description).setValue(curPer!.toAnyObject())
+                
+                // Make a new period
+                // End adds 14 days because pay period is 15 days long
+                let newPer = PayPeriod.init(start: curPer!.endDate.addingTimeInterval(Double(dayOffset)), end: today.addingTimeInterval(Double (dayOffset * 14)), hours: 0, days: dayRef.child((self.user!.numPeriods - 1).description).url, numDays: 0)
+                self.user!.numPeriods += 1
+                
+                // Add the new period to the database
+                self.fetchGroup.enter()
+                perRef.child((self.user!.numPeriods - 1).description).setValue(newPer.toAnyObject())
+                self.fetchGroup.leave()
+                
+                
+                // Set the current period to be the new one created
+                curPer = newPer
+                dayRef = self.workdayBase!.child(Auth.auth().currentUser!.uid).child((self.user!.numPeriods - 1).description)
             }
+            // If today and all the time to be used stays within the current pay period
+            else {
+                dayRef = Database.database().reference(fromURL: curPer!.days)
+            }
+            
+            // Need the main thread here to access the labels
+            DispatchQueue.main.async {
+                self.sickTimeLabel.text = self.user!.sickTime.description
+                self.vacayTimeLabel.text = self.user!.vacayTime.description
+            }
+            
+            self.fetchGroup.wait()
+            
+            // Loop to add a new day with the fields filled with "Sick" or "Vacation" as appropriate,
+            // for as many days as necessary
+            while (i < comp) {
+                curPer!.numDays += 1
+                curPer!.totalHours += 8
+                interval = Double (dayOffset * i)
+                let tempDay = Workday.init(date: today.addingTimeInterval(interval), hours: 8, forClient: msg, atLocation: msg, doingJob: msg)
+                
+                dayRef.child((curPer!.numDays - 1).description).setValue(tempDay.toAnyObject())
+                
+                i += 1
+            }
+            
+            self.userBase!.child(Auth.auth().currentUser!.uid).setValue(self.user!.toAnyObject())
+            perRef.child((self.user!.numPeriods - 1).description).setValue(curPer!.toAnyObject())
         }
     }
     @IBAction func didPressChangePage(_ sender: UIButton) {

@@ -64,12 +64,12 @@ class EPayHistory: CustomVCSuper, UITextFieldDelegate, UITableViewDelegate, UITa
         let cell = tableView.dequeueReusableCell(withIdentifier: "payHistoryCell") as! payHistoryCell
         
         if self.searching {
-            cell.perNumLabel.text = searchList! [row].number.description
+            cell.perNumLabel.text = row.description
             cell.numHoursLabel.text = searchList! [row].totalHours.description
             cell.startLabel.text = df.string (from: searchList! [row].startDate)
             cell.endLabel.text = df.string (from: searchList! [row].endDate)
         } else {
-            cell.perNumLabel.text = perList! [row].number.description
+            cell.perNumLabel.text = row.description
             cell.numHoursLabel.text = perList! [row].totalHours.description
             cell.startLabel.text = df.string (from: perList! [row].startDate)
             cell.endLabel.text = df.string (from: perList! [row].endDate)
@@ -89,6 +89,8 @@ class EPayHistory: CustomVCSuper, UITextFieldDelegate, UITableViewDelegate, UITa
                 if perSnap.exists() {
                     let tempPer = PayPeriod.init(key: i, snapshot: perSnap)
                     self.perList?.append(tempPer)
+                } else {
+                    print ("Error occurred. no persnap")
                 }
                 self.fetchGroup.leave()
             })
@@ -111,11 +113,14 @@ class EPayHistory: CustomVCSuper, UITextFieldDelegate, UITableViewDelegate, UITa
     
     // MARK: - Button Methods
     @IBAction func didPressSearch(_ sender: UIButton) {
-        var pToSearch : Int?
-        var dToSearch : Date?
+        var pToSearch : Int? = nil
+        var dToSearch : Date? = nil
         
         var pSearch = false
         var dSearch = false
+        
+        print (periodField.text!.count)
+        print (dayField.text!.count)
         
         if periodField.text!.count > 0 {
             pSearch = true
@@ -140,18 +145,20 @@ class EPayHistory: CustomVCSuper, UITextFieldDelegate, UITableViewDelegate, UITa
         searching = true
         if pSearch && dSearch {
             for i in 0..<perList!.count {
-                if (perList! [i].number == pToSearch!) &&
+                if (i == pToSearch!) &&
                     (perList! [i].startDate.compare(dToSearch!) == ComparisonResult.orderedAscending) &&
                     (perList! [i].endDate.compare(dToSearch!) == ComparisonResult.orderedDescending) {
                     searchList!.append(perList! [i])
                 }
             }
+            historyTable.reloadData()
         } else if pSearch {
             for i in 0..<perList!.count {
-                if (perList! [i].number == pToSearch!) {
+                if (i == pToSearch!) {
                     searchList!.append(perList! [i])
                 }
             }
+            historyTable.reloadData()
         } else if dSearch {
             for i in 0..<perList!.count {
                 if (perList! [i].startDate.compare(dToSearch!) == ComparisonResult.orderedAscending) &&
@@ -159,8 +166,19 @@ class EPayHistory: CustomVCSuper, UITextFieldDelegate, UITableViewDelegate, UITa
                     searchList!.append(perList! [i])
                 }
             }
+            historyTable.reloadData()
+        } else {
+            searching = false
+            perList = []
+            hiPri.async {
+                self.fetchPeriods()
+                
+                self.fetchGroup.wait()
+                DispatchQueue.main.async {
+                    self.historyTable.reloadData()
+                }
+            }
         }
-        historyTable.reloadData()
     }
     @IBAction func didPressChangePage(_ sender: UIButton) {
         let actionSheet = UIAlertController (title: "Change Page", message: nil, preferredStyle: .actionSheet)

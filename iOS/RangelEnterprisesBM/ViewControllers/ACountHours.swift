@@ -67,18 +67,25 @@ class ACountHours: CustomVCSuper, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Button Methods
     @IBAction func didPressCalculate(_ sender: UIButton) {
-        var tempUserList : [User] = []
+        var tempUserList : [CustomUser] = []
+        
+        if self.selectedClient == nil {
+            self.presentAlert(alertTitle: "Choose Job", alertMessage: "You forgot to select what you are working on.", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+            return
+        }
         
         hiPri.async {
             for i in 0..<self.employeeNameList.count {
                 self.fetchGroup.enter()
-                self.userBase!.queryOrderedByKey().queryEqual(toValue: self.employeeNameList [i]).observeSingleEvent(of: .value, with: { (empSnap) in
+                // Get user information to use number of hours and stuff
+                self.userBase!.queryOrderedByKey().queryEqual(toValue: self.employeeUidList[i]).observeSingleEvent(of: .value, with: { (empSnap) in
                     if empSnap.exists() {
-                        tempUserList.append(User.init(key: self.employeeNameList [i], snapshot: empSnap))
+                        tempUserList.append(CustomUser.init(key: self.employeeUidList [i], snapshot: empSnap))
                     }
                     self.fetchGroup.leave()
                 })
             }
+            
             self.fetchGroup.wait()
             for i in 0..<tempUserList.count {
                 let tempEmp = tempUserList [i]
@@ -94,31 +101,30 @@ class ACountHours: CustomVCSuper, UITableViewDelegate, UITableViewDataSource {
                     self.hoursList [i] = 0.0
                 }
                 
-                // Will gather hours for all periods worked at this job
-                for j in 0..<tempEmp.numPeriods {
-                    self.fetchGroup.enter()
-                    historyRef.queryOrderedByKey().queryEqual(toValue: j.description).observeSingleEvent(of: .value, with: { (historySnap) in
-                        if historySnap.exists() {
-                            let tempHistory = PayPeriod.init(key: j, snapshot: historySnap)
-                            let daysRef = Database.database().reference(fromURL: tempHistory.days)
-                            
-                            for k in 0..<tempHistory.numDays {
-                                self.fetchGroup.enter()
-                                daysRef.queryOrderedByKey().queryEqual(toValue: k.description).observeSingleEvent(of: .value, with: { (daySnap) in
-                                    if daySnap.exists() {
-                                        let tempDay = Workday.init(key: k, snapshot: daySnap)
-                                        if tempDay.client == self.selectedClient! && tempDay.location == self.selectedLocation! && tempDay.job == self.selectedJob! {
-                                            self.hoursList [i] += tempDay.hours
-                                            self.pphList [i] += (tempDay.hours * tempEmp.pph)
-                                        }
+                // Will gather hours for the last period worked at this job
+                let j = self.user!.numPeriods - 1
+                self.fetchGroup.enter()
+                historyRef.queryOrderedByKey().queryEqual(toValue: j.description).observeSingleEvent(of: .value, with: { (historySnap) in
+                    if historySnap.exists() {
+                        let tempHistory = PayPeriod.init(key: j, snapshot: historySnap)
+                        let daysRef = Database.database().reference(fromURL: tempHistory.days)
+                        
+                        for k in 0..<tempHistory.numDays {
+                            self.fetchGroup.enter()
+                            daysRef.queryOrderedByKey().queryEqual(toValue: k.description).observeSingleEvent(of: .value, with: { (daySnap) in
+                                if daySnap.exists() {
+                                    let tempDay = Workday.init(key: k, snapshot: daySnap)
+                                    if tempDay.client == self.selectedClient! && tempDay.location == self.selectedLocation! && tempDay.job == self.selectedJob! {
+                                        self.hoursList [i] += tempDay.hours
+                                        self.pphList [i] += (tempDay.hours * tempEmp.pph)
                                     }
-                                    self.fetchGroup.leave()
-                                })
-                            }
+                                }
+                                self.fetchGroup.leave()
+                            })
                         }
-                        self.fetchGroup.leave()
-                    })
-                }
+                    }
+                    self.fetchGroup.leave()
+                })
             }
             
             self.fetchGroup.wait()
@@ -180,7 +186,7 @@ class ACountHours: CustomVCSuper, UITableViewDelegate, UITableViewDataSource {
         if segue.identifier == "goToJobChoose" {
             let destVC = segue.destination as! JobChoose
             
-            destVC.cameFromAdmin = true
+            destVC.dest = 0
         }
     }
     override func viewWillAppear(_ animated: Bool) {

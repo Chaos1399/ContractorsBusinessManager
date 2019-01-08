@@ -6,6 +6,8 @@
 //  Copyright © 2018 Cristian Rangel. All rights reserved.
 //
 
+// TODO: Make it show all things user is scheduled to do that day
+
 import UIKit
 import JTAppleCalendar
 import FirebaseDatabase

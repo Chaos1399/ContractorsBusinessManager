@@ -17,6 +17,8 @@ class Login: CustomVCSuper, UITextFieldDelegate {
     @IBOutlet weak var passInput: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
+    var authHandle : AuthStateDidChangeListenerHandle?
+    
     // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +33,26 @@ class Login: CustomVCSuper, UITextFieldDelegate {
         navbar?.shadowImage = UIImage ()
         navbar?.alpha = 0.0
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        authHandle = Auth.auth().addStateDidChangeListener { (auth, authUser) in
+            if authUser != nil {
+                authUser!.reload(completion: nil)
+                self.userBase!.queryOrderedByKey().queryEqual(toValue: authUser!.uid).observeSingleEvent(of: .value, with: { (snap) in
+                    self.user = CustomUser.init(key: authUser!.uid, snapshot: snap)
+                    if self.user!.admin {
+                        self.performSegue(withIdentifier: "loginA", sender: nil)
+                    } else {
+                        self.performSegue(withIdentifier: "loginE", sender: nil)
+                    }
+                })
+            }
+        }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        Auth.auth().removeStateDidChangeListener(authHandle!)
     }
     
     // MARK: - TextField Method
@@ -60,8 +80,9 @@ class Login: CustomVCSuper, UITextFieldDelegate {
             Auth.auth().signIn(withEmail: email, password: password) { (adr, error) in
                 if let authUser = adr?.user {
                     self.userBase?.queryOrderedByKey().queryEqual(toValue: authUser.uid).observe(.value, with: { snapshot in
+                        
                         if snapshot.exists()  {
-                            self.user = User.init(key: authUser.uid, snapshot: snapshot)
+                            self.user = CustomUser.init(key: authUser.uid, snapshot: snapshot)
                             
                             if self.user!.admin {
                                 self.performSegue(withIdentifier: "loginA", sender: nil)
@@ -79,13 +100,19 @@ class Login: CustomVCSuper, UITextFieldDelegate {
                             self.present (alert, animated: true, completion: nil)
                         }
                     })
+                } else {
+                    print(error.debugDescription)
                 }
             }
         }
     }
     @IBAction func didTap(_ sender: UITapGestureRecognizer) {
-        textFieldShouldReturn(emailInput)
-        textFieldShouldReturn(passInput)
+        if !textFieldShouldReturn(emailInput) {
+            self.presentAlert(alertTitle: "Error", alertMessage: "Internal error, please ignore.", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+        }
+        if !textFieldShouldReturn(passInput) {
+            self.presentAlert(alertTitle: "Error", alertMessage: "Internal error, please ignore.", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+        }
     }
     
     // MARK: - Segues

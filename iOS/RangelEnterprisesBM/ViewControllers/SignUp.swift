@@ -46,7 +46,7 @@ class SignUp: CustomVCSuper, UITextFieldDelegate {
         self.fetchGroup.enter()
         self.userBase!.queryOrderedByKey().queryEqual(toValue: "Admin").observeSingleEvent(of: .value, with: { (userSnap) in
             if userSnap.exists() {
-                let admin = User.init(key: "Admin", snapshot: userSnap)
+                let admin = CustomUser.init(key: "Admin", snapshot: userSnap)
                 let pphRef = Database.database().reference(fromURL: admin.history)
                 let paynum = admin.numPeriods - 1
                 
@@ -70,7 +70,7 @@ class SignUp: CustomVCSuper, UITextFieldDelegate {
         let name = nameField.text!
         let toWorkURL = scheduleBase!.url + "/" + name
         let payURL = Database.database().reference().url + "/Pay Period Histories/" + name
-        self.user = User (name: name, email: self.emailField.text!, payPerHour: Double (self.pphField.text!)!, sickTime: 0.0, vacayTime: 0.0, admin: false, scheduledWork: toWorkURL, numDays: 0, payPeriodHistory: payURL, numPayPeriods: 1)
+        self.user = CustomUser (name: name, email: self.emailField.text!, payPerHour: Double (self.pphField.text!)!, sickTime: 0.0, vacayTime: 0.0, admin: false, scheduledWork: toWorkURL, numDays: 0, payPeriodHistory: payURL, numPayPeriods: 1)
         userBase!.child(name).setValue(self.user!.toAnyObject())
         self.employeeNameList.append(name)
         self.updatePersistentStorage(setClient: false)

@@ -19,18 +19,14 @@ class EMenu: CustomVCSuper {
     }
     
     // MARK: - Tab Changing Button Methods
-    @IBAction func viewSchedule(_ sender: UIButton) {
-        self.tabBarController?.selectedIndex = 1
-    }
-    @IBAction func work(_ sender: UIButton) {
-        self.tabBarController?.selectedIndex = 2
-    }
-    @IBAction func timeOff(_ sender: UIButton) {
-        self.tabBarController?.selectedIndex = 3
-    }
-    @IBAction func payPeriod(_ sender: UIButton) {
-        self.tabBarController?.selectedIndex = 4
-    }
+    // Go to the View Schedule tab, governed by EViewSchedule
+    @IBAction func viewSchedule(_ sender: UIButton) { self.tabBarController?.selectedIndex = 1 }
+    // Go to the Clock In/Out tab, governed by EClockIn
+    @IBAction func work(_ sender: UIButton) { self.tabBarController?.selectedIndex = 2 }
+    // Go to the Time Off tab, governed by ETimeBank
+    @IBAction func timeOff(_ sender: UIButton) { self.tabBarController?.selectedIndex = 3 }
+    // Go to the Pay Period History tab, governed by EPayHistory
+    @IBAction func payPeriod(_ sender: UIButton) { self.tabBarController?.selectedIndex = 4 }
  
     // MARK: - Segue Performing Button Methods
     @IBAction func signOut(_ sender: UIButton) {
@@ -41,6 +37,7 @@ class EMenu: CustomVCSuper {
         }
         performSegue(withIdentifier: "unwindToLogin", sender: nil)
     }
+    // Go to the Edit User page, governed by EeditProfile
     @IBAction func editUser(_ sender: UIButton) {
         performSegue(withIdentifier: "editUser", sender: nil)
     }

@@ -11,8 +11,7 @@ import FirebaseDatabase
 import FirebaseAuth
 
 class CustomVCSuper: UIViewController {
-    var user : User?
-    var clientUidList : [String] = []
+    var user : CustomUser?
     var clientNameList : [String] = []
     var employeeUidList : [String] = []
     var employeeNameList : [String] = []
@@ -35,14 +34,14 @@ class CustomVCSuper: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dbroot = Database.database().reference().child("Businesses/Rangel Enterprises Inc")
-        clientBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Clients")
-        locationBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Locations")
-        jobBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Jobs")
-        userBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Users")
-        workdayBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Workdays")
-        historyBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/PayPeriodHistories")
-        scheduleBase = Database.database().reference().child("Businesses/Rangel Enterprises Inc/Schedules")
+        dbroot = Database.database().reference()
+        clientBase = dbroot!.child("Clients")
+        locationBase = dbroot!.child("Locations")
+        jobBase = dbroot!.child("Jobs")
+        userBase = dbroot!.child("Users")
+        workdayBase = dbroot!.child("Workdays")
+        historyBase = dbroot!.child("PayPeriodHistories")
+        scheduleBase = dbroot!.child("Schedules")
         
         if clientNameList.count == 0 && Auth.auth().currentUser != nil {
             hiPri.async {
@@ -76,18 +75,17 @@ class CustomVCSuper: UIViewController {
     
     
     func clientListInit () {
+        self.fetchGroup.enter()
         if clientNameList.count == 0 {
-            let persistenceRef = Database.database().reference().child("Businesses/Rangel Enterprises Inc/PersistenceStartup")
+            let persistenceRef = Database.database().reference().child("PersistenceStartup")
             
-            self.fetchGroup.enter()
             persistenceRef.queryOrderedByKey().queryEqual(toValue: "Clients").observeSingleEvent(of: .value, with: { (clistSnap) in
                 if clistSnap.exists() {
                     for ind in clistSnap.children {
-                        let client = ind as! DataSnapshot
-                        self.decodePersistenceStartup(withSnapshot: client, forClientList: true)
+                        let snap = ind as! DataSnapshot
+                        self.decodePersistenceStartup(withSnapshot: snap, mode: 0)
                     }
                 }
-                self.fetchGroup.leave()
             })
         } else {
             if theDefaults.object(forKey: "lastUpdate") as? Date != nil {
@@ -101,20 +99,31 @@ class CustomVCSuper: UIViewController {
                 }
             }
         }
+        self.fetchGroup.leave()
     }
     func employeeListInit () {
+        self.fetchGroup.enter()
         if employeeNameList.count == 0 {
-            let persistenceRef = Database.database().reference().child("Businesses/Rangel Enterprises Inc/PersistenceStartup")
+            let persistenceRef = Database.database().reference().child("PersistenceStartup")
             
-            self.fetchGroup.enter()
+            // Setup employeeNameList
             persistenceRef.queryOrderedByKey().queryEqual(toValue: "Employees").observeSingleEvent(of: .value, with: { (elistSnap) in
                 if elistSnap.exists() {
                     for ind in elistSnap.children {
-                        let emp = ind as! DataSnapshot
-                        self.decodePersistenceStartup(withSnapshot: emp, forClientList: false)
+                        let snap = ind as! DataSnapshot
+                        self.decodePersistenceStartup(withSnapshot: snap, mode: 1)
                     }
                 }
-                self.fetchGroup.leave()
+            })
+            
+            // Setup employeeUidList
+            persistenceRef.queryOrderedByKey().queryEqual(toValue: "EIDs").observeSingleEvent(of: .value, with: { (uidSnap) in
+                if uidSnap.exists() {
+                    for ind in uidSnap.children {
+                        let snap = ind as! DataSnapshot
+                        self.decodePersistenceStartup(withSnapshot: snap, mode: 2)
+                    }
+                }
             })
         } else {
             if theDefaults.object(forKey: "lastUpdate") as? Date != nil {
@@ -128,9 +137,10 @@ class CustomVCSuper: UIViewController {
                 }
             }
         }
+        self.fetchGroup.leave()
     }
     
-    func decodePersistenceStartup (withSnapshot snap: DataSnapshot, forClientList: Bool) {
+    func decodePersistenceStartup (withSnapshot snap: DataSnapshot, mode: Int) {
         var val : [String]
         
         if let wholesnap = snap.value as? [AnyObject] {
@@ -138,16 +148,19 @@ class CustomVCSuper: UIViewController {
             val = temp
         } else {
             let wholesnap = snap.value as! [String : AnyObject]
-            if forClientList {
+            if mode == 0 {
                 let temp = wholesnap ["Clients"] as! [String]
                 val = temp
-            } else {
+            } else if mode == 1 {
                 let temp = wholesnap ["Employees"] as! [String]
+                val = temp
+            } else {
+                let temp = wholesnap ["EIDs"] as! [String]
                 val = temp
             }
         }
         
-        if forClientList {
+        if mode == 0 {
             for key in 0..<val.count {
                 if key >= clientNameList.count {
                     clientNameList.append(val [key])
@@ -155,12 +168,20 @@ class CustomVCSuper: UIViewController {
                     clientNameList [key] = val [key]
                 }
             }
-        } else {
+        } else if mode == 1 {
             for key in 0..<val.count {
                 if key >= employeeNameList.count {
                     employeeNameList.append(val [key])
                 } else {
                     employeeNameList [key] = val [key]
+                }
+            }
+        } else {
+            for key in 0..<val.count {
+                if key >= employeeUidList.count {
+                    employeeUidList.append(val [key])
+                } else {
+                    employeeUidList [key] = val [key]
                 }
             }
         }
@@ -182,6 +203,37 @@ class CustomVCSuper: UIViewController {
             theDefaults.set(Date(), forKey: "lastUpdate")
         } catch {
             print(error)
+        }
+    }
+    
+    func numMonthDays(month: Int) -> Int {
+        switch (month) {
+        case 1:
+            return 31;
+        case 2:
+            return 28;
+        case 3:
+            return 31;
+        case 4:
+            return 30;
+        case 5:
+            return 31;
+        case 6:
+            return 30;
+        case 7:
+            return 31;
+        case 8:
+            return 31;
+        case 9:
+            return 30;
+        case 10:
+            return 31;
+        case 11:
+            return 30;
+        case 12:
+            return 31;
+        default:
+            return -1;
         }
     }
 }

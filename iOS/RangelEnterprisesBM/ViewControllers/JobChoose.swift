@@ -18,7 +18,15 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
     // MARK: - Global Variables
     var locationList : [Location] = []
     var jobList : [Job] = []
-    var cameFromAdmin : Bool = false
+    /*
+        dest determines where to unwind to, is passed in
+        destinations based on dest vals:
+        dest : destination
+        0 : ACountHours
+        1 : EClockIn
+        2 : AAddToSchedule
+    */
+    var dest : Int = 0
 
     // MARK: - Required VC Methods
     override func viewDidLoad() {
@@ -32,6 +40,7 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
             self.initialPickerSetup()
         }
         
+        // Adding tags so the functions can differentiate between the different pickers
         clientPicker.tag = 0
         locationPicker.tag = 1
         jobPicker.tag = 2
@@ -67,7 +76,7 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
             self.locationList = []
             self.jobList = []
             hiPri.async {
-                self.fetchLocations(forClient: self.clientNameList [row])
+                self.fetchLocations(forClient: row)
                 self.fetchGroup.wait()
                 self.fetchJobs(forLocation: self.locationList [0])
                 self.fetchGroup.wait()
@@ -91,10 +100,10 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     // MARK: - Custom Methods
-    func fetchLocations (forClient client: String) {
+    func fetchLocations (forClient client: Int) {
         self.fetchGroup.enter()
         
-        self.clientBase!.queryOrderedByKey().queryEqual(toValue: client).observeSingleEvent(of: .value, with: { (snapshot) in
+        self.clientBase!.queryOrderedByKey().queryEqual(toValue: client.description).observeSingleEvent(of: .value, with: { (snapshot) in
             let client = Client.init(key: client, snapshot: snapshot)
             
             let locRef = Database.database().reference (fromURL: client.properties)
@@ -126,12 +135,11 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
         }
     }
     func initialPickerSetup () {
-        let client0Name = self.clientNameList [0]
-        
         self.fetchGroup.enter()
-        self.clientBase!.queryOrderedByKey().queryEqual(toValue: client0Name).observeSingleEvent(of: .value, with: { (snapshot) in
+        // I put 0 hard-coded here because I want the picker to start on the first one
+        self.clientBase!.queryOrderedByKey().queryEqual(toValue: "0").observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.exists() {
-                let client = Client.init(key: client0Name, snapshot: snapshot)
+                let client = Client.init(key: 0, snapshot: snapshot)
                 
                 let locRef = Database.database().reference(fromURL: client.properties)
                 
@@ -141,10 +149,14 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
                         if locSnap.exists() {
                             let tempLoc = Location.init(key: i, snapshot: locSnap)
                             self.locationList.append (tempLoc)
+                        } else {
+                            print ("Error: No data exists at " + locRef.url)
                         }
                         self.fetchGroup.leave()
                     })
                 }
+            } else {
+                print ("Error: Couldn't find Client 0 at " + self.clientBase!.url)
             }
             self.fetchGroup.leave()
         })
@@ -165,6 +177,7 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
         }
         self.fetchGroup.wait()
         
+        // Refresh the PickerViews
         DispatchQueue.main.async {
             self.clientPicker.reloadComponent(0)
             self.locationPicker.reloadComponent(0)
@@ -174,17 +187,21 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // MARK: - Button Methods
     @IBAction func didSelectBack(_ sender: UIButton) {
-        if cameFromAdmin {
+        if dest == 0 {
             performSegue(withIdentifier: "unwindToCountHoursWithCancel", sender: nil)
-        } else {
+        } else if dest == 1 {
             performSegue(withIdentifier: "unwindToClockInWithCancel", sender: nil)
+        } else if dest == 2 {
+            performSegue(withIdentifier: "unwindToAddToScheduleWithCancel", sender: nil)
         }
     }
     @IBAction func didSelectSub(_ sender: UIButton) {
-        if cameFromAdmin {
+        if dest == 0 {
             performSegue(withIdentifier: "unwindToCountHoursWithSub", sender: nil)
-        } else {
+        } else if dest == 1 {
             performSegue(withIdentifier: "unwindToClockInWithSub", sender: nil)
+        } else if dest == 2 {
+            performSegue(withIdentifier: "unwindToAddToScheduleWithSub", sender: nil)
         }
     }
     
@@ -201,6 +218,12 @@ class JobChoose: CustomVCSuper, UIPickerViewDelegate, UIPickerViewDataSource {
             
             destVC.selectedClient = clientNameList [self.clientPicker.selectedRow(inComponent: 0)]
             destVC.selectedLocation = locationList [self.locationPicker.selectedRow(inComponent: 0)].address
+            destVC.selectedJob = jobList [self.jobPicker.selectedRow(inComponent: 0)].type
+        } else if segue.identifier == "unwindToAddToScheduleWithSub" {
+            let destVC = segue.destination as! AAddToSchedule
+            
+            destVC.selectedClient = clientNameList [self.clientPicker.selectedRow(inComponent: 0)]
+            destVC.selectedLocation = locationList [self.locationPicker.selectedRow(inComponent: 0)]
             destVC.selectedJob = jobList [self.jobPicker.selectedRow(inComponent: 0)].type
         }
     }

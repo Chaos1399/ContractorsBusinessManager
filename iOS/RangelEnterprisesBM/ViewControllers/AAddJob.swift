@@ -6,36 +6,41 @@
 //  Copyright © 2018 Cristian Rangel. All rights reserved.
 //
 
-// TODO: fix date placement
+// TODO: fix date placement in job list cells
 
 import UIKit
 import FirebaseDatabase
 
-class AAddJob: CustomVCSuper, UITextFieldDelegate, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class AAddJob: CustomVCSuper, UITextFieldDelegate, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     // MARK: - Outlets
     @IBOutlet weak var clientField: UITextField!
     @IBOutlet weak var locationField: UITextField!
     @IBOutlet weak var jobsList: UITableView!
     @IBOutlet weak var subButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var clPicker: UIPickerView!
     
     // MARK: - Global Variables
+    var clientList : [Client] = []
     var jobList : [Job] = []
     var fetchedInfo : [String] = []
+    var locList : [Location] = []
+    var selectedClient : Int = -1
+    var selectedLoc : Int = -1
     
     // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        jobList = []
-        
         jobsList.isHidden = true
         addButton.isHidden = true
         subButton.isHidden = true
         subButton.isEnabled = false
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        clPicker.isHidden = true
+        
+        
+        clientField.tag = 0
+        locationField.tag = 1
     }
     
     // MARK: - TextField Methods
@@ -44,6 +49,35 @@ class AAddJob: CustomVCSuper, UITextFieldDelegate, UITabBarDelegate, UITableView
             jobList = []
             fetchedInfo = []
             jobsList.reloadData()
+        }
+        
+        if textField.tag == 0 {
+            locationField.text = nil
+            clPicker.tag = 0
+            clPicker.isHidden = false
+            clPicker.reloadComponent(0)
+        } else if textField.tag == 1 {
+            clPicker.tag = 1
+            if !clientField.hasText {
+                self.presentAlert(alertTitle: "Choose Client", alertMessage: "You need to select a client before choosing a location", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+                clPicker.isHidden = true
+                return
+            } else {
+                locList = []
+                for i in 0..<clientNameList.count {
+                    if clientNameList[i] == clientField!.text {
+                        hiPri.async {
+                            self.fetchLocs(forClient: i)
+                            self.fetchGroup.wait()
+                            DispatchQueue.main.async {
+                                self.clPicker.isHidden = false
+                                self.clPicker.reloadComponent(0)
+                            }
+                        }
+                        break
+                    }
+                }
+            }
         }
     }
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
@@ -54,67 +88,61 @@ class AAddJob: CustomVCSuper, UITextFieldDelegate, UITabBarDelegate, UITableView
         addButton.isHidden = true
         subButton.isHidden = true
         subButton.isEnabled = false
+        clPicker.isHidden = true
         
         return true
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        if clientField.hasText && locationField.hasText {
-            jobsList.isHidden = false
-            addButton.isHidden = false
-            subButton.isHidden = false
-            subButton.isEnabled = true
-            
-            
-            let cFieldText = self.clientField.text!
-            let lFieldText = self.locationField.text!
-            
-            hiPri.async {
-                self.fetchJobsURL(withClient: cFieldText, withLocation: lFieldText)
-                var currentClient : Client?
-                self.fetchGroup.wait()
-                self.fetchGroup.enter()
-                self.clientBase!.queryOrderedByKey().queryEqual(toValue: cFieldText).observeSingleEvent(of: .value, with: { (clientSnap) in
-                    if clientSnap.exists() {
-                        currentClient = Client.init(key: cFieldText, snapshot: clientSnap)
-                    }
-                    self.fetchGroup.leave()
-                })
-                
-                self.fetchGroup.wait()
-                if self.fetchedInfo.count == 0 {
-                    self.presentAlert(alertTitle: "Error", alertMessage: "Location not found.\n" +
-                        "Check your spelling and that the location belongs to this client.", actionTitle: "New Location", cancelTitle: "Ok", actionHandler:
-                        { (UIAlertAction) in
-                            let jobsURL = self.jobBase!.url + "/" + cFieldText + lFieldText
-                            let newLoc = Location.init(address: lFieldText, jobs: jobsURL, numJobs: 0)
-                            let newLocRef = self.locationBase!.child(cFieldText).child(currentClient!.numProps.description)
-                            
-                            self.fetchedInfo.append(newLoc.jobs)
-                            self.fetchedInfo.append("0")
-                            currentClient!.numProps += 1
-                            
-                            newLocRef.setValue(newLoc.toAnyObject())
-                            self.clientBase!.child(cFieldText).setValue(currentClient!.toAnyObject())
-                    }, cancelHandler: nil)
-                } else {
-                    self.setupJobsList()
-                    
-                    self.fetchGroup.wait()
-                    DispatchQueue.main.async {
-                        self.jobsList.reloadData()
-                    }
-                }
-            }
-        } else {
-            jobsList.isHidden = true
-            addButton.isHidden = true
-            subButton.isHidden = true
-            subButton.isEnabled = false
-        }
+        checkShowItems()
         
         return true
+    }
+    
+    // MARK: PickerView Methods
+    func numberOfComponents(in pickerView: UIPickerView) -> Int{
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{
+        if pickerView.tag == 0 {
+            return clientNameList.count
+        } else {
+            return locList.count
+        }
+    }
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        var attributedString : NSAttributedString
+        
+        if pickerView.tag == 0 {
+            attributedString = NSAttributedString(string: clientNameList[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+        } else {
+            attributedString = NSAttributedString(string: locList[row].address + ", " + locList[row].city, attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+        }
+        
+        return attributedString
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView.tag == 0 {
+            clientField.text = clientNameList[row]
+            selectedClient = row
+            
+            for i in 0..<self.clientNameList.count {
+                self.clientBase!.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (snap) in
+                    if snap.exists() {
+                        self.clientList.append(Client.init(key: i, snapshot: snap))
+                    }
+                })
+            }
+        } else {
+            locationField.text = locList[row].address + ", " + locList[row].city
+            selectedLoc = row
+        }
+        clPicker.isHidden = true
+        
+        if clientField.text != nil && locationField.text != nil {
+            checkShowItems()
+        }
     }
     
     // MARK: - TableView Methods
@@ -145,40 +173,6 @@ class AAddJob: CustomVCSuper, UITextFieldDelegate, UITabBarDelegate, UITableView
         jobList [index] = job
         jobsList.reloadData()
     }
-    func fetchJobsURL (withClient cFieldText: String, withLocation lFieldText: String) {
-        self.fetchGroup.enter()
-        // Find client in clientBase!
-        self.clientBase!.queryOrderedByKey().queryEqual(toValue: cFieldText).observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.exists() {
-                let client = Client (key: cFieldText, snapshot: snapshot)
-                
-                // Get reference to locations array
-                let locRef = Database.database().reference(fromURL: client.properties)
-                
-                // numProps is the number of items in the locations array, manually updated
-                let numLoc = client.numProps
-                
-                // Iterate through the location array and check if each is the one that's been entered
-                for i in 0..<numLoc {
-                    self.fetchGroup.enter()
-                    locRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (locSnap) in
-                        if locSnap.exists() {
-                            let tempLoc = Location.init(key: i, snapshot: locSnap)
-                            
-                            if tempLoc.address == lFieldText {
-                                self.fetchedInfo.append (tempLoc.jobs)
-                                self.fetchedInfo.append (tempLoc.numJobs.description)
-                            }
-                        }
-                        self.fetchGroup.leave()
-                    })
-                }
-                self.fetchGroup.leave()
-            } else {
-                self.presentAlert(alertTitle: "Error", alertMessage: "Client not found\nPlease add client before adding a job for them.", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
-            }
-        })
-    }
     func setupJobsList () {
         // Get a reference to the array of jobs for a location
         let jobRef = Database.database().reference(fromURL: fetchedInfo [0])
@@ -188,19 +182,61 @@ class AAddJob: CustomVCSuper, UITextFieldDelegate, UITabBarDelegate, UITableView
         
         // Iterate through the array to add all the jobs to the jobList
         for i in 0..<numJobs {
-            // Dispatch group enter, to ensure the jobRef closure gets executed in time
             self.fetchGroup.enter()
-            
             jobRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (snapshot) in
                 if snapshot.exists() {
                     self.jobList.append(Job.init(key: i, snapshot: snapshot))
                 }
-                // Dispatch group leave, also in for loop, and inside closure to be sure that exit occurs on completion of this closure
+                
                 self.fetchGroup.leave()
             })
         }
     }
-    func removeDups () {
+    func checkShowItems () {
+        let group2 = DispatchGroup()
+        
+        if clientField.hasText && locationField.hasText {
+            jobsList.isHidden = false
+            addButton.isHidden = false
+            subButton.isHidden = false
+            subButton.isEnabled = true
+            
+            // Location doesn't exist currently
+            if selectedLoc == -1 {
+                group2.enter()
+                self.presentAlert(alertTitle: "Error", alertMessage: "Location not found.\n" +
+                    "Check your spelling and that the location belongs to this client.", actionTitle: "Add New Location", cancelTitle: "Ok", actionHandler:
+                    { (UIAlertAction) in
+                        self.addLoc()
+                        DispatchQueue.main.async {
+                            self.clPicker.isHidden = true
+                        }
+                }, cancelHandler: nil)
+                
+                group2.leave()
+                return
+            }
+            
+            group2.wait()
+            self.fetchedInfo.append (self.locList[selectedLoc].jobs)
+            self.fetchedInfo.append (self.locList[selectedLoc].numJobs.description)
+            
+            hiPri.async {
+                self.setupJobsList()
+                
+                self.fetchGroup.wait()
+                DispatchQueue.main.async {
+                    self.jobsList.reloadData()
+                }
+            }
+        } else {
+            jobsList.isHidden = true
+            addButton.isHidden = true
+            subButton.isHidden = true
+            subButton.isEnabled = false
+        }
+    }
+    func removeJobDups () {
         var typeCheck : String
         var startCheck : Date
         var endCheck : Date
@@ -227,42 +263,63 @@ class AAddJob: CustomVCSuper, UITextFieldDelegate, UITabBarDelegate, UITableView
             occs = []
         }
     }
+    func fetchLocs (forClient client: Int) {
+        let locRef = Database.database().reference(fromURL: clientList[selectedClient].properties)
+        
+        // Get all locations for the chosen client
+        for i in 0..<clientList[selectedClient].numProps {
+            self.fetchGroup.enter()
+            locRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (locSnap) in
+                // Null check, for safety
+                if locSnap.exists() {
+                    self.locList.append(Location.init(key: i, snapshot: locSnap))
+                }
+                self.fetchGroup.leave()
+            })
+        }
+    }
+    func addLoc () {
+        let currentClient : Client = clientList[selectedClient]
+        let lFieldText = self.locationField.text!
+        let jobsURL = self.jobBase!.url + "/" + selectedClient.description + "/" + currentClient.numProps.description
+        
+        var subStrings = lFieldText.components(separatedBy: ", ")
+        
+        if subStrings.count < 2 {
+            self.presentAlert(alertTitle: "Location Format", alertMessage: "The location must be formatted as such:\nAddress, City", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+            return
+        }
+        
+        self.fetchGroup.wait()
+        let newLoc = Location.init(address: subStrings[0], city: subStrings[1], jobs: jobsURL, numJobs: 0)
+        let newLocRef = self.locationBase!.child(selectedClient.description).child(currentClient.numProps.description)
+        
+        self.fetchedInfo.append(newLoc.jobs)
+        self.fetchedInfo.append("0")
+        currentClient.numProps += 1
+        
+        newLocRef.setValue(newLoc.toAnyObject())
+        self.clientBase!.child(selectedClient.description).setValue(currentClient.toAnyObject())
+    }
     
     // MARK: - Button Methods
     @IBAction func didSelectSubmit(_ sender: UIButton) {
-        removeDups()
+        removeJobDups()
         
-        // Query clientBase! to get the client info
-        self.clientBase!.queryOrderedByKey().queryEqual(toValue: self.clientField.text!).observeSingleEvent(of: .value, with: { (snapshot) in
-            let client = Client (key: self.clientField.text!, snapshot: snapshot)
-            
-            // Get a reference to the locations array for this client
-            let locRef = Database.database().reference(fromURL: client.properties)
-            
-            // Iterate through the location array and check if each is the one that's been entered
-            for i in 0..<client.numProps {
-                locRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (locSnap) in
-                    if locSnap.exists() {
-                        let tempLoc = Location.init(key: i, snapshot: locSnap)
-                        
-                        if tempLoc.address == self.locationField.text! {
-                            // The location has been found, need to update client, location, and job databases
-                            
-                            let tempRef = Database.database().reference(fromURL: tempLoc.jobs)
-                            // Ensure that all jobs are written
-                            for i in 0..<self.jobList.count {
-                                tempRef.child (i.description).setValue (self.jobList [i].toAnyObject ())
-                            }
-                            
-                            tempLoc.numJobs = self.jobList.count
-                            locRef.child(i.description).setValue(tempLoc.toAnyObject())
-                        }
-                    } else {
-                        self.presentAlert(alertTitle: "Error", alertMessage: "Something went wrong when finding client's owned properties: \(i)", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
-                    }
-                })
-            }
-        })
+        let client = clientList[selectedClient]
+        let loc = locList[selectedLoc]
+        
+        // Get a reference to the locations array for this client
+        let locRef = Database.database().reference(fromURL: client.properties)
+        
+        let tempRef = Database.database().reference(fromURL: loc.jobs)
+        // Ensure that all jobs are written
+        for i in 0..<jobList.count {
+            tempRef.child (i.description).setValue (self.jobList [i].toAnyObject ())
+        }
+        
+        loc.numJobs = self.jobList.count
+        locRef.child(selectedLoc.description).setValue(loc.toAnyObject())
     }
     @IBAction func didSelectCancel(_ sender: UIButton) {
         clientField.text = ""
@@ -312,34 +369,29 @@ class AAddJob: CustomVCSuper, UITextFieldDelegate, UITabBarDelegate, UITableView
             destvc.editingInt = sender as! Int
         }
         
-        let name = clientField.text!
         let loc = locationField.text!
+        let client = clientList[selectedClient]
+        let propRef = Database.database().reference(fromURL: client.properties)
         
         hiPri.async {
-            self.clientBase!.queryOrderedByKey().queryEqual(toValue: name).observeSingleEvent(of: .value, with: { (clientSnap) in
-                if clientSnap.exists() {
-                    let tempClient = Client.init(key: name, snapshot: clientSnap)
-                    let propRef = Database.database().reference(fromURL: tempClient.properties)
-                    
-                    for i in 0..<self.jobList.count {
-                        propRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (propSnap) in
-                            if propSnap.exists() {
-                                let tempProp = Location.init(key: i, snapshot: propSnap)
-                                
-                                if tempProp.address == loc {
-                                    let daysRef = Database.database().reference(fromURL: tempProp.jobs)
-                                    
-                                    for j in 0..<tempProp.numJobs {
-                                        daysRef.child(j.description).setValue(self.jobList [j].toAnyObject())
-                                    }
-                                }
+            for i in 0..<self.jobList.count {
+                propRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (propSnap) in
+                    if propSnap.exists() {
+                        let tempProp = Location.init(key: i, snapshot: propSnap)
+                        
+                        // Write back the property whose jobs were changed
+                        if (tempProp.address + ", " + tempProp.city) == loc {
+                            let daysRef = Database.database().reference(fromURL: tempProp.jobs)
+                            
+                            for j in 0..<tempProp.numJobs {
+                                daysRef.child(j.description).setValue(self.jobList [j].toAnyObject())
                             }
-                        })
+                        }
                     }
-                    
-                    self.clientBase!.child(name).setValue(tempClient.toAnyObject())
-                }
-            })
+                })
+            }
+            
+            self.clientBase!.child(self.selectedClient.description).setValue(client.toAnyObject())
         }
     }
     @IBAction func unwindToAddJob (_ segue: UIStoryboardSegue) {

@@ -10,7 +10,7 @@ import UIKit
 
 class CustomTabBar: UITabBarController {
 
-    var user : User?
+    var user : CustomUser?
     
     override func viewDidLoad() {
         super.viewDidLoad()

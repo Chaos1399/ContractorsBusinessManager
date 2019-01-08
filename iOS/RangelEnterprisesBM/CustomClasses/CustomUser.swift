@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  CustomUser.swift
 //  RangelEnterprisesBM
 //
 //  Created by Cristian Rangel on 2/21/18.
@@ -9,7 +9,7 @@
 import Foundation
 import FirebaseDatabase
 
-class User: Codable {
+class CustomUser: Codable {
     var name : String
     var email : String
     var pph : Double
@@ -41,13 +41,13 @@ class User: Codable {
         name = val ["name"] as! String
         email = val ["email"] as! String
         pph = val ["pph"] as! Double
-        sickTime = val ["sicktime"] as! Double
-        vacayTime = val ["vacaytime"] as! Double
+        sickTime = val ["sickTime"] as! Double
+        vacayTime = val ["vacationTime"] as! Double
         admin = val ["admin"] as! Bool
-        toWork = val ["scheduled"] as! String
+        toWork = val ["scheduledToWork"] as! String
         numDaysScheduled = val ["numDays"] as! Int
         history = val ["payPeriodHistory"] as! String
-        numPeriods = val ["numPers"] as! Int
+        numPeriods = val ["numPeriods"] as! Int
     }
     
     private enum CodingKeys: String, CodingKey {

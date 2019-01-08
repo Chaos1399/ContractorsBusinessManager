@@ -38,9 +38,20 @@ class ASchedule: CustomVCSuper, UITextFieldDelegate, UITableViewDelegate, UITabl
             scheduleList.isHidden = false
             addButton.isHidden = false
             let name = nameField.text!
+            var uid : String = ""
+            for i in 0..<self.employeeNameList.count {
+                if name == self.employeeNameList[i] {
+                    uid = self.employeeUidList[i]
+                    break
+                }
+            }
+            
+            if uid == "" {
+                self.presentAlert(alertTitle: "Incorrect Spelling", alertMessage: "Check that you spelled the employee's name correctly.\nAlso check that you put the last name.", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+            }
             
             hiPri.async {
-                self.fetchScheduledDays(forPerson: name)
+                self.fetchScheduledDays(forPerson: uid)
                 self.fetchGroup.wait()
                 DispatchQueue.main.async {
                     self.scheduleList.reloadData()
@@ -86,7 +97,7 @@ class ASchedule: CustomVCSuper, UITextFieldDelegate, UITableViewDelegate, UITabl
         self.fetchGroup.enter()
         self.userBase!.queryOrderedByKey().queryEqual(toValue: person).observeSingleEvent(of: .value, with: { (userSnap) in
             if userSnap.exists() {
-                let tempPerson = User.init(key: person, snapshot: userSnap)
+                let tempPerson = CustomUser.init(key: person, snapshot: userSnap)
                 let toWorkRef = Database.database().reference(fromURL: tempPerson.toWork)
                 
                 for i in 0..<tempPerson.numDaysScheduled {
@@ -114,23 +125,6 @@ class ASchedule: CustomVCSuper, UITextFieldDelegate, UITableViewDelegate, UITabl
             destVC.dayToAdd = scheduledDays [sender]
             destVC.editingInt = sender
         }
-        
-        let name = self.nameField.text!
-        hiPri.async {
-            self.userBase!.queryOrderedByKey().queryEqual(toValue: name).observeSingleEvent(of: .value, with: { (userSnap) in
-                if userSnap.exists() {
-                    let tempPerson = User.init(key: name, snapshot: userSnap)
-                    let toWorkRef = Database.database().reference(fromURL: tempPerson.toWork)
-                    
-                    for i in 0..<self.scheduledDays.count {
-                        toWorkRef.child(i.description).setValue(self.scheduledDays [i].toAnyObject())
-                    }
-                    
-                    tempPerson.numDaysScheduled = self.scheduledDays.count
-                    self.userBase!.child(name).setValue(tempPerson.toAnyObject())
-                }
-            })
-        }
     }
     @IBAction func didPressAdd(_ sender: UIButton) {
         performSegue(withIdentifier: "addToSchedule", sender: nil)
@@ -138,5 +132,31 @@ class ASchedule: CustomVCSuper, UITextFieldDelegate, UITableViewDelegate, UITabl
     @IBAction func didPressBack(_ sender: UIButton) {
         performSegue(withIdentifier: "unwindToCalendar", sender: nil)
     }
-    @IBAction func unwindToSchedule(_ sender: UIStoryboardSegue) {}
+    @IBAction func unwindToSchedule(_ sender: UIStoryboardSegue) {
+        let name = nameField.text!
+        var uid : String = ""
+        for i in 0..<self.employeeNameList.count {
+            if name == self.employeeNameList[i] {
+                uid = self.employeeUidList[i]
+                break
+            }
+        }
+        hiPri.async {
+            self.userBase!.queryOrderedByKey().queryEqual(toValue: uid).observeSingleEvent(of: .value, with: { (userSnap) in
+                if userSnap.exists() {
+                    let tempPerson = CustomUser.init(key: uid, snapshot: userSnap)
+                    let toWorkRef = Database.database().reference(fromURL: tempPerson.toWork)
+                    
+                    for i in 0..<self.scheduledDays.count {
+                        toWorkRef.child(i.description).setValue(self.scheduledDays [i].toAnyObject())
+                    }
+                    
+                    tempPerson.numDaysScheduled = self.scheduledDays.count
+                    self.userBase!.child(uid).setValue(tempPerson.toAnyObject())
+                } else {
+                    print ("No data found")
+                }
+            })
+        }
+    }
 }

@@ -49,7 +49,7 @@ class AeditProfile: CustomVCSuper, UITextFieldDelegate {
     @IBAction func didPressSubmit(_ sender: UIButton) {
         self.userBase!.queryOrderedByKey().queryEqual(toValue: nameField.text!).observeSingleEvent(of: .value, with: { snapshot in
             if snapshot.exists() {
-                let tempU = User.init(key: self.nameField.text!, snapshot: snapshot)
+                let tempU = CustomUser.init(key: self.nameField.text!, snapshot: snapshot)
                 
                 if self.emailField.hasText {
                     tempU.email = self.emailField.text!

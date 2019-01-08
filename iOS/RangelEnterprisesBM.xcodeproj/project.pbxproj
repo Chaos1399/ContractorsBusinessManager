@@ -44,7 +44,7 @@
 		C4C924BD203E670A00499CDC /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C924BC203E670A00499CDC /* Client.swift */; };
 		C4C924BF203E67EF00499CDC /* Workday.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C924BE203E67EF00499CDC /* Workday.swift */; };
 		C4C924C1203E68CC00499CDC /* PayPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C924C0203E68CC00499CDC /* PayPeriod.swift */; };
-		C4C924C3203E69B300499CDC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C924C2203E69B300499CDC /* User.swift */; };
+		C4C924C3203E69B300499CDC /* CustomUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C924C2203E69B300499CDC /* CustomUser.swift */; };
 		C4D1028C20563D0700CEFAF9 /* GlossyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D1028B20563D0700CEFAF9 /* GlossyButton.swift */; };
 		C4EB57F5205893A700263F78 /* AAddToSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EB57F4205893A700263F78 /* AAddToSchedule.swift */; };
 		C4F5C6FD205F218C00D02AC9 /* JobChoose.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F5C6FC205F218C00D02AC9 /* JobChoose.swift */; };
@@ -124,7 +124,7 @@
 		C4C924BC203E670A00499CDC /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
 		C4C924BE203E67EF00499CDC /* Workday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workday.swift; sourceTree = "<group>"; };
 		C4C924C0203E68CC00499CDC /* PayPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriod.swift; sourceTree = "<group>"; };
-		C4C924C2203E69B300499CDC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C4C924C2203E69B300499CDC /* CustomUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUser.swift; sourceTree = "<group>"; };
 		C4D1028B20563D0700CEFAF9 /* GlossyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossyButton.swift; sourceTree = "<group>"; };
 		C4EB57F4205893A700263F78 /* AAddToSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAddToSchedule.swift; sourceTree = "<group>"; };
 		C4F5C6FC205F218C00D02AC9 /* JobChoose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobChoose.swift; sourceTree = "<group>"; };
@@ -233,7 +233,7 @@
 				C4C924B8203E643B00499CDC /* Job.swift */,
 				C4C924BA203E659800499CDC /* Location.swift */,
 				C4C924C0203E68CC00499CDC /* PayPeriod.swift */,
-				C4C924C2203E69B300499CDC /* User.swift */,
+				C4C924C2203E69B300499CDC /* CustomUser.swift */,
 				C4C924BE203E67EF00499CDC /* Workday.swift */,
 				C4BB50DD2050DFB80043F709 /* ScheduledWorkday.swift */,
 			);
@@ -590,7 +590,7 @@
 				C4BB50DE2050DFB80043F709 /* ScheduledWorkday.swift in Sources */,
 				C4089D88204DEB6400776366 /* AddJobDetail.swift in Sources */,
 				C40DC0F1204A7FA0003BE37E /* scheduleCell.swift in Sources */,
-				C4C924C3203E69B300499CDC /* User.swift in Sources */,
+				C4C924C3203E69B300499CDC /* CustomUser.swift in Sources */,
 				C40D6099203F53D6006D5F76 /* AMenu.swift in Sources */,
 				C40D609B203F53EB006D5F76 /* ACountHours.swift in Sources */,
 				C4089D86204DB5F800776366 /* AddClient.swift in Sources */,
@@ -815,6 +815,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 268FLYBY5A;
 				INFOPLIST_FILE = RangelEnterprisesBMTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.calpoly.crrangel.RangelEnterprisesBMTests;
@@ -832,6 +833,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 268FLYBY5A;
 				INFOPLIST_FILE = RangelEnterprisesBMTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.calpoly.crrangel.RangelEnterprisesBMTests;
@@ -848,6 +850,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 268FLYBY5A;
 				INFOPLIST_FILE = RangelEnterprisesBMUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.calpoly.crrangel.RangelEnterprisesBMUITests;
@@ -864,6 +867,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 268FLYBY5A;
 				INFOPLIST_FILE = RangelEnterprisesBMUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.calpoly.crrangel.RangelEnterprisesBMUITests;

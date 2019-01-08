@@ -23,16 +23,22 @@ class Client: Codable {
         self.properties = properties
         self.numProps = numProps
     }
-    init (key: String, snapshot: DataSnapshot)
+    init (key: Int, snapshot: DataSnapshot)
     {
-        let temp = snapshot.value as! [String : AnyObject]
-        let val = temp [key] as! [String : AnyObject]
+        var val : [String : AnyObject]
+        
+        if let temp = snapshot.value as? [AnyObject] {
+            val = temp [key] as! [String : AnyObject]
+        } else {
+            let temp = snapshot.value as! [String : AnyObject]
+            val = temp [key.description] as! [String : AnyObject]
+        }
         
         name = val ["name"] as! String
         address = val ["billingAddress"] as! String
         email = val ["email"] as! String
         properties = val ["heldProperties"] as! String
-        numProps = val ["size"] as! Int
+        numProps = val ["numProps"] as! Int
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -40,7 +46,7 @@ class Client: Codable {
         case address = "billingAddress"
         case email
         case properties = "heldProperties"
-        case numProps = "size"
+        case numProps = "numProps"
     }
     
     func toAnyObject () -> Any {
@@ -49,6 +55,13 @@ class Client: Codable {
             "billingAddress" : address,
             "email" : email,
             "heldProperties" : properties,
-            "size" : numProps ]
+            "numProps" : numProps ]
+    }
+    
+    func toString () -> String {
+        var retString = "Name: " + name + "\nBilling Address: " + address + "\nEmail: " + email + "\nHeld Properties: " + properties + "\nNum Props: "
+        retString += numProps.description
+        
+        return retString
     }
 }

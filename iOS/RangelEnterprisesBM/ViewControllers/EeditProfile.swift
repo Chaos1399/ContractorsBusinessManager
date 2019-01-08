@@ -35,9 +35,11 @@ class EeditProfile: CustomVCSuper, UITextFieldDelegate {
     
     // MARK: - Button Methods
     @IBAction func didPressSubmit(_ sender: UIButton) {
-        self.userBase!.queryOrderedByKey().queryEqual(toValue: Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { snapshot in
+        let authUser = Auth.auth().currentUser!
+        
+        self.userBase!.queryOrderedByKey().queryEqual(toValue: authUser.uid).observeSingleEvent(of: .value, with: { snapshot in
             if snapshot.exists() {
-                let tempU = User.init(key: Auth.auth().currentUser!.uid, snapshot: snapshot)
+                let tempU = CustomUser.init(key: authUser.uid, snapshot: snapshot)
                 var didChangeName : Bool = false
                 
                 if self.nameField.hasText {
@@ -51,9 +53,8 @@ class EeditProfile: CustomVCSuper, UITextFieldDelegate {
                 
                 if self.passField.hasText && self.confirmField.hasText && self.passField.text! == self.confirmField.text! {
                     print ("in change")
-                    let authUser = Auth.auth().currentUser
                     
-                    authUser?.updatePassword(to: self.passField.text!, completion: nil)
+                    authUser.updatePassword(to: self.passField.text!, completion: nil)
                     self.performSegue(withIdentifier: "unwindToPrev", sender: nil)
                 } else if self.passField.hasText && self.confirmField.hasText {
                     print ("fields don't match")

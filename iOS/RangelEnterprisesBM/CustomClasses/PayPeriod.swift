@@ -12,15 +12,13 @@ import FirebaseDatabase
 class PayPeriod: Codable {
     var startDate : Date
     var endDate : Date
-    var number : Int
     var totalHours : Double
     var days : String
     var numDays : Int
     
-    init (start startDate: Date, end endDate: Date, period number: Int, hours totalHours: Double, days: String, numDays: Int) {
+    init (start startDate: Date, end endDate: Date, hours totalHours: Double, days: String, numDays: Int) {
         self.startDate = startDate
         self.endDate = endDate
-        self.number = number
         self.totalHours = totalHours
         self.days = days
         self.numDays = numDays
@@ -42,7 +40,6 @@ class PayPeriod: Codable {
         
         startDate = df.date(from: val ["start"] as! String)!
         endDate = df.date (from: val ["end"] as! String)!
-        number = val ["period"] as! Int
         totalHours = val ["hours"] as! Double
         days = val ["days"] as! String
         numDays = val ["numDays"] as! Int
@@ -51,7 +48,6 @@ class PayPeriod: Codable {
     private enum CodingKeys: String, CodingKey {
         case startDate = "start"
         case endDate = "end"
-        case number = "period"
         case totalHours = "hours"
         case days
         case numDays
@@ -65,10 +61,22 @@ class PayPeriod: Codable {
         return [
             "start" : df.string(from: startDate),
             "end" : df.string(from: endDate),
-            "period" : number,
             "hours" : totalHours,
             "days" : days,
             "numDays" : numDays
         ]
+    }
+    
+    func toString () -> String {
+        let df = DateFormatter.init()
+        df.locale = Locale (identifier: "en_US")
+        df.dateFormat = "MM-dd-yy"
+        var retString = "Start: " + df.string(from: startDate)
+        retString += "\nEnd: " + df.string(from: endDate)
+        retString += "\nHours: " + totalHours.description
+        retString += "\nDays: " + days
+        retString += "\nNumDays: " + numDays.description
+        
+        return retString
     }
 }

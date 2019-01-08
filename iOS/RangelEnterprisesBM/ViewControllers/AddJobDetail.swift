@@ -40,9 +40,12 @@ class AddJobDetail: CustomVCSuper, UITextFieldDelegate {
     
     // MARK: - Button Methods
     @IBAction func didPressSubmit(_ sender: UIButton) {
-        job = Job.init (type: jobField.text!, start: startPicker.date, end: endPicker.date, details: nil)
-        
-        performSegue(withIdentifier: "unwindToAddJobWithSub", sender: nil)
+        if jobField.text! == "" {
+            self.presentAlert(alertTitle: "Need Job Field", alertMessage: "Need to enter job name", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+        } else {
+            job = Job.init (type: jobField.text!, start: startPicker.date, end: endPicker.date, details: nil)
+            performSegue(withIdentifier: "unwindToAddJobWithSub", sender: nil)
+        }
     }
     @IBAction func didPressCancel(_ sender: UIButton) {
         performSegue(withIdentifier: "unwindToAddJobWithCancel", sender: nil)

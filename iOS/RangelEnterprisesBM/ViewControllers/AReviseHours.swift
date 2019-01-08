@@ -6,10 +6,12 @@
 //  Copyright © 2018 Cristian Rangel. All rights reserved.
 //
 
+// TODO: Add Dropdown like AAddJob
+
 import UIKit
 import FirebaseDatabase
 
-class AReviseHours: CustomVCSuper, UITextFieldDelegate {
+class AReviseHours: CustomVCSuper, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     // MARK: - Outlets
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var clientField: UITextField!
@@ -21,23 +23,50 @@ class AReviseHours: CustomVCSuper, UITextFieldDelegate {
     @IBOutlet weak var startLabel: UILabel!
     @IBOutlet weak var endLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var wPicker: UIPickerView!
+    @IBOutlet weak var cPicker: UIPickerView!
+    @IBOutlet weak var lPicker: UIPickerView!
+    @IBOutlet weak var jPicker: UIPickerView!
     
     // MARK: - Global Variables
     let cal = Calendar.init(identifier: .gregorian)
     var selectedDay : Date?
     var startTime : Date?
     var endTime : Date?
+    var locList : [Location] = []
+    var jobList : [String] = []
+    var selectedUser : Int = -1
+    var selectedClient : Int = -1
+    var selectedLoc : Int = -1
+    var selectedJob : Int = -1
     
     // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         subButton.isEnabled = false
+        
+        wPicker.isHidden = true
+        cPicker.isHidden = true
+        lPicker.isHidden = true
+        jPicker.isHidden = true
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewWillAppear(_ animated: Bool) {
+        if selectedDay != nil && startTime != nil && endTime != nil {
+            let formatter = DateFormatter ()
+            formatter.timeStyle = .short
+            formatter.dateStyle = .none
+            
+            dateLabel.text = df.string(from: selectedDay!)
+            startLabel.text = formatter.string(from: startTime!)
+            endLabel.text = formatter.string(from: endTime!)
+        } else {
+            dateLabel.text = ""
+            startLabel.text = ""
+            endLabel.text = ""
+        }
     }
     
-    // MARK: - TextField Method
+    // MARK: - TextField Methods
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
@@ -45,30 +74,121 @@ class AReviseHours: CustomVCSuper, UITextFieldDelegate {
             ((clientField.hasText && locationField.hasText && jobField.hasText) ||
             (sickSwitch.isOn || vacaySwitch.isOn)) {
             subButton.isEnabled = true
-        }
-        else {
+        } else {
             subButton.isEnabled = false
         }
         return true
     }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == nameField {
+            wPicker.isHidden = false
+            wPicker.reloadComponent(0)
+        } else if textField == clientField {
+            cPicker.isHidden = false
+            cPicker.reloadComponent(0)
+        } else if textField == locationField {
+            if (clientField.text == "") {
+                self.presentAlert(alertTitle: "Choose client", alertMessage: "Choose a client before choosing a location", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+                return
+            }
+            lPicker.isHidden = false
+            lPicker.reloadComponent(0)
+        } else if textField == jobField {
+            if (clientField.text == "" || locationField.text == "") {
+                self.presentAlert(alertTitle: "Choose client or location", alertMessage: "Choose both a client and a location before choosing a job", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+                return
+            }
+            jPicker.isHidden = false
+            jPicker.reloadComponent(0)
+        }
+    }
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        wPicker.isHidden = true
+        cPicker.isHidden = true
+        lPicker.isHidden = true
+        jPicker.isHidden = true
+        
+        return true
+    }
+    
+    // MARK: - PickerView Methods
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == wPicker {
+            return employeeNameList.count
+        } else if pickerView == cPicker {
+            return clientNameList.count
+        } else if pickerView == lPicker {
+            return locList.count
+        } else {
+            return jobList.count
+        }
+    }
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        var attributedString : NSAttributedString
+        
+        if pickerView == wPicker {
+            attributedString = NSAttributedString(string: employeeNameList[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+        } else if pickerView == cPicker {
+            attributedString = NSAttributedString(string: clientNameList[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+        } else if pickerView == lPicker {
+            attributedString = NSAttributedString(string: locList[row].address + ", " + locList[row].city, attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+        } else {
+            attributedString = NSAttributedString(string: jobList[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+        }
+        
+        return attributedString
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == wPicker {
+            self.nameField.text = self.employeeNameList[row]
+            selectedUser = row
+        } else if pickerView == cPicker {
+            self.clientField.text = self.clientNameList[row]
+            selectedClient = row
+            hiPri.async {
+                self.fetchLocs()
+            }
+        } else if pickerView == lPicker {
+            self.locationField.text = self.locList[row].address + ", " + self.locList[row].city
+            selectedLoc = row
+            hiPri.async {
+                self.fetchJobs()
+            }
+        } else {
+            self.jobField.text = self.jobList[row]
+            selectedJob = row
+        }
+        
+        if nameField.hasText &&
+            ((clientField.hasText && locationField.hasText && jobField.hasText) ||
+                (sickSwitch.isOn || vacaySwitch.isOn)) {
+            subButton.isEnabled = true
+        } else {
+            subButton.isEnabled = false
+        }
+        
+        pickerView.isHidden = true
+    }
+    
     
     // MARK: - Button Methods
     @IBAction func didSelectSubmit(_ sender: UIButton) {
         if startTime == nil || endTime == nil || selectedDay == nil {
-            self.presentAlert(alertTitle: "Error", alertMessage: "You didn't input an updated day and/or time", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+            self.presentAlert(alertTitle: "Error", alertMessage: "You didn't input an updated day and time", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
             return
         }
         
-        let name = nameField.text!
-        let client = clientField.text
-        let location = locationField.text
-        let job = jobField.text
+        let location = locationField.text!
+        let job = jobField.text!
         
         hiPri.async {
             self.fetchGroup.enter()
-            self.userBase!.queryOrderedByKey().queryEqual(toValue: name).observeSingleEvent(of: .value, with: { (snapshot) in
+            self.userBase!.queryOrderedByKey().queryEqual(toValue: self.employeeUidList[self.selectedUser]).observeSingleEvent(of: .value, with: { (snapshot) in
                 if snapshot.exists() {
-                    let person = User.init(key: name, snapshot: snapshot)
+                    let person = CustomUser.init(key: self.employeeUidList[self.selectedUser], snapshot: snapshot)
                     
                     let pphRef = Database.database().reference(fromURL: person.history)
                     
@@ -122,14 +242,14 @@ class AReviseHours: CustomVCSuper, UITextFieldDelegate {
                                                     
                                                     let checkOldVal = day.client
                                                     
-                                                    if client != "" {
-                                                        day.client = client!
+                                                    if self.selectedClient > -1 {
+                                                        day.client = self.clientNameList[self.selectedClient]
                                                     }
-                                                    if location != "" {
-                                                        day.location = location!
+                                                    if self.selectedLoc > -1 {
+                                                        day.location = location
                                                     }
-                                                    if job != "" {
-                                                        day.job = job!
+                                                    if self.selectedJob > -1 {
+                                                        day.job = job
                                                     }
                                                     
                                                     // set the Workday Client, Location, and Job fields, and update user sicktime / vacation hours as necessary
@@ -160,7 +280,7 @@ class AReviseHours: CustomVCSuper, UITextFieldDelegate {
                                                     } else if checkOldVal == "Sick" {
                                                         person.sickTime += newHours
                                                     }
-                                                    self.userBase!.child(name).setValue(person.toAnyObject())
+                                                    self.userBase!.child(self.employeeUidList[self.selectedUser]).setValue(person.toAnyObject())
                                                     
                                                     dayRef.child(j.description).setValue(day.toAnyObject())
                                                     
@@ -171,14 +291,14 @@ class AReviseHours: CustomVCSuper, UITextFieldDelegate {
                                             }
                                             self.fetchGroup.leave()
                                         })
-                                    }
-                                }
+                                    } // End for period.numDays loop
+                                } // End if
                             }
                             self.fetchGroup.leave()
                         })
                     }
                 } else {
-                    self.presentAlert(alertTitle: "Error", alertMessage: "Cannot find employee: " + name, actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+                    self.presentAlert(alertTitle: "Error", alertMessage: "Cannot find employee: " + self.employeeNameList[self.selectedUser], actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
                 }
                 self.fetchGroup.leave()
             })
@@ -237,23 +357,45 @@ class AReviseHours: CustomVCSuper, UITextFieldDelegate {
         self.present (actionSheet, animated: true, completion: nil)
     }
     
-    // MARK: - Segues
-    @IBAction func unwindToReviseHours (_ segue: UIStoryboardSegue) {}
-    override func viewWillAppear(_ animated: Bool) {
-        if selectedDay != nil && startTime != nil && endTime != nil {
-            let formatter = DateFormatter ()
-            formatter.timeStyle = .short
-            formatter.dateStyle = .none
-            
-            dateLabel.text = df.string(from: selectedDay!)
-            startLabel.text = formatter.string(from: startTime!)
-            endLabel.text = formatter.string(from: endTime!)
-        } else {
-            dateLabel.text = ""
-            startLabel.text = ""
-            endLabel.text = ""
+    // MARK: - Custom Methods
+    func fetchLocs () {
+        self.fetchGroup.enter()
+        self.clientBase!.queryOrderedByKey().queryEqual(toValue: self.selectedClient.description).observeSingleEvent(of: .value, with: { (cSnap) in
+            if cSnap.exists() {
+                let tempClient = Client.init(key: self.selectedClient, snapshot: cSnap)
+                
+                let locRef = Database.database().reference(fromURL: tempClient.properties)
+                
+                for i in 0..<tempClient.numProps {
+                    self.fetchGroup.enter()
+                    locRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (lSnap) in
+                        if lSnap.exists() {
+                            self.locList.append(Location.init(key: i, snapshot: lSnap))
+                        }
+                        self.fetchGroup.leave()
+                    })
+                }
+            }
+            self.fetchGroup.leave()
+        })
+    }
+    func fetchJobs () {
+        let jobRef = Database.database().reference(fromURL: locList[self.selectedLoc].jobs)
+        
+        for i in 0..<locList[self.selectedLoc].numJobs {
+            self.fetchGroup.enter()
+            jobRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (snap) in
+                if snap.exists() {
+                    let tempJob = Job.init(key: i, snapshot: snap)
+                    self.jobList.append(tempJob.type)
+                }
+                self.fetchGroup.leave()
+            })
         }
     }
+    
+    // MARK: - Segues
+    @IBAction func unwindToReviseHours (_ segue: UIStoryboardSegue) {}
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToChooseDate" {
             let destVC = segue.destination as! DateTimeChoose

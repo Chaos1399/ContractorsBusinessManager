@@ -11,13 +11,15 @@ import FirebaseDatabase
 
 class Location : Codable {
     var address : String
+    var city : String
     var jobs : String
     var numJobs : Int
     
-    init (address: String, jobs: String, numJobs: Int) {
+    init (address: String, city: String, jobs: String, numJobs: Int) {
         self.address = address
         self.jobs = jobs
         self.numJobs = numJobs
+        self.city = city
     }
     init (key: Int, snapshot: DataSnapshot) {
         var val : [String : AnyObject]
@@ -31,19 +33,31 @@ class Location : Codable {
         
         address = val ["address"] as! String
         jobs = val ["jobs"] as! String
-        numJobs = val ["size"] as! Int
+        numJobs = val ["numJobs"] as! Int
+        city = val["city"] as! String
     }
     
     private enum CodingKeys: String, CodingKey {
         case address
         case jobs
-        case numJobs = "size"
+        case numJobs
+        case city
     }
     
     func toAnyObject () -> Any {
         return [
             "address" : address,
+            "city" : city,
             "jobs" : jobs,
-            "size" : numJobs]
+            "numJobs" : numJobs]
+    }
+    
+    func toString () -> String {
+        var retString : String = "Address: " + address
+        retString += "\nCity: " + city
+        retString += "\nJobs: " + jobs
+        retString += "\nNumJobs: " + numJobs.description
+        
+        return retString
     }
 }

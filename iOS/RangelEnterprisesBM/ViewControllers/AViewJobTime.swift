@@ -72,11 +72,11 @@ class AViewJobTime: CustomVCSuper, UITableViewDelegate, UITableViewDataSource {
         let selectedMonth = cal.component(.month, from: selectedDate!)
         let selectedDay = cal.component(.day, from: selectedDate!)
         
-        for clientName in self.clientNameList {
+        for client in 0..<self.clientNameList.count {
             self.fetchGroup.enter()
-            self.clientBase!.queryOrderedByKey().queryEqual(toValue: clientName).observeSingleEvent(of: .value, with: { (clientSnap) in
+            self.clientBase!.queryOrderedByKey().queryEqual(toValue: client.description).observeSingleEvent(of: .value, with: { (clientSnap) in
                 if clientSnap.exists() {
-                    let tempClient = Client.init(key: clientName, snapshot: clientSnap)
+                    let tempClient = Client.init(key: client, snapshot: clientSnap)
                     let propRef = Database.database().reference(fromURL: tempClient.properties)
                     
                     for i in 0..<tempClient.numProps {

@@ -20,8 +20,8 @@ class EClockIn: CustomVCSuper {
     @IBOutlet weak var jobLabel: UILabel!
     
     // MARK: - Global Variables
-    var start : Date = Date.init()
-    var end : Date = Date.init()
+    var start : DispatchTime = DispatchTime.distantFuture
+    var end : DispatchTime = DispatchTime.distantFuture
     var isIn : Bool = false
     let cal = Calendar.init(identifier: .gregorian)
     var selectedClient : String?
@@ -39,37 +39,20 @@ class EClockIn: CustomVCSuper {
     // MARK: - Custom Methods
     func addDay (_ newDay: Workday) {
         let periodRef = Database.database().reference(fromURL: self.user!.history)
-        let toAddYear = self.cal.component(.year, from: newDay.date)
-        let toAddMonth = self.cal.component(.month, from: newDay.date)
-        let toAddDay = self.cal.component(.day, from: newDay.date)
         
-        for i in 0..<self.user!.numPeriods {
-            self.fetchGroup.enter()
-            periodRef.queryOrderedByKey().queryEqual(toValue: i.description).observeSingleEvent(of: .value, with: { (perSnap) in
-                if perSnap.exists() {
-                    let tempPer = PayPeriod.init(key: i, snapshot: perSnap)
-                    let startYear = self.cal.component(.year, from: tempPer.startDate)
-                    let startMonth = self.cal.component(.month, from: tempPer.startDate)
-                    let endMonth = self.cal.component(.month, from: tempPer.endDate)
-                    let startDay = self.cal.component(.day, from: tempPer.startDate)
-                    let endDay = self.cal.component(.day, from: tempPer.endDate)
-                    
-                    // Check if the new day is in this pay period by doing bounds checking with the start and end dates
-                    if (startYear == toAddYear) && (startMonth <= toAddMonth) && (toAddMonth <= endMonth) &&
-                        (startDay <= toAddDay) && (toAddDay <= endDay) {
-                        let daysRef = Database.database().reference(fromURL: tempPer.days)
-                        
-                        daysRef.child(tempPer.numDays.description).setValue (newDay.toAnyObject())
-                        tempPer.numDays += 1
-                        tempPer.totalHours += newDay.hours
-                        periodRef.child(i.description).setValue(tempPer.toAnyObject())
-                        self.fetchGroup.leave()
-                        return
-                    }
-                }
-                self.fetchGroup.leave()
-            })
-        }
+        self.fetchGroup.enter()
+        periodRef.observeSingleEvent(of: .value, with: { (perSnap) in
+            if perSnap.exists() {
+                let tempPer = PayPeriod.init(key: (self.user!.numPeriods - 1), snapshot: perSnap)
+                let daysRef = Database.database().reference(fromURL: tempPer.days)
+                
+                daysRef.child(tempPer.numDays.description).setValue(newDay.toAnyObject())
+                tempPer.numDays += 1
+                tempPer.totalHours += newDay.hours
+                periodRef.child((self.user!.numPeriods - 1).description).setValue(tempPer.toAnyObject())
+            }
+            self.fetchGroup.leave()
+        })
     }
     
     // MARK: - Button Methods
@@ -77,22 +60,25 @@ class EClockIn: CustomVCSuper {
         var newDay : Workday
         
         if !isIn {
-            start = Date.init()
+            if (selectedJob == nil) {
+                self.presentAlert(alertTitle: "Choose Job and Location", alertMessage: "You forgot to choose what you are doing", actionTitle: "Ok", cancelTitle: nil, actionHandler: nil, cancelHandler: nil)
+                return
+            }
+            start = DispatchTime.now()
             clockInOut.setTitle("Clock Out", for: .normal)
         }
         else {
+            end = DispatchTime.now()
             let formatter = DateFormatter()
             formatter.timeStyle = .medium
             formatter.dateStyle = .none
             
-            end = Date.init()
             clockInOut.setTitle("Clock In", for: .normal)
-            //Dividing by 60 to get hours from seconds
-            let time = (end.timeIntervalSince(start) / 3600).rounded()
+            //Dividing by 3600 * 1000000000 to get hours from nanoseconds
+            let time = Double ((end.uptimeNanoseconds - start.uptimeNanoseconds) / (1000000000 * 3600))
             numHours.text = time.description
             
-            newDay = Workday.init(date: start, hours: time, forClient: selectedClient!, atLocation: self.selectedLocation!.address, doingJob: self.selectedJob!)
-            
+            newDay = Workday.init(date: Date.init(), hours: time, forClient: selectedClient!, atLocation: self.selectedLocation!.address, doingJob: self.selectedJob!)
             hiPri.async {
                 self.addDay (newDay)
                 self.fetchGroup.wait()
@@ -104,17 +90,14 @@ class EClockIn: CustomVCSuper {
         let actionSheet = UIAlertController (title: "Change Page", message: nil, preferredStyle: .actionSheet)
         let changeToMenu = UIAlertAction (title: "Menu", style: .default, handler: { (action : UIAlertAction) in
             self.tabBarController?.selectedIndex = 0
-            })
-        let changeToSchedule = UIAlertAction (title: "View Schedule", style: .default, handler:
-        { (action : UIAlertAction) in
+        })
+        let changeToSchedule = UIAlertAction (title: "View Schedule", style: .default, handler: { (action : UIAlertAction) in
             self.tabBarController?.selectedIndex = 1
         })
-        let changetoTimeBank = UIAlertAction (title: "Time Off", style: .default, handler:
-        { (action : UIAlertAction) in
+        let changetoTimeBank = UIAlertAction (title: "Time Off", style: .default, handler: { (action : UIAlertAction) in
             self.tabBarController?.selectedIndex = 3
         })
-        let changetoHistory = UIAlertAction (title: "Pay Period History", style: .default, handler:
-        { (action : UIAlertAction) in
+        let changetoHistory = UIAlertAction (title: "Pay Period History", style: .default, handler: { (action : UIAlertAction) in
             self.tabBarController?.selectedIndex = 4
         })
         let cancelAction = UIAlertAction (title: "Cancel", style: .cancel, handler: nil)
@@ -135,7 +118,7 @@ class EClockIn: CustomVCSuper {
         if segue.identifier == "goToJobChoose" {
             let destVC = segue.destination as! JobChoose
             
-            destVC.cameFromAdmin = false
+            destVC.dest = 1
         }
     }
     override func viewWillAppear(_ animated: Bool) {

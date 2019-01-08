@@ -63,4 +63,17 @@ class Workday: Codable {
             "location" : location,
             "job" : job ]
     }
+    
+    func toString () -> String {
+        let df = DateFormatter ()
+        df.timeStyle = .none
+        df.dateFormat = "MM-dd-yy"
+        var retString = "Date: "
+        retString += df.string(from: date)
+        retString += "\nHours: "
+        retString += hours.description
+        retString += "\nClient: " + client + "\nLocation: " + location + "\nJob: " + job
+        
+        return retString
+    }
 }

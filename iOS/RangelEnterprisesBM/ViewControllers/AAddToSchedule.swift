@@ -10,9 +10,9 @@ import UIKit
 
 class AAddToSchedule: CustomVCSuper, UITextFieldDelegate {
     // MARK: - Outlets
-    @IBOutlet weak var clientField: UITextField!
-    @IBOutlet weak var locationField: UITextField!
-    @IBOutlet weak var jobField: UITextField!
+    @IBOutlet weak var clientLabel: UILabel!
+    @IBOutlet weak var locLabel: UILabel!
+    @IBOutlet weak var jobLabel: UILabel!
     @IBOutlet weak var startPicker: UIDatePicker!
     @IBOutlet weak var endPicker: UIDatePicker!
     @IBOutlet weak var subButton: UIButton!
@@ -20,15 +20,18 @@ class AAddToSchedule: CustomVCSuper, UITextFieldDelegate {
     // MARK: - Global Variables
     var dayToAdd : ScheduledWorkday?
     var editingInt : Int = -1
+    var selectedClient : String?
+    var selectedLocation : Location?
+    var selectedJob : String?
     
     // MARK: - Required VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if dayToAdd != nil {
-            clientField.text = dayToAdd!.client
-            locationField.text = dayToAdd!.location
-            jobField.text = dayToAdd!.job
+            clientLabel!.text = dayToAdd!.client
+            locLabel!.text = dayToAdd!.location
+            jobLabel!.text = dayToAdd!.job
             startPicker.setDate(dayToAdd!.startDate, animated: false)
             endPicker.setDate(dayToAdd!.endDate, animated: false)
             subButton.isEnabled = true
@@ -40,28 +43,20 @@ class AAddToSchedule: CustomVCSuper, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    // MARK: - TextField Method
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        
-        if clientField.hasText && locationField.hasText && jobField.hasText {
-            subButton.isEnabled = true
-        }
-        
-        return true
-    }
-    
     // MARK: - Button Methods
     @IBAction func didPressSubmit(_ sender: UIButton) {
-        dayToAdd = ScheduledWorkday.init(client: clientField.text!, loc: locationField.text!, job: jobField.text!, startDate: startPicker.date, endDate: endPicker.date)
+        dayToAdd = ScheduledWorkday.init(client: clientLabel.text!, loc: locLabel.text!, job: jobLabel.text!, startDate: startPicker.date, endDate: endPicker.date)
         
         performSegue(withIdentifier: "unwindToScheduleWithSub", sender: nil)
     }
     @IBAction func didPressCancel(_ sender: UIButton) {
         performSegue(withIdentifier: "unwindToScheduleWithCancel", sender: nil)
     }
+    @IBAction func didPressChoose(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToJobChoose", sender: nil)
+    }
     
-    // MARK: - Navigation
+    // MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "unwindToScheduleWithSub" {
             let destVC = segue.destination as! ASchedule
@@ -73,6 +68,18 @@ class AAddToSchedule: CustomVCSuper, UITextFieldDelegate {
             }
             
             destVC.scheduleList.reloadData()
+        } else if segue.identifier == "goToJobChoose" {
+            let destVC = segue.destination as! JobChoose
+            
+            destVC.dest = 2
+        }
+    }
+    @IBAction func unwindToAddToSchedule (segue: UIStoryboardSegue) {
+        if selectedClient != nil {
+            subButton.isEnabled = true
+            clientLabel.text = selectedClient
+            locLabel.text = selectedLocation!.address + ", " + selectedLocation!.city
+            jobLabel.text = selectedJob
         }
     }
 }
