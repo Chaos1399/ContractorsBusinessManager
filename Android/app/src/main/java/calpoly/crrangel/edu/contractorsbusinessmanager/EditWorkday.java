@@ -41,9 +41,6 @@ public class EditWorkday extends AdminSuperclass implements AdapterView.OnItemSe
 		// Load passed User, clientList, and employeeList
 		Intent toHere = getIntent();
 		if (toHere.getExtras() == null) return;
-		this.user = bundleToUser(toHere.getBundleExtra("user"));
-		this.clientList = toHere.getStringArrayListExtra("cList");
-		this.employeeList = toHere.getStringArrayListExtra("eList");
 		this.pos = toHere.getIntExtra("pos", -1);
 		this.wb = ReviseHours.bundleToWorkdayBoxArr (toHere.getBundleExtra("wBoxes"));
 		this.selectedDate = toHere.getLongExtra("selectedDate", 0);
@@ -73,9 +70,7 @@ public class EditWorkday extends AdminSuperclass implements AdapterView.OnItemSe
 			// Respond to the action bar's Up/Home button
 			case android.R.id.home:
 				Intent intent = new Intent(this, ASchedule.class);
-				intent.putExtra("user", userToBundle(user));
-				intent.putExtra("cList", clientList);
-				intent.putExtra("eList", employeeList);
+				addExtras(intent);
 				intent.putExtra("pos", pos);
 				intent.putExtra("wBoxes", ReviseHours.workdayBoxArrToBundle(wb));
 				intent.putExtra("selectedDate", selectedDate);
@@ -233,9 +228,7 @@ public class EditWorkday extends AdminSuperclass implements AdapterView.OnItemSe
 		wb.set(pos, temp);
 
 		Intent intent = new Intent(this, ReviseHours.class);
-		intent.putExtra("user", userToBundle(user));
-		intent.putExtra("cList", clientList);
-		intent.putExtra("eList", employeeList);
+		addExtras(intent);
 		intent.putExtra("wBoxes", ReviseHours.workdayBoxArrToBundle(wb));
 		intent.putExtra("selectedDate", selectedDate);
 		intent.putExtra("curURL", curURL);

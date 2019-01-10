@@ -34,14 +34,7 @@ public class AMenu extends AdminSuperclass
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Intent toHere = getIntent();
-        if (toHere.getExtras() == null) return;
-        this.user = bundleToUser(toHere.getExtras().getBundle("user"));
-        this.clientList = toHere.getStringArrayListExtra("cList");
-        this.employeeList = toHere.getStringArrayListExtra("eList");
-
         this.makeIntents(AMenu.this);
-        this.addExtras();
     }
 
 	@Override
@@ -50,6 +43,8 @@ public class AMenu extends AdminSuperclass
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
 		} else {
+			Intent intent = getIntent();
+			addExtras(intent);
 			super.onBackPressed();
 		}
 	}
@@ -57,27 +52,33 @@ public class AMenu extends AdminSuperclass
 	@Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        Intent intent = null;
 
         ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
 
         if (id == R.id.logoutmenu) {
             super.onBackPressed();
         } else if (id == R.id.counthoursmenu) {
-            startActivity (countHours);
+            intent = countHours;
         } else if (id == R.id.viewcalendarmenu) {
-            startActivity (aviewCalendar);
+			intent = aviewCalendar;
         } else if (id == R.id.revisehoursmenu) {
-            startActivity (reviseHours);
+			intent = reviseHours;
         } else if (id == R.id.addjobmenu) {
-            startActivity (addJob);
+			intent = addJob;
         } else if (id == R.id.addclientmenu) {
-            startActivity (addClient);
+			intent = addClient;
         } else if (id == R.id.editempmenu) {
-            startActivity (editWorker);
+			intent = editWorker;
         } else if (id == R.id.addempmenu) {
-            startActivity (addWorker);
+			intent = addWorker;
         } else if (id == R.id.editclientmenu) {
-        	startActivity (editClient);
+			intent = editClient;
+		}
+
+		if (intent != null) {
+        	addExtras(intent);
+        	startActivity(intent);
 		}
 
         return true;
@@ -87,14 +88,38 @@ public class AMenu extends AdminSuperclass
     	writeToPersistenceStartup();
     	super.onBackPressed();
     }
-    public void amenuDidPressCountHours (View view) { startActivity(countHours); }
-    public void amenuDidPressViewCalendar (View view) { startActivity(aviewCalendar); }
-    public void amenuDidPressReviseHours (View view) { startActivity(reviseHours); }
-    public void amenuDidPressAddJob (View view) { startActivity(addJob); }
-    public void amenuDidPressAddEmp (View view) { startActivity(addWorker); }
-    public void amenuDidPressAddClient (View view) { startActivity(addClient); }
-    public void amenuDidPressEditEmp(View view) { startActivity(editWorker); }
-    public void amenuDidPressEditClient (View view) { startActivity(editClient); }
+    public void amenuDidPressCountHours (View view) {
+    	addExtras(countHours);
+    	startActivity(countHours);
+    }
+    public void amenuDidPressViewCalendar (View view) {
+    	addExtras(aviewCalendar);
+    	startActivity(aviewCalendar);
+    }
+    public void amenuDidPressReviseHours (View view) {
+    	addExtras(reviseHours);
+    	startActivity(reviseHours);
+    }
+    public void amenuDidPressAddJob (View view) {
+		addExtras(addJob);
+    	startActivity(addJob);
+    }
+    public void amenuDidPressAddEmp (View view) {
+		addExtras(addWorker);
+    	startActivity(addWorker);
+    }
+    public void amenuDidPressAddClient (View view) {
+		addExtras(addClient);
+    	startActivity(addClient);
+    }
+    public void amenuDidPressEditEmp(View view) {
+		addExtras(editWorker);
+    	startActivity(editWorker);
+    }
+    public void amenuDidPressEditClient (View view) {
+		addExtras(editClient);
+    	startActivity(editClient);
+    }
 
     void writeToPersistenceStartup () {
 		ValueEventListener writeBack = new ValueEventListener() {

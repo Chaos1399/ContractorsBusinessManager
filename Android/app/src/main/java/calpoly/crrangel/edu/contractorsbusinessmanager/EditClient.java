@@ -21,13 +21,6 @@ public class EditClient extends AdminSuperclass {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_client);
 
-		// Load passed User, clientList, and employeeList
-		Intent toHere = getIntent();
-		if (toHere.getExtras() == null) return;
-		this.user = bundleToUser(toHere.getExtras().getBundle("user"));
-		this.clientList = toHere.getStringArrayListExtra("cList");
-		this.employeeList = toHere.getStringArrayListExtra("eList");
-
 		ONET = findViewById(R.id.ecONET);
 		NNET = findViewById(R.id.ecNNET);
 		AET = findViewById(R.id.ecAET);
@@ -40,9 +33,7 @@ public class EditClient extends AdminSuperclass {
 			// Respond to the action bar's Up/Home button
 			case android.R.id.home:
 				menu = new Intent(this, AMenu.class);
-				menu.putExtra("user", userToBundle(user));
-				menu.putExtra("cList", clientList);
-				menu.putExtra("eList", employeeList);
+				addExtras(menu);
 				navigateUpTo(menu);
 				return true;
 		}
@@ -89,9 +80,7 @@ public class EditClient extends AdminSuperclass {
 							clientBase.child(oname).setValue(toRet.toMap());
 						}
 
-						menu.putExtra("user", userToBundle(user));
-						menu.putExtra("cList", clientList);
-						menu.putExtra("eList", employeeList);
+						addExtras(menu);
 
 						navigateUpTo(menu);
 					}

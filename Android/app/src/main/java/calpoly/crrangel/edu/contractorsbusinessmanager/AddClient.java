@@ -16,13 +16,6 @@ public class AddClient extends AdminSuperclass {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_client);
 
-		// Load passed User, clientList, and employeeList
-		Intent toHere = getIntent();
-		if (toHere.getExtras() == null) return;
-		this.user = bundleToUser(toHere.getExtras().getBundle("user"));
-		this.clientList = toHere.getStringArrayListExtra("cList");
-		this.employeeList = toHere.getStringArrayListExtra("eList");
-
 		NET = findViewById(R.id.acNET);
 		EET = findViewById(R.id.acEET);
 		AET = findViewById(R.id.acAET);
@@ -34,9 +27,7 @@ public class AddClient extends AdminSuperclass {
 			// Respond to the action bar's Up/Home button
 			case android.R.id.home:
 				Intent intent = new Intent(this, AMenu.class);
-				intent.putExtra("user", userToBundle(user));
-				intent.putExtra("cList", clientList);
-				intent.putExtra("eList", employeeList);
+				addExtras(intent);
 				navigateUpTo(intent);
 				return true;
 		}
@@ -78,7 +69,7 @@ public class AddClient extends AdminSuperclass {
 
 		this.clientList.add(name);
 		clientBase.child(name).setValue(toRet.toMap());
-		this.addExtras();
+		addExtras(menu);
 		navigateUpTo(menu);
 	}
 }

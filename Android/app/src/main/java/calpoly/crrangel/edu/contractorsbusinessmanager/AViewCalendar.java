@@ -50,15 +50,8 @@ public class AViewCalendar extends AdminSuperclass
 		NavigationView navigationView = findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 
-		// Load passed User, clientList, and employeeList
-		Intent toHere = getIntent();
-		if (toHere.getExtras() == null) return;
-		this.user = bundleToUser(toHere.getExtras().getBundle("user"));
-		this.clientList = toHere.getStringArrayListExtra("cList");
-		this.employeeList = toHere.getStringArrayListExtra("eList");
-		// Make and set up all Intents
+		// Make all Intents
 		this.makeIntents(AViewCalendar.this);
-		this.addExtras();
     }
 
 	@Override
@@ -77,47 +70,53 @@ public class AViewCalendar extends AdminSuperclass
 	@Override
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		int id = item.getItemId();
+		Intent intent = null;
+		// False is navigateUpTo, True is startActivity
+		boolean navOrStart = true;
 
 		((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
 
 		if (id == R.id.logoutmenu) {
-			navigateUpTo(signOut);
+			intent = signOut;
+			navOrStart = false;
 		} else if (id == R.id.amenumenu) {
-			navigateUpTo(menu);
-		} else if (id == R.id.counthoursmenu) {
-			startActivity (countHours);
-		} else if (id == R.id.revisehoursmenu) {
-			startActivity (reviseHours);
-		} else if (id == R.id.addjobmenu) {
-			startActivity (addJob);
-		} else if (id == R.id.addclientmenu) {
-			startActivity (addClient);
-		} else if (id == R.id.editempmenu) {
-			startActivity (editWorker);
-		} else if (id == R.id.addempmenu) {
-			startActivity (addWorker);
-		} else if (id == R.id.editclientmenu) {
-			startActivity (editClient);
-		}
+			intent = menu;
+			navOrStart = false;
+		} else if (id == R.id.counthoursmenu)
+			intent = countHours;
+		else if (id == R.id.viewcalendarmenu)
+			intent = aviewCalendar;
+		else if (id == R.id.revisehoursmenu)
+			intent = reviseHours;
+		else if (id == R.id.addjobmenu)
+			intent = addJob;
+		else if (id == R.id.addclientmenu)
+			intent = addClient;
+		else if (id == R.id.editempmenu)
+			intent = editWorker;
+		else if (id == R.id.editclientmenu)
+			intent = editClient;
+
+		addExtras(intent);
+
+		if (navOrStart)
+			startActivity(intent);
+		else
+			navigateUpTo(intent);
 
 		return true;
 	}
 
-
 	public void avcDidPressSchedule (View view) {
 		Intent intent = new Intent(AViewCalendar.this, ASchedule.class);
-		intent.putExtra("user", userToBundle(user));
-		intent.putExtra("cList", clientList);
-		intent.putExtra("eList", employeeList);
+		addExtras(intent);
 		intent.putExtra("date", selectedDate);
     	startActivity(intent);
 	}
 
 	public void avcDidPressTimelines (View view) {
     	Intent intent = new Intent(AViewCalendar.this, ViewJobTime.class);
-    	intent.putExtra("user", userToBundle(user));
-    	intent.putExtra("cList", clientList);
-    	intent.putExtra("eList", employeeList);
+    	addExtras(intent);
     	intent.putExtra("date", selectedDate);
     	startActivity(intent);
 	}

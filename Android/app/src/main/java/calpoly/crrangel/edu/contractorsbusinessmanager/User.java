@@ -1,5 +1,7 @@
 package calpoly.crrangel.edu.contractorsbusinessmanager;
 
+import android.os.Bundle;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -41,6 +43,21 @@ public class User {
         this.history = snap.child("payPeriodHistory").getValue(String.class);
         this.uid = snap.getKey();
     }
+
+    User (Bundle b) {
+		this.name = b.getString("name");
+		this.password = b.getString("password");
+		this.email = b.getString("email");
+		this.toWork = b.getString("toWork");
+		this.history = b.getString("history");
+		this.uid = b.getString("uid");
+		this.admin = b.getBoolean("admin");
+		this.pph = b.getDouble("pph");
+		this.sickTime = b.getDouble("sickTime");
+		this.vacaTime = b.getDouble("vacationTime");
+		this.numDaysScheduled = b.getInt("numDaysScheduled");
+		this.numPeriods = b.getInt("numPeriods");
+	}
 
     User (String name, String password, String email, String toWork, String history, String uid, double pph,
           double sickTime, double vacaTime, boolean admin, int numDaysScheduled, int numPeriods) {
@@ -94,4 +111,23 @@ public class User {
 
         return s;
     }
+
+    public Bundle toBundle() {
+		Bundle b = new Bundle();
+
+		b.putString("name", this.name);
+		b.putString("password", this.password);
+		b.putString("email", this.email);
+		b.putString("toWork", this.toWork);
+		b.putString("history", this.history);
+		b.putString("uid", this.uid);
+		b.putBoolean("admin", this.admin);
+		b.putDouble("pph", this.pph);
+		b.putDouble("sickTime", this.sickTime);
+		b.putDouble("vacationTime", this.vacaTime);
+		b.putInt("numDaysScheduled", this.numDaysScheduled);
+		b.putInt("numPeriods", this.numPeriods);
+
+		return b;
+	}
 }

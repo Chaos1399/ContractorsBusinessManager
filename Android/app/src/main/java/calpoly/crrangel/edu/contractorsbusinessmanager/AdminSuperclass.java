@@ -39,6 +39,17 @@ public class AdminSuperclass extends AppCompatActivity implements LoaderCallback
     Intent editClient;
     DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Load passed User, clientList, and employeeList
+		Intent toHere = getIntent();
+		if (toHere.getExtras() == null) return;
+		this.user = new User(toHere.getExtras().getBundle("user"));
+		this.clientList = toHere.getStringArrayListExtra("cList");
+		this.employeeList = toHere.getStringArrayListExtra("eList");
+	}
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -52,40 +63,6 @@ public class AdminSuperclass extends AppCompatActivity implements LoaderCallback
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {}
-
-    public Bundle userToBundle (User u) {
-        Bundle b = new Bundle();
-
-        b.putString("name", u.name);
-        b.putString("password", u.password);
-        b.putString("email", u.email);
-        b.putString("toWork", u.toWork);
-        b.putString("history", u.history);
-        b.putBoolean("admin", u.admin);
-        b.putDouble("pph", u.pph);
-        b.putDouble("sickTime", u.sickTime);
-        b.putDouble("vacaTime", u.vacaTime);
-        b.putInt("numDaysScheduled", u.numDaysScheduled);
-        b.putInt("numPeriods", u.numPeriods);
-
-        return b;
-    }
-
-    public User bundleToUser (Bundle b) {
-        String name = b.getString("name");
-        String password = b.getString("password");
-        String email = b.getString("email");
-        String toWork = b.getString("toWork");
-        String history = b.getString("history");
-        boolean admin = b.getBoolean("admin");
-        double pph = b.getDouble("pph");
-        double sickTime = b.getDouble("sickTime");
-        double vacaTime = b.getDouble("vacaTime");
-        int numDaysScheduled = b.getInt("numDaysScheduled");
-        int numPeriods = b.getInt("numPeriods");
-        return new User(name, password, email, toWork, history, pph, sickTime, vacaTime,
-                admin, numDaysScheduled, numPeriods);
-    }
 
 	public Bundle workdayToBundle (Workday w) {
 		Bundle b = new Bundle();
@@ -118,34 +95,10 @@ public class AdminSuperclass extends AppCompatActivity implements LoaderCallback
         editClient = new Intent(c, EditClient.class);
     }
 
-    public void addExtras () {
-    	menu.putExtra("user", userToBundle(user));
-    	menu.putExtra("cList", clientList);
-    	menu.putExtra("eList", employeeList);
-        countHours.putExtra("user", userToBundle(user));
-        countHours.putExtra("cList", clientList);
-        countHours.putExtra("eList", employeeList);
-        aviewCalendar.putExtra("user", userToBundle(user));
-        aviewCalendar.putExtra("cList", clientList);
-        aviewCalendar.putExtra("eList", employeeList);
-        reviseHours.putExtra("user", userToBundle(user));
-        reviseHours.putExtra("cList", clientList);
-        reviseHours.putExtra("eList", employeeList);
-        addJob.putExtra("user", userToBundle(user));
-        addJob.putExtra("cList", clientList);
-        addJob.putExtra("eList", employeeList);
-        addClient.putExtra("user", userToBundle(user));
-        addClient.putExtra("cList", clientList);
-        addClient.putExtra("eList", employeeList);
-        editWorker.putExtra("user", userToBundle(user));
-        editWorker.putExtra("cList", clientList);
-        editWorker.putExtra("eList", employeeList);
-        addWorker.putExtra("user", userToBundle(user));
-        addWorker.putExtra("cList", clientList);
-        addWorker.putExtra("eList", employeeList);
-        editClient.putExtra("user", userToBundle(user));
-		editClient.putExtra("cList", clientList);
-		editClient.putExtra("eList", employeeList);
+    public void addExtras (Intent intent) {
+    	intent.putExtra("user", this.user.toBundle());
+    	intent.putExtra("cList", this.clientList);
+    	intent.putExtra("eList", this.employeeList);
     }
 
 	class threeLabelBox {

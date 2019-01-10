@@ -46,12 +46,8 @@ public class AAddToSchedule extends AdminSuperclass
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aadd_to_schedule);
 
-		// Load passed User, clientList, and employeeList
-		Intent toHere = getIntent();
-		if (toHere.getExtras() == null) return;
-		this.user = bundleToUser(toHere.getExtras().getBundle("user"));
-		this.clientList = toHere.getStringArrayListExtra("cList");
-		this.employeeList = toHere.getStringArrayListExtra("eList");
+        Intent toHere = getIntent();
+        if (toHere.getExtras() == null) return;
 		this.toSched = toHere.getStringExtra("toSched");
 		selectedDate = toHere.getLongExtra("date", 0);
 
@@ -130,9 +126,7 @@ public class AAddToSchedule extends AdminSuperclass
 			// Respond to the action bar's Up/Home button
 			case android.R.id.home:
 				Intent intent = new Intent(this, ASchedule.class);
-				intent.putExtra("user", userToBundle(user));
-				intent.putExtra("cList", clientList);
-				intent.putExtra("eList", employeeList);
+				this.addExtras(intent);
 				intent.putExtra("date", selectedDate);
 				navigateUpTo(intent);
 				return true;
@@ -311,9 +305,7 @@ public class AAddToSchedule extends AdminSuperclass
 		scheduleBase.child(toSched).orderByKey().addListenerForSingleValueEvent(getAndSet);
 
 		Intent intent = new Intent(AAddToSchedule.this, ASchedule.class);
-		intent.putExtra("user", userToBundle(user));
-		intent.putExtra("cList", clientList);
-		intent.putExtra("eList", employeeList);
+		addExtras(intent);
 		intent.putExtra("date", selectedDate);
 
 		navigateUpTo(intent);

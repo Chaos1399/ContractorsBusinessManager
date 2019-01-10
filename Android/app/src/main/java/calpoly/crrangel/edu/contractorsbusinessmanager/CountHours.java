@@ -68,13 +68,6 @@ public class CountHours extends AdminSuperclass
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Load passed User, clientList, and employeeList
-        Intent toHere = getIntent();
-        if (toHere.getExtras() == null) return;
-        this.user = bundleToUser(toHere.getExtras().getBundle("user"));
-        this.clientList = toHere.getStringArrayListExtra("cList");
-        this.employeeList = toHere.getStringArrayListExtra("eList");
-
         // Make RecyclerView
         hourTotals = findViewById(R.id.hourTotalList);
         hourTotals.setHasFixedSize(true);
@@ -99,8 +92,7 @@ public class CountHours extends AdminSuperclass
         // Make PayPeriod EditText
 		pptxt = findViewById(R.id.chPeriodNum);
 
-        this.makeIntents(CountHours.this);
-        this.addExtras();
+        makeIntents(CountHours.this);
     }
 
     // Drawer Item Selected
@@ -108,28 +100,39 @@ public class CountHours extends AdminSuperclass
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+		Intent intent = null;
+		// False is navigateUpTo, True is startActivity
+		boolean navOrStart = true;
 
         ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
 
-        if (id == R.id.logoutmenu) {
-            navigateUpTo(signOut);
-        } else if (id == R.id.amenumenu) {
-            navigateUpTo(menu);
-        } else if (id == R.id.viewcalendarmenu) {
-            startActivity (aviewCalendar);
-        } else if (id == R.id.revisehoursmenu) {
-            startActivity (reviseHours);
-        } else if (id == R.id.addjobmenu) {
-            startActivity (addJob);
-        } else if (id == R.id.addclientmenu) {
-            startActivity (addClient);
-        } else if (id == R.id.editempmenu) {
-            startActivity (editWorker);
-        } else if (id == R.id.addempmenu) {
-            startActivity (addWorker);
-        } else if (id == R.id.editclientmenu) {
-			startActivity (editClient);
-		}
+		if (id == R.id.logoutmenu) {
+			intent = signOut;
+			navOrStart = false;
+		} else if (id == R.id.amenumenu) {
+			intent = menu;
+			navOrStart = false;
+		} else if (id == R.id.counthoursmenu)
+			intent = countHours;
+		else if (id == R.id.viewcalendarmenu)
+			intent = aviewCalendar;
+		else if (id == R.id.revisehoursmenu)
+			intent = reviseHours;
+		else if (id == R.id.addjobmenu)
+			intent = addJob;
+		else if (id == R.id.addclientmenu)
+			intent = addClient;
+		else if (id == R.id.editempmenu)
+			intent = editWorker;
+		else if (id == R.id.editclientmenu)
+			intent = editClient;
+
+		addExtras(intent);
+
+		if (navOrStart)
+			startActivity(intent);
+		else
+			navigateUpTo(intent);
 
         return true;
     }

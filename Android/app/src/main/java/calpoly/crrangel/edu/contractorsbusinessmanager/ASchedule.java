@@ -31,12 +31,8 @@ public class ASchedule extends AdminSuperclass
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aschedule);
 
-		// Load passed User, clientList, and employeeList
 		Intent toHere = getIntent();
 		if (toHere.getExtras() == null) return;
-		this.user = bundleToUser(toHere.getExtras().getBundle("user"));
-		this.clientList = toHere.getStringArrayListExtra("cList");
-		this.employeeList = toHere.getStringArrayListExtra("eList");
 		this.selectedDate = toHere.getLongExtra("date", 0);
 
         // Make RecyclerView
@@ -65,9 +61,7 @@ public class ASchedule extends AdminSuperclass
 			// Respond to the action bar's Up/Home button
 			case android.R.id.home:
 				Intent intent = new Intent(this, ASchedule.class);
-				intent.putExtra("user", userToBundle(user));
-				intent.putExtra("cList", clientList);
-				intent.putExtra("eList", employeeList);
+				addExtras(intent);
 				navigateUpTo(intent);
 				return true;
 		}
@@ -120,9 +114,7 @@ public class ASchedule extends AdminSuperclass
 
     public void asDidPressAdd (View view) {
 		Intent intent = new Intent(ASchedule.this, AAddToSchedule.class);
-		intent.putExtra("user", userToBundle(user));
-		intent.putExtra("cList", clientList);
-		intent.putExtra("eList", employeeList);
+		addExtras(intent);
 		intent.putExtra("date", selectedDate);
 		intent.putExtra("toSched", (String) selectedEmp.getSelectedItem());
 

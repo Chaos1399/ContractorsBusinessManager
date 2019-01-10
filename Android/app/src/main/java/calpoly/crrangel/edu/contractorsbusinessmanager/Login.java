@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,6 +21,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,11 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * A login screen that offers login via email/password.
@@ -42,14 +42,11 @@ public class Login extends AppCompatActivity {
 	ArrayList<String> clientList;
 	ArrayList<String> employeeList;
 	User user = null;
-	DatabaseReference clientBase = FirebaseDatabase.getInstance().getReference("Clients");
 	DatabaseReference userBase = FirebaseDatabase.getInstance().getReference("Users");
 
 	private static final String TAG = "MyActivity";
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
+    // Keep track of the login task to ensure I can cancel it if requested.
     private UserLoginTask mAuthTask = null;
     private FirebaseAuth mAuth;
 
@@ -88,18 +85,6 @@ public class Login extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
-        DateFormat format = new DateFormat() {
-            @Override
-            public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition) {
-                return null;
-            }
-
-            @Override
-            public Date parse(String source, ParsePosition pos) {
-                return null;
-            }
-        };
 
         clientList = new ArrayList<>();
         employeeList = new ArrayList<>();
@@ -175,23 +160,6 @@ public class Login extends AppCompatActivity {
             }
         });
     }
-	public Bundle userToBundle (User u) {
-		Bundle b = new Bundle();
-
-		b.putString("name", u.name);
-		b.putString("password", u.password);
-		b.putString("email", u.email);
-		b.putString("toWork", u.toWork);
-		b.putString("history", u.history);
-		b.putBoolean("admin", u.admin);
-		b.putDouble("pph", u.pph);
-		b.putDouble("sickTime", u.sickTime);
-		b.putDouble("vacaTime", u.vacaTime);
-		b.putInt("numDaysScheduled", u.numDaysScheduled);
-		b.putInt("numPeriods", u.numPeriods);
-
-		return b;
-	}
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -210,64 +178,69 @@ public class Login extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+			mAuth.signInWithEmailAndPassword(mName, mPassword);
 
-        	ValueEventListener startClist = new ValueEventListener() {
-				@Override
-				public void onDataChange(DataSnapshot dataSnapshot) {
-					if (dataSnapshot.exists()) {
-						for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-							for (DataSnapshot snap : snapshot.getChildren()) {
-								if (snapshot.getKey().equals("Clients")) {
-									if (!clientList.contains(snap.getValue(String.class)))
-										clientList.add(snap.getValue(String.class));
-								} else {
-									if (!employeeList.contains(snap.getValue(String.class)))
-										employeeList.add(snap.getValue(String.class));
+			if (mAuth.getUid() != null) {
+				ValueEventListener startClist = new ValueEventListener() {
+					@Override
+					public void onDataChange(DataSnapshot dataSnapshot) {
+						if (dataSnapshot.exists()) {
+							for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+								for (DataSnapshot snap : snapshot.getChildren()) {
+									if (snapshot.getKey().equals("Clients")) {
+										if (!clientList.contains(snap.getValue(String.class)))
+											clientList.add(snap.getValue(String.class));
+									} else {
+										if (!employeeList.contains(snap.getValue(String.class)))
+											employeeList.add(snap.getValue(String.class));
+									}
 								}
 							}
 						}
 					}
-				}
 
-				@Override
-				public void onCancelled(DatabaseError databaseError) {}
-			};
+					@Override
+					public void onCancelled(DatabaseError databaseError) {}
+				};
 
-        	FirebaseDatabase.getInstance().getReference().child("PersistenceStartup").addListenerForSingleValueEvent(startClist);
+				FirebaseDatabase.getInstance().getReference().child("PersistenceStartup").addListenerForSingleValueEvent(startClist);
 
-			ValueEventListener read = new ValueEventListener() {
-				@Override
-				public void onDataChange(DataSnapshot snapshot) {
-					if (snapshot.exists()) {
-						user = new User (snapshot);
+				ValueEventListener read = new ValueEventListener() {
+					@Override
+					public void onDataChange(DataSnapshot snapshot) {
+						if (snapshot.exists()) {
+							user = new User (snapshot);
 
-						if (mPassword.equals(user.password)) {
-							if (user.admin) {
-								showProgress(false);
-								intent = new Intent (Login.this, AMenu.class);
-								intent.putExtra("user", userToBundle(user));
-								intent.putExtra("cList", clientList);
-								intent.putExtra("eList", employeeList);
-								startActivity (intent);
+							if (mPassword.equals(user.password)) {
+								if (user.admin) {
+									showProgress(false);
+									intent = new Intent (Login.this, AMenu.class);
+									intent.putExtra("user", user.toBundle());
+									intent.putExtra("cList", clientList);
+									intent.putExtra("eList", employeeList);
+									startActivity (intent);
+								} else {
+									showProgress(false);
+									intent = new Intent (Login.this, EMenu.class);
+									startActivity (intent);
+								}
 							} else {
-								showProgress(false);
-								intent = new Intent (Login.this, EMenu.class);
-								startActivity (intent);
+								UserLoginTask.this.onPostExecute(false);
 							}
 						} else {
-							UserLoginTask.this.onPostExecute(false);
+							mUserView.setError(getString (R.string.error_invalid_name));
+							mUserView.requestFocus();
 						}
-					} else {
-						mUserView.setError(getString (R.string.error_invalid_name));
-						mUserView.requestFocus();
 					}
-				}
 
-				@Override
-				public void onCancelled(DatabaseError databaseError) {}
-			};
+					@Override
+					public void onCancelled(DatabaseError databaseError) {}
+				};
 
-			userBase.child(mName).orderByKey().addListenerForSingleValueEvent(read);
+				userBase.child(mAuth.getUid()).orderByKey().addListenerForSingleValueEvent(read);
+			} else {
+				UserLoginTask.this.onPostExecute(false);
+			}
 
             return true;
         }

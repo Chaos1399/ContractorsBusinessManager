@@ -31,9 +31,6 @@ public class ViewJobTime extends AdminSuperclass {
 		// Load passed User, clientList, and employeeList
 		Intent toHere = getIntent();
 		if (toHere.getExtras() == null) return;
-		this.user = bundleToUser(toHere.getExtras().getBundle("user"));
-		this.clientList = toHere.getStringArrayListExtra("cList");
-		this.employeeList = toHere.getStringArrayListExtra("eList");
 		selectedDate = toHere.getLongExtra("date", 0);
 
 		// Make RecyclerView
@@ -53,9 +50,7 @@ public class ViewJobTime extends AdminSuperclass {
 			// Respond to the action bar's Up/Home button
 			case android.R.id.home:
 				Intent intent = new Intent(this, ASchedule.class);
-				intent.putExtra("user", userToBundle(user));
-				intent.putExtra("cList", clientList);
-				intent.putExtra("eList", employeeList);
+				addExtras(intent);
 				navigateUpTo(intent);
 				return true;
 		}
@@ -100,9 +95,7 @@ public class ViewJobTime extends AdminSuperclass {
 
 	public void vjtDidPressAddJob (View view) {
 		Intent intent = new Intent(ViewJobTime.this, AddJob.class);
-		intent.putExtra("user", userToBundle(user));
-		intent.putExtra("cList", clientList);
-		intent.putExtra("eList", employeeList);
+		addExtras(intent);
 		startActivity(intent);
 	}
 }
