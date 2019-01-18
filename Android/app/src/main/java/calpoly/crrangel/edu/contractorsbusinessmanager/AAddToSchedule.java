@@ -19,73 +19,98 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AAddToSchedule extends AdminSuperclass
-		implements AdapterView.OnItemSelectedListener {
+		  implements AdapterView.OnItemSelectedListener {
 	ArrayList<Location> locationList;
 	ArrayList<String> locNameList;
 	ArrayList<String> jobList;
-	Spinner cSpin;
-	Spinner lSpin;
+	ArrayList<Integer> yearList;
+
+	Spinner clntSpin;
+	Spinner addrSpin;
+	Spinner ctySpin;
 	Spinner jSpin;
 	Spinner smSpin;
 	Spinner sdSpin;
+	Spinner sySpin;
 	Spinner emSpin;
 	Spinner edSpin;
-	//TODO: Add multi-year scheduling ability
-	ArrayAdapter<String> cAdapter;
-	ArrayAdapter<String> lAdapter;
+	Spinner eySpin;
+
+	ArrayAdapter<String> clntAdapter;
+	ArrayAdapter<String> addrAdapter;
+	ArrayAdapter<CharSequence> ctyAdapter;
 	ArrayAdapter<String> jAdapter;
 	ArrayAdapter<CharSequence> smAdapter;
-	ArrayAdapter<CharSequence> sdAdapter;
 	ArrayAdapter<CharSequence> emAdapter;
+	ArrayAdapter<CharSequence> sdAdapter;
 	ArrayAdapter<CharSequence> edAdapter;
+	ArrayAdapter<Integer> syAdapter;
+	ArrayAdapter<Integer> eyAdapter;
 	String toSched;
 	long selectedDate;
+	int dropdownItem = android.R.layout.simple_spinner_dropdown_item;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aadd_to_schedule);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_aadd_to_schedule);
 
-        Intent toHere = getIntent();
-        if (toHere.getExtras() == null) return;
+		Intent toHere = getIntent();
+		if (toHere.getExtras() == null) return;
 		this.toSched = toHere.getStringExtra("toSched");
 		selectedDate = toHere.getLongExtra("date", 0);
 
-
 		// Make spinners
-		cSpin = findViewById(R.id.aasClientSpinner);
-		lSpin = findViewById(R.id.aasLocSpinner);
-		jSpin = findViewById(R.id.aasJobSpinner);
+		clntSpin = findViewById(R.id.aasClientSpin);
+		addrSpin = findViewById(R.id.aasAddrSpin);
+		ctySpin = findViewById(R.id.aasCitySpin);
+		jSpin = findViewById(R.id.aasJobSpin);
 		smSpin = findViewById(R.id.aasStartMonth);
-		sdSpin = findViewById(R.id.aasStartDay);
 		emSpin = findViewById(R.id.aasEndMonth);
+		sdSpin = findViewById(R.id.aasStartDay);
 		edSpin = findViewById(R.id.aasEndDay);
-		cSpin.setOnItemSelectedListener(this);
-		lSpin.setOnItemSelectedListener(this);
+		sySpin = findViewById(R.id.aasStartYear);
+		eySpin = findViewById(R.id.aasEndYear);
+
+		clntSpin.setOnItemSelectedListener(this);
+		addrSpin.setOnItemSelectedListener(this);
+		ctySpin.setOnItemSelectedListener(this);
 		jSpin.setOnItemSelectedListener(this);
 		smSpin.setOnItemSelectedListener(this);
-		sdSpin.setOnItemSelectedListener(this);
 		emSpin.setOnItemSelectedListener(this);
+		sdSpin.setOnItemSelectedListener(this);
 		edSpin.setOnItemSelectedListener(this);
+		sySpin.setOnItemSelectedListener(this);
+		eySpin.setOnItemSelectedListener(this);
 
-		Date d = new Date();
+		Date d = (selectedDate > 0)? new Date(selectedDate) : new Date();
+		yearList = new ArrayList<>();
 
-		smAdapter = ArrayAdapter.createFromResource(this, R.array.monthNames, android.R.layout.simple_spinner_dropdown_item);
-		emAdapter = ArrayAdapter.createFromResource(this, R.array.monthNames, android.R.layout.simple_spinner_dropdown_item);
-		sdAdapter = ArrayAdapter.createFromResource(this, getArrayFromTime(d.getTime()), android.R.layout.simple_spinner_dropdown_item);
-		edAdapter = ArrayAdapter.createFromResource(this, getArrayFromTime(d.getTime()), android.R.layout.simple_spinner_dropdown_item);
+		for (int i = 0; i < 10; i++)
+			yearList.add(2019 + i);
+
+		smAdapter = ArrayAdapter.createFromResource(this, R.array.monthNames, dropdownItem);
+		emAdapter = ArrayAdapter.createFromResource(this, R.array.monthNames, dropdownItem);
+		sdAdapter = ArrayAdapter.createFromResource(this, getArrayFromTime(d.getTime()), dropdownItem);
+		edAdapter = ArrayAdapter.createFromResource(this, getArrayFromTime(d.getTime()), dropdownItem);
+		syAdapter = new ArrayAdapter<>(this, dropdownItem, yearList);
+		eyAdapter = new ArrayAdapter<>(this, dropdownItem, yearList);
+		ctyAdapter = ArrayAdapter.createFromResource(this, R.array.SLOCountyCities, dropdownItem);
 
 		smSpin.setAdapter(smAdapter);
 		emSpin.setAdapter(emAdapter);
 		sdSpin.setAdapter(sdAdapter);
 		edSpin.setAdapter(edAdapter);
+		sySpin.setAdapter(syAdapter);
+		eySpin.setAdapter(eyAdapter);
+		ctySpin.setAdapter(ctyAdapter);
 		smSpin.setSelection(d.getMonth(), false);
 		emSpin.setSelection(d.getMonth(), false);
 		sdSpin.setSelection(d.getDate() - 1, false);
 		edSpin.setSelection(d.getDate() - 1, false);
 
 		setLocJob(0, true);
-    }
+	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {}
@@ -94,26 +119,28 @@ public class AAddToSchedule extends AdminSuperclass
 	//Spinner Item Selected
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		if (parent.getId() == R.id.aasClientSpinner) {
-			lSpin.setSelection(0, false);
+		if (parent.getId() == R.id.aasClientSpin) {
+			addrSpin.setSelection(0, false);
 			jSpin.setSelection(0, false);
 			setLocJob(position, false);
-		} else if (parent.getId() == R.id.aasLocSpinner) {
+		} else if (parent.getId() == R.id.aasAddrSpin) {
 			jSpin.setSelection(0, false);
 			setJob(position);
 		} else if (parent.getId() == R.id.aasStartMonth) {
 			Date d = new Date();
+			d.setYear(Integer.parseInt(sySpin.getSelectedItem().toString()));
 			d.setMonth(position);
 			int prevpos = sdSpin.getSelectedItemPosition();
-			sdAdapter = ArrayAdapter.createFromResource(this, getArrayFromTime(d.getTime()), android.R.layout.simple_spinner_dropdown_item);
+			sdAdapter = ArrayAdapter.createFromResource(this, getArrayFromTime(d.getTime()), dropdownItem);
 			sdSpin.setAdapter(sdAdapter);
 			prevpos = (prevpos >= sdSpin.getCount())? (sdSpin.getCount() - 1) : prevpos;
 			sdSpin.setSelection(prevpos, false);
 		} else if (parent.getId() == R.id.aasEndMonth) {
 			Date d = new Date();
+			d.setYear(Integer.parseInt(sySpin.getSelectedItem().toString()));
 			d.setMonth(position);
 			int prevpos = edSpin.getSelectedItemPosition();
-			edAdapter = ArrayAdapter.createFromResource(this, getArrayFromTime(d.getTime()), android.R.layout.simple_spinner_dropdown_item);
+			edAdapter = ArrayAdapter.createFromResource(this, getArrayFromTime(d.getTime()), dropdownItem);
 			edSpin.setAdapter(edAdapter);
 			prevpos = (prevpos >= edSpin.getCount())? (edSpin.getCount() - 1) : prevpos;
 			edSpin.setSelection(prevpos, false);
@@ -135,10 +162,10 @@ public class AAddToSchedule extends AdminSuperclass
 	}
 
 	public static int getArrayFromTime (long time) {
-    	Date d = new Date(time);
-    	int y = d.getYear(), m = d.getMonth();
+		Date d = new Date(time);
+		int y = d.getYear(), m = d.getMonth();
 
-    	switch (m) {
+		switch (m) {
 			case 1:
 				if (y % 4 == 0)
 					return R.array.monthDays29;
@@ -185,20 +212,20 @@ public class AAddToSchedule extends AdminSuperclass
 
 
 								if (isInit) {
-									cAdapter = new ArrayAdapter<>(AAddToSchedule.this, R.layout.support_simple_spinner_dropdown_item, clientList);
-									lAdapter = new ArrayAdapter<>(AAddToSchedule.this, R.layout.support_simple_spinner_dropdown_item, locNameList);
-									jAdapter = new ArrayAdapter<>(AAddToSchedule.this, R.layout.support_simple_spinner_dropdown_item, jobList);
-									cAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-									lAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-									jAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-									cSpin.setAdapter(cAdapter);
-									lSpin.setAdapter(lAdapter);
+									clntAdapter = new ArrayAdapter<>(AAddToSchedule.this, dropdownItem, clientList);
+									addrAdapter = new ArrayAdapter<>(AAddToSchedule.this, dropdownItem, locNameList);
+									jAdapter = new ArrayAdapter<>(AAddToSchedule.this, dropdownItem, jobList);
+									clntAdapter.setDropDownViewResource(dropdownItem);
+									addrAdapter.setDropDownViewResource(dropdownItem);
+									jAdapter.setDropDownViewResource(dropdownItem);
+									clntSpin.setAdapter(clntAdapter);
+									addrSpin.setAdapter(addrAdapter);
 									jSpin.setAdapter(jAdapter);
 								}
 
-								lAdapter.clear();
-								lAdapter.addAll(locNameList);
-								lAdapter.notifyDataSetChanged();
+								addrAdapter.clear();
+								addrAdapter.addAll(locNameList);
+								addrAdapter.notifyDataSetChanged();
 
 								setJob(0);
 							}
@@ -224,7 +251,7 @@ public class AAddToSchedule extends AdminSuperclass
 			public void onCancelled(DatabaseError databaseError) { finish(); }
 		};
 
-		clientBase.orderByKey().equalTo(clientList.get(position)).addListenerForSingleValueEvent(getC);
+		clientBase.orderByKey().equalTo(position + "").addListenerForSingleValueEvent(getC);
 	}
 
 	private void setJob (final int position) {
@@ -261,38 +288,47 @@ public class AAddToSchedule extends AdminSuperclass
 	}
 
 	public void aasDidPressSave (View view) {
-    	ScheduledWorkday temp = null;
-    	final ScheduledWorkday toRet;
+		ScheduledWorkday temp = null;
+		final ScheduledWorkday toRet;
 
 		try {
-			temp = new ScheduledWorkday((String) cSpin.getSelectedItem(), (String) lSpin.getSelectedItem(),
-					(String) jSpin.getSelectedItem(),
-					df.parse((smSpin.getSelectedItemPosition() + 1) + "/" + (sdSpin.getSelectedItemPosition() + 1) + "/18"),
-					df.parse((emSpin.getSelectedItemPosition() + 1) + "/" + (edSpin.getSelectedItemPosition() + 1) + "/18"));
+			temp = new ScheduledWorkday(clntSpin.getSelectedItem().toString(),
+					  addrSpin.getSelectedItem().toString(),
+					  ctySpin.getSelectedItem().toString(),
+					  jSpin.getSelectedItem().toString(),
+					  df.parse((smSpin.getSelectedItemPosition() + 1) + "/" +
+								 (sdSpin.getSelectedItemPosition() + 1) + "/" +
+								 sySpin.getSelectedItem().toString().substring(2)),
+					  df.parse((emSpin.getSelectedItemPosition() + 1) + "/" +
+								 (edSpin.getSelectedItemPosition() + 1) + "/" +
+								 eySpin.getSelectedItem().toString().substring(2)));
 
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 		toRet = temp;
-		if (toRet == null)
-			System.exit(1);
+		if (toRet == null) {
+			System.out.println("Something went wrong. Try again");
+			return;
+		}
+
+		final ValueEventListener setNumDays = new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				//noinspection ConstantConditions
+				int numdays = dataSnapshot.getValue(Integer.class);
+
+				FirebaseDatabase.getInstance().getReferenceFromUrl(dataSnapshot.getRef().toString()).setValue(numdays + 1);
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {}
+		};
 
 		ValueEventListener getAndSet = new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
-				ValueEventListener setNumDays = new ValueEventListener() {
-					@Override
-					public void onDataChange(DataSnapshot dataSnapshot) {
-						//noinspection ConstantConditions
-						int numdays = dataSnapshot.getValue(Integer.class);
-
-						userBase.child(toSched).child("numDays").setValue(numdays + 1);
-					}
-
-					@Override
-					public void onCancelled(DatabaseError databaseError) {}
-				};
 
 				scheduleBase.child(toSched).child(Long.toString(dataSnapshot.getChildrenCount())).setValue(toRet.toMap());
 				userBase.child(toSched).child("numDays").addListenerForSingleValueEvent(setNumDays);
@@ -304,7 +340,7 @@ public class AAddToSchedule extends AdminSuperclass
 
 		scheduleBase.child(toSched).orderByKey().addListenerForSingleValueEvent(getAndSet);
 
-		Intent intent = new Intent(AAddToSchedule.this, ASchedule.class);
+		Intent intent = new Intent(this, ASchedule.class);
 		addExtras(intent);
 		intent.putExtra("date", selectedDate);
 

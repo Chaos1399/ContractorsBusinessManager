@@ -53,11 +53,11 @@ public class EmpSuperclass extends AppCompatActivity
 	public void makeIntents (Context c) {
 		menu = new Intent(c, EMenu.class);
 		signOut = new Intent(c, Login.class);
-		clockIn = new Intent(c, ClockIn.class);
+		clockIn = new Intent(c, EWork.class);
 		editProfile = new Intent(c, EEditProfile.class);
 		viewPPH = new Intent(c, PayHistory.class);
-		viewTB = new Intent(c, TimeBank.class);
-		schedule = new Intent(c, ViewSchedule.class);
+		viewTB = new Intent(c, ETimeBank.class);
+		schedule = new Intent(c, AViewSchedule.class);
 	}
 
 	public void addExtras (Intent intent) {

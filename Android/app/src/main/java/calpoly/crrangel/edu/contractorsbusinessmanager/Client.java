@@ -11,6 +11,7 @@ import java.util.Map;
 public class Client {
     public String name;
     public String address;
+    public String city;
     public String email;
     public String properties;
     public int numProps;
@@ -19,16 +20,18 @@ public class Client {
 
     public Client (DataSnapshot snap) {
         this.name = snap.child("name").getValue(String.class);
-        this.address = snap.child("billingAddress").getValue(String.class);
+        this.address = snap.child("address").getValue(String.class);
+        this.city = snap.child("city").getValue(String.class);
         this.email = snap.child("email").getValue(String.class);
         this.properties = snap.child("heldProperties").getValue(String.class);
         //noinspection ConstantConditions
-        this.numProps = snap.child("size").getValue(int.class);
+        this.numProps = snap.child("numProps").getValue(int.class);
     }
 
-    public Client (String name, String address, String email, String properties, int numProps) {
+    public Client (String name, String address, String city, String email, String properties, int numProps) {
         this.name = name;
         this.address = address;
+        this.city = city;
         this.email = email;
         this.properties = properties;
         this.numProps = numProps;
@@ -37,6 +40,7 @@ public class Client {
     public Client (Client copy) {
     	this.name = copy.name;
     	this.address = copy.address;
+    	this.city = copy.city;
     	this.email = copy.email;
     	this.properties = copy.properties;
     	this.numProps = copy.numProps;
@@ -46,10 +50,11 @@ public class Client {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("name", name);
-        result.put("billingAddress", address);
+        result.put("address", address);
+        result.put("city", city);
         result.put("email", email);
         result.put("heldProperties", properties);
-        result.put("size", numProps);
+        result.put("numProps", numProps);
 
         return result;
     }
@@ -58,7 +63,7 @@ public class Client {
     public String toString () {
         String s;
         s = "Name: " + name;
-        s += "\nAddress: " + address;
+        s += "\nAddress: " + address + ", " + city;
         s += "\nEmail: " + email;
         s += "\nProperties: " + properties;
         s += "\nNumProps: " + numProps;

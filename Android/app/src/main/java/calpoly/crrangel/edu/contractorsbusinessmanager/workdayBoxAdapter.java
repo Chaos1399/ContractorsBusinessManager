@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import calpoly.crrangel.edu.contractorsbusinessmanager.ReviseHours.workdayBox;
+import calpoly.crrangel.edu.contractorsbusinessmanager.AReviseHours.workdayBox;
 
 public class workdayBoxAdapter extends RecyclerView.Adapter<workdayBoxAdapter.workdayBoxVH>{
 	private ArrayList<workdayBox> mDataset;

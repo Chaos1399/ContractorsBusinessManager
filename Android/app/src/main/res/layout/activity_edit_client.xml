@@ -6,89 +6,110 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary"
-    tools:context=".EditClient"
+    tools:context=".AEditClient"
     tools:layout_editor_absoluteY="81dp" >
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/ecONTIL"
-        android:layout_width="395dp"
+    <TextView
+        android:id="@+id/aecONameLabel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/client"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/aecONSpin"
+        app:layout_constraintEnd_toStartOf="@id/aecONSpin"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/aecONSpin" />
+    <Spinner
+        android:id="@+id/aecONSpin"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/ecONET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/oname"
-            android:inputType="textNoSuggestions|textPersonName"
-            android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/ecNNTIL"
+        android:id="@+id/aecNNTIL"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ecONTIL">
+        app:layout_constraintTop_toBottomOf="@+id/aecONSpin">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/ecNNET"
+            android:id="@+id/aecNNET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/nname"
-            android:inputType="textNoSuggestions|textPersonName"
+            android:inputType="textNoSuggestions|textVisiblePassword"
             android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/ecATIL"
+        android:id="@+id/aecETIL"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ecETIL">
+        app:layout_constraintTop_toBottomOf="@+id/aecNNTIL">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/ecAET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/address"
-            android:inputType="textNoSuggestions|textPostalAddress" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/ecETIL"
-        android:layout_width="395dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ecNNTIL">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/ecEET"
+            android:id="@+id/aecEET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
-            android:inputType="textNoSuggestions|textEmailAddress"
+            android:inputType="textNoSuggestions|textVisiblePassword"
             android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/aecATIL"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aecETIL">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/aecAET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/address"
+            android:inputType="textNoSuggestions|textVisiblePassword" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/aecCTIL"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aecATIL">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/aecCET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/city"
+            android:inputType="textNoSuggestions|textVisiblePassword" />
+    </android.support.design.widget.TextInputLayout>
+
     <Button
-        android:id="@+id/ecSaveButton"
+        android:id="@+id/aecSaveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@color/primaryAccent"
         android:text="@string/save"
-        android:onClick="ecDidPressSave"
+        android:onClick="aecDidPressSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ecATIL" />
+        app:layout_constraintTop_toBottomOf="@+id/aecCTIL" />
 </android.support.constraint.ConstraintLayout>

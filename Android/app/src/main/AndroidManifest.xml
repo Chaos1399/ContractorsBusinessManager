@@ -29,11 +29,11 @@
             android:name=".EMenu"
             android:parentActivityName=".Login" />
         <activity
-            android:name=".ClockIn"
+            android:name=".EWork"
             android:label="@string/clock_in"
             android:parentActivityName=".EMenu" />
         <activity
-            android:name=".TimeBank"
+            android:name=".ETimeBank"
             android:label="@string/timebank"
             android:parentActivityName=".EMenu" />
         <activity
@@ -41,7 +41,7 @@
             android:label="@string/view_history"
             android:parentActivityName=".EMenu" />
         <activity
-            android:name=".ViewSchedule"
+            android:name=".AViewSchedule"
             android:label="@string/view_calendar"
             android:parentActivityName=".EMenu" />
         <activity
@@ -58,7 +58,7 @@
                 android:value="calpoly.crrangel.edu.contractorsbusinessmanager.Login" />
         </activity>
         <activity
-            android:name=".CountHours"
+            android:name=".ACountHours"
             android:label="@string/count_hours"
             android:parentActivityName=".AMenu"
             android:theme="@style/AppTheme.NoActionBar">
@@ -67,20 +67,15 @@
                 android:value="calpoly.crrangel.edu.contractorsbusinessmanager.AMenu" />
         </activity>
         <activity
-            android:name=".AddUser"
+            android:name=".AAddUser"
             android:label="@string/add_emp"
-            android:parentActivityName=".AMenu"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.AMenu" />
-        </activity>
+            android:parentActivityName=".AMenu" />
         <activity
-            android:name=".AddJob"
+            android:name=".AAddJob"
             android:label="@string/add_job"
             android:parentActivityName=".AMenu" />
         <activity
-            android:name=".ReviseHours"
+            android:name=".AReviseHours"
             android:label="@string/revise_hours"
             android:parentActivityName=".AMenu"
             android:theme="@style/AppTheme.NoActionBar">
@@ -98,7 +93,7 @@
                 android:value="calpoly.crrangel.edu.contractorsbusinessmanager.AMenu" />
         </activity>
         <activity
-            android:name=".ViewJobTime"
+            android:name=".AViewJobTime"
             android:label="@string/view_job_times"
             android:parentActivityName=".AViewCalendar" />
         <activity
@@ -110,24 +105,21 @@
             android:label="@string/schedule_emp"
             android:parentActivityName=".ASchedule" />
         <activity
-            android:name=".AEditProfile"
+            android:name=".AEditUser"
             android:label="@string/edit_emp"
             android:parentActivityName=".AMenu" />
         <activity
-            android:name=".AddClient"
+            android:name=".AAddClient"
             android:label="@string/add_client"
             android:parentActivityName=".AMenu" />
         <activity
-            android:name=".EditClient"
+            android:name=".AEditClient"
             android:label="@string/edit_client"
             android:parentActivityName=".AMenu" />
         <activity
-            android:name=".EditWorkday"
+            android:name=".AEditWorkday"
             android:label="@string/edit_workday"
-            android:parentActivityName=".ReviseHours" />
-        <activity
-            android:name=".test"
-            android:label="@string/title_activity_test"></activity>
+            android:parentActivityName=".AReviseHours" />
     </application>
 
 </manifest>

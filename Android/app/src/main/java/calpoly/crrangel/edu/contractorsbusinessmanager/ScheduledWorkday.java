@@ -14,16 +14,16 @@ import java.util.Map;
 public class ScheduledWorkday {
     public String client;
     public String location;
+    public String city;
     public String job;
     public Date startDate;
     public Date endDate;
     public DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
 
-    public ScheduledWorkday () {}
-
     ScheduledWorkday (DataSnapshot snap) {
         this.client = snap.child("client").getValue(String.class);
         this.location = snap.child("location").getValue(String.class);
+        this.city = snap.child("city").getValue(String.class);
         this.job = snap.child("job").getValue(String.class);
 
         try {
@@ -35,9 +35,10 @@ public class ScheduledWorkday {
 		}
     }
 
-    ScheduledWorkday (String client, String location, String job, Date startDate, Date endDate) {
+    ScheduledWorkday (String client, String location, String city, String job, Date startDate, Date endDate) {
         this.client = client;
         this.location = location;
+        this.city = city;
         this.job = job;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -50,7 +51,7 @@ public class ScheduledWorkday {
 		String ed = df.format(endDate).replace("/", "-");
 
         result.put("client", client);
-        result.put("location", location);
+        result.put("location", location + ", " + city);
         result.put("job", job);
         result.put("start", sd);
         result.put("end", ed);
@@ -63,6 +64,7 @@ public class ScheduledWorkday {
         String s;
         s = "Client: " + client;
         s += "\nLocation: " + location;
+        s += ", " + city;
         s += "\nJob: " + job;
         s += "\nStart: " + startDate;
         s += "\nend: " + endDate;

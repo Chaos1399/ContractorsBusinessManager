@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,12 +39,13 @@ import java.util.ArrayList;
  */
 public class Login extends AppCompatActivity {
     Intent intent;
-	ArrayList<String> clientList;
-	ArrayList<String> employeeList;
-	User user = null;
-	DatabaseReference userBase = FirebaseDatabase.getInstance().getReference("Users");
+    ArrayList<String> clientList;
+    ArrayList<String> employeeNameList;
+    ArrayList<User> employeeList;
+    User user = null;
+    DatabaseReference userBase = FirebaseDatabase.getInstance().getReference("Users");
 
-	private static final String TAG = "MyActivity";
+    private static final String TAG = "MyActivity";
 
     // Keep track of the login task to ensure I can cancel it if requested.
     private UserLoginTask mAuthTask = null;
@@ -87,6 +88,7 @@ public class Login extends AppCompatActivity {
         mProgressView = findViewById(R.id.login_progress);
 
         clientList = new ArrayList<>();
+        employeeNameList = new ArrayList<>();
         employeeList = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
@@ -101,16 +103,15 @@ public class Login extends AppCompatActivity {
     }
 
     public void onStart() {
-    	super.onStart();
+        super.onStart();
 
-		FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
-		if (currentUser == null) {
-			Log.d(TAG, "currentuser is null");
-		} else {
-			Log.d(TAG, "currentuser is not null: " + currentUser);
-		}
-	}
+        if (currentUser != null) {
+            System.out.println("Skipping past login");
+            performActivityChange();
+        }
+    }
 
     /**
      * Attempts to sign in the account specified by the login form.
@@ -133,6 +134,89 @@ public class Login extends AppCompatActivity {
         showProgress(true);
         mAuthTask = new UserLoginTask(uname, password);
         mAuthTask.doInBackground((Void) null);
+    }
+
+    void performActivityChange () {
+        ValueEventListener startLists = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        for (DataSnapshot snap : snapshot.getChildren()) {
+                            if (snapshot.getKey().equals("Clients")) {
+                                if (!clientList.contains(snap.getValue(String.class)))
+                                    clientList.add(snap.getValue(String.class));
+                            } else if (snapshot.getKey().equals("Employees")) {
+                                if (!employeeNameList.contains(snap.getValue(String.class))) {
+                                    employeeNameList.add(snap.getValue(String.class));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+
+        final ValueEventListener loadUser = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    user = new User (snapshot);
+
+                    if (user.admin) {
+                        showProgress(false);
+                        intent = new Intent (Login.this, AMenu.class);
+                        intent.putExtra("user", user.toBundle());
+                        intent.putExtra("cList", clientList);
+                        intent.putExtra("eList", employeeNameList);
+                        for (int i = 0; i < employeeNameList.size(); i++)
+                            intent.putExtra(employeeNameList.get(i), employeeList.get(i).toBundle());
+
+                        startActivity (intent);
+                    } else {
+                        showProgress(false);
+                        intent = new Intent (Login.this, EMenu.class);
+                        intent.putExtra("user", user.toBundle());
+                        intent.putExtra("cList", clientList);
+                        intent.putExtra("eList", employeeNameList);
+                        for (int i = 0; i < employeeNameList.size(); i++)
+                            intent.putExtra(employeeNameList.get(i), employeeList.get(i).toBundle());
+
+                        startActivity (intent);
+                    }
+                } else {
+                    mUserView.setError(getString (R.string.error_invalid_email));
+                    mUserView.requestFocus();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+
+        ValueEventListener getAllUsers = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot snap : snapshot.getChildren()) {
+                        User tempU = new User (snap);
+                        if (!tempU.name.equals("Admin"))
+                            employeeList.add(new User(snap));
+                    }
+
+                    userBase.child(mAuth.getUid()).orderByKey().addListenerForSingleValueEvent(loadUser);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+
+        FirebaseDatabase.getInstance().getReference().child("PersistenceStartup").addListenerForSingleValueEvent(startLists);
+        userBase.orderByKey().addListenerForSingleValueEvent(getAllUsers);
     }
 
     /**
@@ -178,69 +262,20 @@ public class Login extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-			mAuth.signInWithEmailAndPassword(mName, mPassword);
-
-			if (mAuth.getUid() != null) {
-				ValueEventListener startClist = new ValueEventListener() {
-					@Override
-					public void onDataChange(DataSnapshot dataSnapshot) {
-						if (dataSnapshot.exists()) {
-							for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-								for (DataSnapshot snap : snapshot.getChildren()) {
-									if (snapshot.getKey().equals("Clients")) {
-										if (!clientList.contains(snap.getValue(String.class)))
-											clientList.add(snap.getValue(String.class));
-									} else {
-										if (!employeeList.contains(snap.getValue(String.class)))
-											employeeList.add(snap.getValue(String.class));
-									}
-								}
-							}
-						}
-					}
-
-					@Override
-					public void onCancelled(DatabaseError databaseError) {}
-				};
-
-				FirebaseDatabase.getInstance().getReference().child("PersistenceStartup").addListenerForSingleValueEvent(startClist);
-
-				ValueEventListener read = new ValueEventListener() {
-					@Override
-					public void onDataChange(DataSnapshot snapshot) {
-						if (snapshot.exists()) {
-							user = new User (snapshot);
-
-							if (mPassword.equals(user.password)) {
-								if (user.admin) {
-									showProgress(false);
-									intent = new Intent (Login.this, AMenu.class);
-									intent.putExtra("user", user.toBundle());
-									intent.putExtra("cList", clientList);
-									intent.putExtra("eList", employeeList);
-									startActivity (intent);
-								} else {
-									showProgress(false);
-									intent = new Intent (Login.this, EMenu.class);
-									startActivity (intent);
-								}
-							} else {
-								UserLoginTask.this.onPostExecute(false);
-							}
-						} else {
-							mUserView.setError(getString (R.string.error_invalid_name));
-							mUserView.requestFocus();
-						}
-					}
-
-					@Override
-					public void onCancelled(DatabaseError databaseError) {}
-				};
-
-				userBase.child(mAuth.getUid()).orderByKey().addListenerForSingleValueEvent(read);
-			} else {
-				UserLoginTask.this.onPostExecute(false);
-			}
+            mAuth.signInWithEmailAndPassword(mName, mPassword).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (mAuth.getUid() != null)
+                        performActivityChange();
+                    else
+                        UserLoginTask.this.onPostExecute(false);
+                }
+            });
 
             return true;
         }

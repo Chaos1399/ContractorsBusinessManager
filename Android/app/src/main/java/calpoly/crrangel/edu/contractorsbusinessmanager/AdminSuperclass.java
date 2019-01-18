@@ -17,7 +17,8 @@ import java.util.ArrayList;
 public class AdminSuperclass extends AppCompatActivity implements LoaderCallbacks <Cursor>{
     User user = null;
     ArrayList<String> clientList;
-    ArrayList<String> employeeList;
+    ArrayList<String> employeeNameList;
+    ArrayList<User> employeeList;
     final DatabaseReference userBase = FirebaseDatabase.getInstance().getReference("Users");
     final DatabaseReference workdayBase = FirebaseDatabase.getInstance().getReference("Workdays");
     final DatabaseReference historyBase = FirebaseDatabase.getInstance().getReference("Pay Period Histories");
@@ -48,7 +49,10 @@ public class AdminSuperclass extends AppCompatActivity implements LoaderCallback
 		if (toHere.getExtras() == null) return;
 		this.user = new User(toHere.getExtras().getBundle("user"));
 		this.clientList = toHere.getStringArrayListExtra("cList");
-		this.employeeList = toHere.getStringArrayListExtra("eList");
+		this.employeeNameList = toHere.getStringArrayListExtra("eList");
+		this.employeeList = new ArrayList<>();
+		for (String s : this.employeeNameList)
+			this.employeeList.add(new User(toHere.getExtras().getBundle(s)));
 	}
 
     @Override
@@ -64,41 +68,25 @@ public class AdminSuperclass extends AppCompatActivity implements LoaderCallback
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {}
 
-	public Bundle workdayToBundle (Workday w) {
-		Bundle b = new Bundle();
-
-		b.putString("date", df.format(w.date));
-		b.putString("client", w.client);
-		b.putString("location", w.location);
-		b.putString("job", w.job);
-		b.putDouble("hours", w.hours);
-		b.putBoolean("done", w.clockedOut);
-
-		return b;
-	}
-
-	public Workday bundleToWorkday (Bundle b) {
-		return new Workday(b.getString("date"), b.getString("client"), b.getString("location"),
-				b.getString("job"), b.getDouble("hours"), b.getBoolean("done"));
-	}
-
     public void makeIntents (Context c) {
     	menu = new Intent(c, AMenu.class);
         signOut = new Intent(c, Login.class);
-        countHours = new Intent(c, CountHours.class);
+        countHours = new Intent(c, ACountHours.class);
         aviewCalendar = new Intent(c, AViewCalendar.class);
-        addJob = new Intent (c, AddJob.class);
-        reviseHours = new Intent(c, ReviseHours.class);
-        addWorker = new Intent(c, AddUser.class);
-        editWorker = new Intent(c, AEditProfile.class);
-        addClient = new Intent(c, AddClient.class);
-        editClient = new Intent(c, EditClient.class);
+        addJob = new Intent (c, AAddJob.class);
+        reviseHours = new Intent(c, AReviseHours.class);
+        addWorker = new Intent(c, AAddUser.class);
+        editWorker = new Intent(c, AEditUser.class);
+        addClient = new Intent(c, AAddClient.class);
+        editClient = new Intent(c, AEditClient.class);
     }
 
     public void addExtras (Intent intent) {
     	intent.putExtra("user", this.user.toBundle());
     	intent.putExtra("cList", this.clientList);
-    	intent.putExtra("eList", this.employeeList);
+    	intent.putExtra("eList", this.employeeNameList);
+	    for (int i = 0; i < this.employeeNameList.size(); i++)
+		    intent.putExtra(this.employeeNameList.get(i), this.employeeList.get(i).toBundle());
     }
 
 	class threeLabelBox {

@@ -1,4 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name"></string>
+    <!-- Error strings -->
+    <string name="error_invalid_email">Nombre inválido</string>
+    <string name="error_user_exists">Un usuario con este correo electrónico ya existe</string>
+    <string name="error_short_password">Contraseña debe de ser a lo mínimo 6 carácteres</string>
+    <string name="error_incorrect_password">Contraseña inválida</string>
+    <string name="error_field_required">Esta sección es obligatorio</string>
+
+    <!-- Page Titles -->
+    <string name="count_hours">Cuenta Horas</string>
+    <string name="view_calendar">Ve El Calendario</string>
+    <string name="revise_hours">Revise Horas</string>
+    <string name="edit_profile">Edite Perfil</string>
+    <string name="edit_emp">Edite Empleados</string>
+    <string name="add_client">Añide Cliente</string>
+    <string name="add_emp">Añide Empleados</string>
+    <string name="schedule">Programa</string>
+    <string name="view_history">Historia de Pagos</string>
+    <string name="timebank">Banco Por Tiempo</string>
+    <string name="choose_job">Elige Trabajo</string>
+    <string name="choose_day">Elige Día</string>
+    <string name="add_job">Añide Trabajo</string>
+    <string name="view_job_times">Ve Trabajos</string>
+    <string name="schedule_emp">Programa Empleados</string>
+    <string name="edit_client">Edite Cliente</string>
+    <string name="edit_workday">Edite Día</string>
+
+    <!-- Strings needed for Drawer -->
+    <string name="action_settings">Ajustes</string>
+
+    <!-- Login -->
+    <string name="username">Nombre de Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="reenterPass">Entre su Contraseña, Por Favor</string>
+    <string name="sign_in">Inicie sesión</string>
+    <string name="logout">Termine sesión</string>
+
+    <!-- Buttons -->
+    <string name="emp">Empleado</string>
+    <string name="admin">Administrativo</string>
+    <string name="cancel">Cancele</string>
+    <string name="save">Guarde</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="calculate">Calcule</string>
+
+    <!-- Labels -->
+    <!-- Hours and Pay -->
+    <string name="pph">Page Por Hora</string>
+    <string name="pay_period">Período de Pago</string>
+    <string name="hourTotals">Horas Trabajado</string>
+    <string name="hours">Horas</string>
+    <string name="pay">Pago</string>
+
+    <!-- Date and Time -->
+    <string name="start_date">Dato de Empieza</string>
+    <string name="end_date">Dato de Termina</string>
+    <string name="sick_time">Tiempo Para Enfermedad</string>
+    <string name="vaca_time">Tiempo Para Vacaciónes</string>
+
+    <!-- Names -->
+    <string name="name">Nombre</string>
+    <string name="oname">Nombre Original</string>
+    <string name="nname">Nombre Nuevo</string>
+    <string name="client">Cliente</string>
+
+    <!-- Addresses -->
+    <string name="location">Lugar</string>
+    <string name="city">Ciudád</string>
+    <string name="address">Dirección</string>
+    <string name="email">Correo Electrónico</string>
+
+    <!-- Jobs -->
+    <string name="job">Trabajo</string>
+    <string name="job_des">Descripción del Trabajo</string>
+    <string name="clock_in">Trabaje</string>
 </resources>

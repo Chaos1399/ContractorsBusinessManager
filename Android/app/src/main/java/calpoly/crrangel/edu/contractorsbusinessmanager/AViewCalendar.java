@@ -16,15 +16,15 @@ import java.text.ParseException;
 import java.util.Date;
 
 public class AViewCalendar extends AdminSuperclass
-		implements NavigationView.OnNavigationItemSelectedListener {
+		  implements NavigationView.OnNavigationItemSelectedListener {
 
 	CalendarView calendar;
 	long selectedDate;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aview_calendar);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_aview_calendar);
 		Toolbar toolbar = findViewById(R.id.avcToolbar);
 		setSupportActionBar(toolbar);
 
@@ -44,7 +44,7 @@ public class AViewCalendar extends AdminSuperclass
 		// Drawer stuff
 		DrawerLayout drawer = findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-				this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+				  this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 		NavigationView navigationView = findViewById(R.id.nav_view);
@@ -52,7 +52,7 @@ public class AViewCalendar extends AdminSuperclass
 
 		// Make all Intents
 		this.makeIntents(AViewCalendar.this);
-    }
+	}
 
 	@Override
 	public void onBackPressed() {
@@ -111,13 +111,13 @@ public class AViewCalendar extends AdminSuperclass
 		Intent intent = new Intent(AViewCalendar.this, ASchedule.class);
 		addExtras(intent);
 		intent.putExtra("date", selectedDate);
-    	startActivity(intent);
+		startActivity(intent);
 	}
 
 	public void avcDidPressTimelines (View view) {
-    	Intent intent = new Intent(AViewCalendar.this, ViewJobTime.class);
-    	addExtras(intent);
-    	intent.putExtra("date", selectedDate);
-    	startActivity(intent);
+		Intent intent = new Intent(AViewCalendar.this, AViewJobTime.class);
+		addExtras(intent);
+		intent.putExtra("date", selectedDate);
+		startActivity(intent);
 	}
 }
