@@ -55,7 +55,7 @@ public class EmpSuperclass extends AppCompatActivity
 		signOut = new Intent(c, Login.class);
 		clockIn = new Intent(c, EWork.class);
 		editProfile = new Intent(c, EEditProfile.class);
-		viewPPH = new Intent(c, PayHistory.class);
+		viewPPH = new Intent(c, EPayHistory.class);
 		viewTB = new Intent(c, ETimeBank.class);
 		schedule = new Intent(c, AViewSchedule.class);
 	}

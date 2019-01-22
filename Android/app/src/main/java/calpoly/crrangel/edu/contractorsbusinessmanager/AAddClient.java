@@ -16,7 +16,7 @@ public class AAddClient extends AdminSuperclass {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_client);
+		setContentView(R.layout.activity_aadd_client);
 
 		NET = findViewById(R.id.acNET);
 		EET = findViewById(R.id.acEET);

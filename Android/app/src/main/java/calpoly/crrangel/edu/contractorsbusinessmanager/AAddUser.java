@@ -32,7 +32,7 @@ public class AAddUser extends AdminSuperclass {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_user);
+		setContentView(R.layout.activity_aadd_user);
 
 		NET = findViewById(R.id.auNET);
 		EET = findViewById(R.id.auEET);

@@ -8,6 +8,6 @@ public class AViewSchedule extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_schedule);
+        setContentView(R.layout.activity_eview_schedule);
     }
 }

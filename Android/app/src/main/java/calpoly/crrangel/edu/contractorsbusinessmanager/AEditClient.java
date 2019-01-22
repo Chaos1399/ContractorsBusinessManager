@@ -27,7 +27,7 @@ public class AEditClient extends AdminSuperclass
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_edit_client);
+		setContentView(R.layout.activity_aedit_client);
 
 		oNSpin = findViewById(R.id.aecONSpin);
 		NNET = findViewById(R.id.aecNNET);

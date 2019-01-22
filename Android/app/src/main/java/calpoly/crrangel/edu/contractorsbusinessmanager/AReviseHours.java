@@ -45,7 +45,7 @@ public class AReviseHours extends AdminSuperclass
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_revise_hours);
+		setContentView(R.layout.activity_arevise_hours);
 		Toolbar toolbar = findViewById(R.id.rhToolbar);
 		setSupportActionBar(toolbar);
 

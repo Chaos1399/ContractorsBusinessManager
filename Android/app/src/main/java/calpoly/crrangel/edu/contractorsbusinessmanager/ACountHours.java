@@ -54,7 +54,7 @@ public class ACountHours extends AdminSuperclass
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_count_hours);
+		setContentView(R.layout.activity_acount_hours);
 		Toolbar toolbar = findViewById(R.id.chToolbar);
 		setSupportActionBar(toolbar);
 

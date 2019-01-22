@@ -36,7 +36,7 @@ public class AEditWorkday extends AdminSuperclass implements AdapterView.OnItemS
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_edit_workday);
+		setContentView(R.layout.activity_aedit_workday);
 
 		// Load passed User, clientList, and employeeList
 		Intent toHere = getIntent();

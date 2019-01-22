@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".AAddJob"
+    tools:layout_editor_absoluteY="81dp" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginBottom="40dp">
+
+            <!-- Client Portion -->
+            <TextView
+                android:id="@+id/ajclientLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/client"
+                android:textColor="@color/secondaryAccent"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/ajClntSpin"
+                app:layout_constraintEnd_toStartOf="@id/ajClntSpin"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ajClntSpin" />
+
+            <Spinner
+                android:id="@+id/ajClntSpin"
+                android:layout_width="228dp"
+                android:layout_height="33dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Address portion -->
+            <TextView
+                android:id="@+id/ajaddressLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/address"
+                android:textColor="@color/secondaryAccent"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/ajASpin"
+                app:layout_constraintEnd_toStartOf="@id/ajASpin"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ajASpin" />
+            <Spinner
+                android:id="@+id/ajASpin"
+                android:layout_width="228dp"
+                android:layout_height="33dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ajClntSpin" />
+
+            <TextView
+                android:id="@+id/ajcityLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/city"
+                android:textColor="@color/secondaryAccent"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/ajCtySpin"
+                app:layout_constraintEnd_toStartOf="@id/ajCtySpin"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ajCtySpin" />
+            <Spinner
+                android:id="@+id/ajCtySpin"
+                android:layout_width="228dp"
+                android:layout_height="33dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ajaddressLabel" />
+
+            <!-- Dates -->
+            <TextView
+                android:id="@+id/ajstartlabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/start_date"
+                android:textColor="@color/secondaryAccent"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ajCtySpin" />
+            <Spinner
+                android:id="@+id/ajStartMonth"
+                android:layout_width="171dp"
+                android:layout_height="33dp"
+                app:layout_constraintEnd_toStartOf="@id/ajStartDay"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ajstartlabel" />
+            <Spinner
+                android:id="@+id/ajStartDay"
+                android:layout_width="100dp"
+                android:layout_height="33dp"
+                app:layout_constraintBottom_toBottomOf="@id/ajStartMonth"
+                app:layout_constraintEnd_toStartOf="@id/ajStartYear"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/ajStartMonth"
+                app:layout_constraintTop_toTopOf="@id/ajStartMonth"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Spinner
+                android:id="@+id/ajStartYear"
+                android:layout_width="114dp"
+                android:layout_height="33dp"
+                app:layout_constraintBottom_toBottomOf="@id/ajStartDay"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/ajStartDay"
+                app:layout_constraintTop_toTopOf="@id/ajStartDay"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/ajendlabel"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/end_date"
+                android:textColor="@color/secondaryAccent"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ajStartMonth" />
+            <Spinner
+                android:id="@+id/ajEndMonth"
+                android:layout_width="171dp"
+                android:layout_height="33dp"
+                app:layout_constraintEnd_toStartOf="@id/ajEndDay"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ajendlabel" />
+            <Spinner
+                android:id="@+id/ajEndDay"
+                android:layout_width="100dp"
+                android:layout_height="33dp"
+                app:layout_constraintBottom_toBottomOf="@id/ajEndMonth"
+                app:layout_constraintEnd_toStartOf="@id/ajEndYear"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/ajEndMonth"
+                app:layout_constraintTop_toTopOf="@id/ajEndMonth"
+                app:layout_constraintVertical_bias="1.0" />
+            <Spinner
+                android:id="@+id/ajEndYear"
+                android:layout_width="114dp"
+                android:layout_height="33dp"
+                app:layout_constraintBottom_toBottomOf="@id/ajEndDay"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/ajEndDay"
+                app:layout_constraintTop_toTopOf="@id/ajEndDay"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <!-- Job Type and Description -->
+            <TextView
+                android:id="@+id/ajjoblabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/job"
+                android:textColor="@color/secondaryAccent"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ajEndMonth" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/ajJNTIL"
+                android:layout_width="395dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ajjoblabel">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/ajJNET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/job"
+                    android:inputType="textNoSuggestions|textVisiblePassword" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/ajjobdeslabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/job_des"
+                android:textColor="@color/secondaryAccent"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ajJNTIL" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/ajJDTIL"
+                android:layout_width="395dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/ajjobdeslabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/ajJDET"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/job_des"
+                    android:inputType="textMultiLine|textNoSuggestions|textVisiblePassword" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/ajSaveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/primaryAccent"
+                android:onClick="ajDidPressSave"
+                android:text="@string/save"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.51"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ajJDTIL" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

@@ -7,6 +7,6 @@ public class EWork extends AdminSuperclass {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clock_in);
+        setContentView(R.layout.activity_eclock_in);
     }
 }

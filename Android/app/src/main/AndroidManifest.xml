@@ -37,7 +37,7 @@
             android:label="@string/timebank"
             android:parentActivityName=".EMenu" />
         <activity
-            android:name=".PayHistory"
+            android:name=".EPayHistory"
             android:label="@string/view_history"
             android:parentActivityName=".EMenu" />
         <activity

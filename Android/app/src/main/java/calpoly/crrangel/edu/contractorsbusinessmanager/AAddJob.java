@@ -54,7 +54,7 @@ public class AAddJob extends AdminSuperclass
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_job);
+		setContentView(R.layout.activity_aadd_job);
 
 		typeField = findViewById(R.id.ajJNET);
 		desField = findViewById(R.id.ajJDET);

@@ -29,7 +29,7 @@ public class AViewJobTime extends AdminSuperclass {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_job_time);
+		setContentView(R.layout.activity_aview_job_time);
 
 		// Load passed User, clientList, and employeeList
 		Intent toHere = getIntent();
