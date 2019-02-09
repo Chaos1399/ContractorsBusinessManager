@@ -5,35 +5,34 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/logoutmenu"
+            android:id="@+id/aLogoutMenu"
             android:title="@string/logout" />
         <item
-            android:id="@+id/amenumenu"
+            android:id="@+id/aMenuMenu"
             android:title="@string/menu" />
         <item
-            android:id="@+id/viewcalendarmenu"
+            android:id="@+id/aViewCalendarMenu"
             android:title="@string/view_calendar" />
         <item
-            android:id="@+id/counthoursmenu"
+            android:id="@+id/aCountHoursMenu"
             android:title="@string/count_hours" />
         <item
-            android:id="@+id/revisehoursmenu"
+            android:id="@+id/aReviseHoursMenu"
             android:title="@string/revise_hours" />
         <item
-            android:id="@+id/addjobmenu"
+            android:id="@+id/aAddJobMenu"
             android:title="@string/add_job" />
         <item
-            android:id="@+id/addclientmenu"
+            android:id="@+id/aAddClientMenu"
             android:title="@string/add_client" />
         <item
-            android:id="@+id/editclientmenu"
+            android:id="@+id/aEditClientMenu"
             android:title="@string/edit_client" />
         <item
-            android:id="@+id/addempmenu"
+            android:id="@+id/aAddEmpMenu"
             android:title="@string/add_emp" />
         <item
-            android:id="@+id/editempmenu"
+            android:id="@+id/aEditEmpMenu"
             android:title="@string/edit_emp" />
     </group>
-
 </menu>

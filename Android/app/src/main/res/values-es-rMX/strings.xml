@@ -75,4 +75,5 @@
     <string name="job">Trabajo</string>
     <string name="job_des">Descripción del Trabajo</string>
     <string name="clock_in">Trabaje</string>
+    <string name="clock_out">Pare de Trabajar</string>
 </resources>

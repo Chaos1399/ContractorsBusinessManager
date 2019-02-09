@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="calpoly.crrangel.edu.contractorsbusinessmanager">
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/cbm_launcher_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/cbm_launcher_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:name=".Login"
-            android:label="@string/sign_in">
+            android:label="@string/sign_in"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdminSuperclass" />
-        <activity android:name=".EmpSuperclass" />
+
+        <!-- Emp Pages -->
         <activity
             android:name=".EMenu"
-            android:parentActivityName=".Login" />
+            android:label="@string/menu"
+            android:parentActivityName=".Login"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.Login" />
+        </activity>
         <activity
-            android:name=".EWork"
+            android:name=".EClockIn"
             android:label="@string/clock_in"
-            android:parentActivityName=".EMenu" />
+            android:parentActivityName=".EMenu"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.EMenu" />
+        </activity>
         <activity
             android:name=".ETimeBank"
             android:label="@string/timebank"
@@ -41,18 +51,20 @@
             android:label="@string/view_history"
             android:parentActivityName=".EMenu" />
         <activity
-            android:name=".AViewSchedule"
-            android:label="@string/view_calendar"
+            android:name=".EViewSchedule"
+            android:label="@string/schedule"
             android:parentActivityName=".EMenu" />
         <activity
             android:name=".EEditProfile"
             android:label="@string/edit_profile"
             android:parentActivityName=".EMenu" />
+
+        <!-- Admin Pages -->
         <activity
             android:name=".AMenu"
             android:label="@string/menu"
             android:parentActivityName=".Login"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="calpoly.crrangel.edu.contractorsbusinessmanager.Login" />
@@ -61,7 +73,7 @@
             android:name=".ACountHours"
             android:label="@string/count_hours"
             android:parentActivityName=".AMenu"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="calpoly.crrangel.edu.contractorsbusinessmanager.AMenu" />
@@ -78,7 +90,7 @@
             android:name=".AReviseHours"
             android:label="@string/revise_hours"
             android:parentActivityName=".AMenu"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="calpoly.crrangel.edu.contractorsbusinessmanager.AMenu" />
@@ -87,7 +99,7 @@
             android:name=".AViewCalendar"
             android:label="@string/view_calendar"
             android:parentActivityName=".AMenu"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="calpoly.crrangel.edu.contractorsbusinessmanager.AMenu" />

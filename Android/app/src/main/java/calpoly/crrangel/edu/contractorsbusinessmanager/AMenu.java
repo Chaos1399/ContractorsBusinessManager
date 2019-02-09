@@ -12,35 +12,32 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
+// TODO: Make it check that all employees have the newest payperiod, assign if they don't
 public class AMenu extends AdminSuperclass
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+		  implements NavigationView.OnNavigationItemSelectedListener {
 	private FirebaseAuth auth;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_amenu);
-        Toolbar toolbar = findViewById(R.id.amToolbar);
-        setSupportActionBar(toolbar);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_amenu);
+		Toolbar toolbar = findViewById(R.id.amToolbar);
+		setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+		DrawerLayout drawer = findViewById(R.id.drawer_layout);
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+				  this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+		drawer.addDrawerListener(toggle);
+		toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+		NavigationView navigationView = findViewById(R.id.anav_view);
+		navigationView.setNavigationItemSelectedListener(this);
 
-        makeIntents(AMenu.this);
+		makeIntents(AMenu.this);
 
-        auth = FirebaseAuth.getInstance();
-    }
+		auth = FirebaseAuth.getInstance();
+	}
 
 	@Override
 	public void onBackPressed() {
@@ -54,116 +51,75 @@ public class AMenu extends AdminSuperclass
 	}
 
 	@Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        Intent intent = null;
+	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+		int id = item.getItemId();
+		Intent intent = null;
 
-        ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
+		((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
 
-        if (id == R.id.logoutmenu) {
+		if (id == R.id.aLogoutMenu) {
 			auth.signOut();
-            onBackPressed();
-        } else if (id == R.id.counthoursmenu) {
-            intent = countHours;
-        } else if (id == R.id.viewcalendarmenu) {
+			onBackPressed();
+		} else if (id == R.id.aCountHoursMenu) {
+			intent = countHours;
+		} else if (id == R.id.aViewCalendarMenu) {
 			intent = aviewCalendar;
-        } else if (id == R.id.revisehoursmenu) {
+		} else if (id == R.id.aReviseHoursMenu) {
 			intent = reviseHours;
-        } else if (id == R.id.addjobmenu) {
+		} else if (id == R.id.aAddJobMenu) {
 			intent = addJob;
-        } else if (id == R.id.addclientmenu) {
+		} else if (id == R.id.aAddClientMenu) {
 			intent = addClient;
-        } else if (id == R.id.editempmenu) {
+		} else if (id == R.id.aEditEmpMenu) {
 			intent = editWorker;
-        } else if (id == R.id.addempmenu) {
+		} else if (id == R.id.aAddEmpMenu) {
 			intent = addWorker;
-        } else if (id == R.id.editclientmenu) {
+		} else if (id == R.id.aEditClientMenu) {
 			intent = editClient;
 		}
 
 		if (intent != null) {
-        	addExtras(intent);
-        	startActivity(intent);
+			addExtras(intent);
+			startActivity(intent);
 		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public void amenuDidPressLogout (View view) {
-    	writeToPersistenceStartup();
+	public void amenuDidPressLogout (View view) {
 		auth.signOut();
-    	onBackPressed();
-    }
-    public void amenuDidPressCountHours (View view) {
-    	addExtras(countHours);
-    	startActivity(countHours);
-    }
-    public void amenuDidPressViewCalendar (View view) {
-    	addExtras(aviewCalendar);
-    	startActivity(aviewCalendar);
-    }
-    public void amenuDidPressReviseHours (View view) {
-    	addExtras(reviseHours);
-    	startActivity(reviseHours);
-    }
-    public void amenuDidPressAddJob (View view) {
+		onBackPressed();
+	}
+	public void amenuDidPressCountHours (View view) {
+		addExtras(countHours);
+		startActivity(countHours);
+	}
+	public void amenuDidPressViewCalendar (View view) {
+		addExtras(aviewCalendar);
+		startActivity(aviewCalendar);
+	}
+	public void amenuDidPressReviseHours (View view) {
+		addExtras(reviseHours);
+		startActivity(reviseHours);
+	}
+	public void amenuDidPressAddJob (View view) {
 		addExtras(addJob);
-    	startActivity(addJob);
-    }
-    public void amenuDidPressAddEmp (View view) {
+		startActivity(addJob);
+	}
+	public void amenuDidPressAddEmp (View view) {
 		addExtras(addWorker);
-    	startActivity(addWorker);
-    }
-    public void amenuDidPressAddClient (View view) {
+		startActivity(addWorker);
+	}
+	public void amenuDidPressAddClient (View view) {
 		addExtras(addClient);
-    	startActivity(addClient);
-    }
-    public void amenuDidPressEditEmp(View view) {
+		startActivity(addClient);
+	}
+	public void amenuDidPressEditEmp(View view) {
 		addExtras(editWorker);
-    	startActivity(editWorker);
-    }
-    public void amenuDidPressEditClient (View view) {
+		startActivity(editWorker);
+	}
+	public void amenuDidPressEditClient (View view) {
 		addExtras(editClient);
-    	startActivity(editClient);
-    }
-
-    void writeToPersistenceStartup () {
-		ValueEventListener writeBack = new ValueEventListener() {
-			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
-				if (dataSnapshot.exists()) {
-					int i;
-					for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-						switch (snapshot.getKey()) {
-							case "ClientSize":
-								snapshot.getRef().setValue(clientList.size());
-								break;
-							case "EmployeeSize":
-								snapshot.getRef().setValue(employeeList.size());
-								break;
-							case "Clients":
-								i = 0;
-								for (DataSnapshot snap : snapshot.getChildren()) {
-									snap.getRef().setValue(clientList.get(i++));
-								}
-								break;
-							case "Employees":
-								i = 0;
-								for (DataSnapshot snap : snapshot.getChildren()) {
-									if (employeeList.get(i).equals("Admin"))
-										i++;
-									snap.getRef().setValue(employeeList.get(i++));
-								}
-								break;
-						}
-					}
-				}
-			}
-
-			@Override
-			public void onCancelled(DatabaseError databaseError) {}
-		};
-
-		persistenceStartup.addListenerForSingleValueEvent(writeBack);
+		startActivity(editClient);
 	}
 }

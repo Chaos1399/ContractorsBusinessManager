@@ -12,39 +12,23 @@ import java.util.Map;
 
 @IgnoreExtraProperties
 public class PayPeriod {
-    public Date startDate;
-    public Date endDate;
-    public int period;
-    public int numDays;
-    public double totalHours;
-    public String days;
-    private DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
-
-    public PayPeriod () {}
+    String startDate;
+    String endDate;
+    int period;
+    int numDays;
+    double totalHours;
+    String days;
 
     PayPeriod (DataSnapshot snap) {
-        PayPeriod p = snap.getValue(PayPeriod.class);
-
-        if (p == null) {
-            System.out.println ("Error making PayPeriod with:\n" + snap.getValue());
-            System.exit(1);
-        }
-
         this.days = snap.child("days").getValue(String.class);
-        this.totalHours = p.totalHours;
-        this.period = p.period;
-        this.numDays = p.numDays;
-
-        try {
-            this.startDate = df.parse((snap.child("start").getValue(String.class)).replace("-", "/"));
-            this.endDate = df.parse((snap.child("end").getValue(String.class)).replace("-", "/"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        this.period = Integer.valueOf(snap.getKey());
+        this.startDate = snap.child("start").getValue(String.class);
+        this.endDate = snap.child("end").getValue(String.class);
+        this.totalHours = snap.child("totalHours").getValue(Double.class);
+        this.numDays = snap.child("numDays").getValue(Integer.class);
     }
 
-    PayPeriod (Date startDate, Date endDate, int period, int numDays, double totalHours, String days) {
+    PayPeriod (String startDate, String endDate, int period, int numDays, double totalHours, String days) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.period = period;
@@ -56,11 +40,11 @@ public class PayPeriod {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("start", df.format(startDate).replace("/", "-"));
+        result.put("start", startDate);
         result.put("end", endDate);
         result.put("period", period);
         result.put("numDays", numDays);
-        result.put("hours", totalHours);
+        result.put("totalHours", totalHours);
         result.put("days", days);
 
         return result;

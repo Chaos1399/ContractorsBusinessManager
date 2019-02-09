@@ -27,7 +27,7 @@ public class Workday {
     Workday (DataSnapshot snap) {
         this.client = snap.child("client").getValue(String.class);
         this.location = snap.child("location").getValue(String.class);
-        this.city =snap.child("city").getValue(String.class);
+        this.city = snap.child("city").getValue(String.class);
         this.job = snap.child("job").getValue(String.class);
         this.hours = snap.child("hours").getValue(Double.class);
 

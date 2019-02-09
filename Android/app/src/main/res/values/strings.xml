@@ -82,5 +82,6 @@
     <string name="job">Job</string>
     <string name="job_des">Job Description</string>
     <string name="title_activity_test" translatable="false">CBM</string>
-    <string name="clock_in">Work</string>
+    <string name="clock_in">Clock In</string>
+    <string name="clock_out">Clock Out</string>
 </resources>

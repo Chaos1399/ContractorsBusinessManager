@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/eLogoutMenu"
+            android:title="@string/logout" />
+        <item
+            android:id="@+id/editProfileMenu"
+            android:title="@string/edit_profile" />
+        <item
+            android:id="@+id/eMenuMenu"
+            android:title="@string/menu" />
+        <item
+            android:id="@+id/clockInMenu"
+            android:title="@string/clock_in" />
+        <item
+            android:id="@+id/viewScheduleEMenu"
+            android:title="@string/schedule" />
+        <item
+            android:id="@+id/pphMenu"
+            android:title="@string/view_history" />
+        <item
+            android:id="@+id/timeBankMenu"
+            android:title="@string/timebank" />
+    </group>
+
+</menu>

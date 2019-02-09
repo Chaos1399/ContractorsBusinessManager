@@ -64,7 +64,7 @@ public class ACountHours extends AdminSuperclass
 				  R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
-		NavigationView navigationView = findViewById(R.id.nav_view);
+		NavigationView navigationView = findViewById(R.id.anav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 
 		// Make RecyclerView
@@ -116,25 +116,25 @@ public class ACountHours extends AdminSuperclass
 
 		((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
 
-		if (id == R.id.logoutmenu) {
+		if (id == R.id.aLogoutMenu) {
 			intent = signOut;
 			navOrStart = false;
-		} else if (id == R.id.amenumenu) {
+		} else if (id == R.id.aMenuMenu) {
 			intent = menu;
 			navOrStart = false;
-		} else if (id == R.id.counthoursmenu)
+		} else if (id == R.id.aCountHoursMenu)
 			intent = countHours;
-		else if (id == R.id.viewcalendarmenu)
+		else if (id == R.id.aViewCalendarMenu)
 			intent = aviewCalendar;
-		else if (id == R.id.revisehoursmenu)
+		else if (id == R.id.aReviseHoursMenu)
 			intent = reviseHours;
-		else if (id == R.id.addjobmenu)
+		else if (id == R.id.aAddJobMenu)
 			intent = addJob;
-		else if (id == R.id.addclientmenu)
+		else if (id == R.id.aAddClientMenu)
 			intent = addClient;
-		else if (id == R.id.editempmenu)
+		else if (id == R.id.aEditEmpMenu)
 			intent = editWorker;
-		else if (id == R.id.editclientmenu)
+		else if (id == R.id.aEditClientMenu)
 			intent = editClient;
 
 		addExtras(intent);

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".EClockIn"
+    tools:showIn="@layout/app_bar_clock_in"
+    android:theme="@style/AppTheme" >
+
+    <TextView
+        android:id="@+id/eciclientLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/client"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/eciClientSpin"
+        app:layout_constraintEnd_toStartOf="@id/eciClientSpin"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/eciClientSpin" />
+
+    <Spinner
+        android:id="@+id/eciClientSpin"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/eciCityLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/city"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/eciCitySpin"
+        app:layout_constraintEnd_toStartOf="@id/eciCitySpin"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/eciCitySpin" />
+
+    <Spinner
+        android:id="@+id/eciCitySpin"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eciASpin" />
+
+    <Spinner
+        android:id="@+id/eciJSpin"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eciCitySpin" />
+
+    <Spinner
+        android:id="@+id/eciASpin"
+        android:layout_width="228dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eciClientSpin" />
+
+    <TextView
+        android:id="@+id/eciAddressLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/address"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/eciASpin"
+        app:layout_constraintEnd_toStartOf="@id/eciASpin"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/eciASpin" />
+
+    <TextView
+        android:id="@+id/eciJobLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/job"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/eciJSpin"
+        app:layout_constraintEnd_toStartOf="@id/eciJSpin"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/eciJSpin" />
+
+    <Button
+        android:id="@+id/eciWorkButton"
+        android:layout_width="227dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/big_button"
+        android:onClick="didPressWorkButton"
+        android:text="@string/clock_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eciJSpin" />
+</android.support.constraint.ConstraintLayout>

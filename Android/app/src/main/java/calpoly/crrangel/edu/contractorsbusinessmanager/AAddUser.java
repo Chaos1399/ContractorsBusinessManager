@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +18,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 //TODO: Use this page instead to redirect to the webpage
 public class AAddUser extends AdminSuperclass {
@@ -58,9 +62,9 @@ public class AAddUser extends AdminSuperclass {
 		switch (item.getItemId()) {
 			// Respond to the action bar's Up/Home button
 			case android.R.id.home:
-				Intent intent = new Intent(this, AMenu.class);
-				addExtras(intent);
-				navigateUpTo(intent);
+				menu = new Intent(this, AMenu.class);
+				addExtras(menu);
+				navigateUpTo(menu);
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -70,9 +74,7 @@ public class AAddUser extends AdminSuperclass {
 		String name = "";
 		String email = "";
 		String password = "";
-		String pph = "";
-		String toWorkURL;
-		String payURL;
+		double pph = 0;
 		boolean errorSet = false;
 
 		if (NET.getText().toString().isEmpty()) {
@@ -100,20 +102,17 @@ public class AAddUser extends AdminSuperclass {
 			PPHET.setError(getString(R.string.error_field_required));
 			errorSet = true;
 		} else {
-			pph = PPHET.getText().toString();
+			pph = Double.valueOf(PPHET.getText().toString());
 		}
 
 		if (errorSet) return;
 
-		toWorkURL = scheduleBase.toString() + "/" + name;
-		payURL = FirebaseDatabase.getInstance().getReference().toString() + "/Pay Period Histories/";
-
-		final String n = name, e = email, twurl = toWorkURL, purl = payURL;
-		final String fpph = pph;
-
-		User tempU = new User(n, e, twurl, purl, null, Double.valueOf(fpph),
-				  0.0, 0.0, false, 0, 0);
-		signInDialog(tempU, password);
+		User tempU = new User(name, email, scheduleBase.toString() + "/", historyBase.toString() + "/", null, pph,
+				  0.0, 0.0, false, 0, 1);
+		if (adminPass == null)
+			signInDialog(tempU, password);
+		else
+			createNewUserAndReturn(tempU, password);
 	}
 
 	public void addUserDidPressCancel (View view) {
@@ -154,15 +153,9 @@ public class AAddUser extends AdminSuperclass {
 					public void onComplete(@NonNull Task<AuthResult> task) {
 						if (task.isSuccessful()) {
 							adminPass = password;
-
-							newUser.history += mAuth.getUid();
-							newUser.toWork += mAuth.getUid();
-							newUser.uid += mAuth.getUid();
-
 							mAuth.signOut();
 
 							createNewUserAndReturn(newUser, newUserPass);
-
 							dialog.dismiss();
 						} else {
 							passField.setError(getResources().getString(R.string.error_incorrect_password));
@@ -179,7 +172,11 @@ public class AAddUser extends AdminSuperclass {
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
 				if (task.isSuccessful()) {
-					String uid = mAuth.getUid();
+					final String uid = mAuth.getUid();
+
+					newUser.history += uid;
+					newUser.toWork += uid;
+					newUser.uid = uid;
 
 					userBase.child(uid).setValue(newUser.toMap());
 					persistenceStartup.child("EIDs").child(employeeList.size() + "").setValue(uid);
@@ -188,7 +185,30 @@ public class AAddUser extends AdminSuperclass {
 					AAddUser.this.employeeList.add(newUser);
 
 					mAuth.signOut();
-					mAuth.signInWithEmailAndPassword(adminEmail, adminPass);
+					mAuth.signInWithEmailAndPassword(adminEmail, adminPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+						@Override
+						public void onComplete(@NonNull Task<AuthResult> task) {
+							if (task.isSuccessful()) {
+								historyBase.child(mAuth.getUid()).child((user.numPeriods - 1) + "").addListenerForSingleValueEvent(new ValueEventListener() {
+									@Override
+									public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+										if (dataSnapshot.exists()) {
+											PayPeriod tempPer = new PayPeriod(dataSnapshot);
+
+											tempPer.days = workdayBase.child(uid).child("0").toString();
+											tempPer.totalHours = 0;
+											tempPer.numDays = 0;
+											tempPer.period = 0;
+											historyBase.child(uid).child("0").setValue(tempPer);
+										}
+									}
+
+									@Override
+									public void onCancelled(@NonNull DatabaseError databaseError) {}
+								});
+							}
+						}
+					});
 
 					AAddUser.this.addExtras(menu);
 					AAddUser.this.navigateUpTo(menu);

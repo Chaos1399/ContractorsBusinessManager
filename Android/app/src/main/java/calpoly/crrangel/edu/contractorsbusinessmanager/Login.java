@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -108,7 +109,7 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            System.out.println("Skipping past login");
+            Log.i("Print", "Skipping login page");
             performActivityChange();
         }
     }
@@ -166,8 +167,8 @@ public class Login extends AppCompatActivity {
                 if (snapshot.exists()) {
                     user = new User (snapshot);
 
+                    showProgress(false);
                     if (user.admin) {
-                        showProgress(false);
                         intent = new Intent (Login.this, AMenu.class);
                         intent.putExtra("user", user.toBundle());
                         intent.putExtra("cList", clientList);
@@ -177,7 +178,6 @@ public class Login extends AppCompatActivity {
 
                         startActivity (intent);
                     } else {
-                        showProgress(false);
                         intent = new Intent (Login.this, EMenu.class);
                         intent.putExtra("user", user.toBundle());
                         intent.putExtra("cList", clientList);
@@ -188,6 +188,7 @@ public class Login extends AppCompatActivity {
                         startActivity (intent);
                     }
                 } else {
+                    showProgress(false);
                     mUserView.setError(getString (R.string.error_invalid_email));
                     mUserView.requestFocus();
                 }

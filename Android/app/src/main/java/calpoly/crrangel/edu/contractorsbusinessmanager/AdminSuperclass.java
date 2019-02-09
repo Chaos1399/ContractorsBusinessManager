@@ -1,10 +1,7 @@
 package calpoly.crrangel.edu.contractorsbusinessmanager;
 
-import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -14,20 +11,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
-public class AdminSuperclass extends AppCompatActivity implements LoaderCallbacks <Cursor>{
+public class AdminSuperclass extends AppCompatActivity {
     User user = null;
     ArrayList<String> clientList;
     ArrayList<String> employeeNameList;
     ArrayList<User> employeeList;
     final DatabaseReference userBase = FirebaseDatabase.getInstance().getReference("Users");
     final DatabaseReference workdayBase = FirebaseDatabase.getInstance().getReference("Workdays");
-    final DatabaseReference historyBase = FirebaseDatabase.getInstance().getReference("Pay Period Histories");
+    final DatabaseReference historyBase = FirebaseDatabase.getInstance().getReference("PayPeriodHistories");
     final DatabaseReference clientBase = FirebaseDatabase.getInstance().getReference("Clients");
     final DatabaseReference locationBase = FirebaseDatabase.getInstance().getReference("Locations");
     final DatabaseReference scheduleBase = FirebaseDatabase.getInstance().getReference("Schedules");
     final DatabaseReference jobBase = FirebaseDatabase.getInstance().getReference("Jobs");
     final DatabaseReference persistenceStartup = FirebaseDatabase.getInstance().getReference("PersistenceStartup");
-    Thread hiPri = new Thread();
     Intent signOut;
     Intent menu;
     Intent countHours;
@@ -54,19 +50,6 @@ public class AdminSuperclass extends AppCompatActivity implements LoaderCallback
 		for (String s : this.employeeNameList)
 			this.employeeList.add(new User(toHere.getExtras().getBundle(s)));
 	}
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        hiPri.setPriority(Thread.MAX_PRIORITY);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {}
 
     public void makeIntents (Context c) {
     	menu = new Intent(c, AMenu.class);
