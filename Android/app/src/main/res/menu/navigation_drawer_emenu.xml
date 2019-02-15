@@ -17,7 +17,7 @@
             android:id="@+id/clockInMenu"
             android:title="@string/clock_in" />
         <item
-            android:id="@+id/viewScheduleEMenu"
+            android:id="@+id/viewCalendarEMenu"
             android:title="@string/schedule" />
         <item
             android:id="@+id/pphMenu"

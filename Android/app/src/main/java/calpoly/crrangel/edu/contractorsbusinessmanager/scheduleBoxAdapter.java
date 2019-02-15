@@ -40,9 +40,7 @@ public class scheduleBoxAdapter extends RecyclerView.Adapter<scheduleBoxAdapter.
 	// Create new views (invoked by the layout manager)
 	@NonNull
 	@Override
-	public schedBoxVH onCreateViewHolder(@NonNull ViewGroup parent,
-										  int viewType) {
-		// create a new view
+	public schedBoxVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View v = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.schedule_box, parent, false);
 
@@ -62,9 +60,6 @@ public class scheduleBoxAdapter extends RecyclerView.Adapter<scheduleBoxAdapter.
 	// Return the size of your dataset (invoked by the layout manager)
 	@Override
 	public int getItemCount() {
-		if (mDataset == null)
-			return 0;
-		else
-			return mDataset.size();
+		return (mDataset == null)? 0 : mDataset.size();
 	}
 }
