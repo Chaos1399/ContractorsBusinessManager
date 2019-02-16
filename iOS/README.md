@@ -1,4 +1,4 @@
-Project Title: Rangel Enterprises Inc. Business Manager
+Project Title: Contractor's Business Manager
    (To be revised at a later date)
    
 Developer Name: Cristian Rangel
