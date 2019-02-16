@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/primaryDark"
+    tools:layout_editor_absoluteY="81dp" >
+
+    <TextView
+        android:id="@+id/ehbPNLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/pay_period"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textColor="@color/secondaryAccent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ehbSDLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/ehbSDLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/start_date"
+        android:textAlignment="center"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/ehbPNLabel"
+        app:layout_constraintEnd_toStartOf="@id/ehbminuslabel"
+        app:layout_constraintStart_toEndOf="@id/ehbPNLabel"
+        app:layout_constraintTop_toTopOf="@id/ehbPNLabel"
+        app:layout_constraintVertical_bias="1.0" />
+    <TextView
+        android:id="@+id/ehbminuslabel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="-"
+        android:textSize="16sp"
+        android:textColor="@color/secondaryAccent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="@id/ehbPNLabel"
+        app:layout_constraintEnd_toStartOf="@id/ehbEDLabel"
+        app:layout_constraintStart_toEndOf="@id/ehbSDLabel"
+        app:layout_constraintBottom_toBottomOf="@id/ehbPNLabel"/>
+
+    <TextView
+        android:id="@+id/ehbEDLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/end_date"
+        android:textAlignment="center"
+        android:textColor="@color/secondaryAccent"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="48dp"
+        app:layout_constraintBottom_toBottomOf="@id/ehbPNLabel"
+        app:layout_constraintEnd_toStartOf="@id/ehbHLabel"
+        app:layout_constraintStart_toEndOf="@id/ehbminuslabel"
+        app:layout_constraintTop_toTopOf="@id/ehbPNLabel" />
+
+    <TextView
+        android:id="@+id/ehbHLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/hours"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textColor="@color/secondaryAccent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ehbEDLabel"
+        app:layout_constraintTop_toTopOf="@id/ehbPNLabel"
+        app:layout_constraintBottom_toBottomOf="@id/ehbPNLabel" />
+</android.support.constraint.ConstraintLayout>

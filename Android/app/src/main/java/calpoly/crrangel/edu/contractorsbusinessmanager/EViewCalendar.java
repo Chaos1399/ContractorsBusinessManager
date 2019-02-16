@@ -1,25 +1,31 @@
 package calpoly.crrangel.edu.contractorsbusinessmanager;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CalendarView;
 
-public class EMenu extends EmpSuperclass
+import java.text.ParseException;
+import java.util.Date;
+
+public class EViewCalendar extends EmpSuperclass
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    CalendarView calendar;
+    long selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_emenu);
-
-        Toolbar toolbar = findViewById(R.id.emToolbar);
+        setContentView(R.layout.activity_eview_calendar);
+        Toolbar toolbar = findViewById(R.id.evcToolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -29,8 +35,19 @@ public class EMenu extends EmpSuperclass
         NavigationView navigationView = findViewById(R.id.enav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        makeIntents(this);
-        createNotificationChannel();
+        calendar = findViewById(R.id.evcCalendar);
+        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                try {
+                    Date date = df.parse((month + 1) + "/" + dayOfMonth + "/" + (year - 2000));
+                    selectedDate = date.getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        selectedDate = new Date().getTime();
     }
 
     @Override
@@ -39,11 +56,13 @@ public class EMenu extends EmpSuperclass
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            addExtras(signOut);
-            startActivity(signOut);
+            menu = new Intent(this, EMenu.class);
+            addExtras(menu);
+            navigateUpTo(menu);
         }
     }
 
+    // Drawer Item Selected
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -54,7 +73,9 @@ public class EMenu extends EmpSuperclass
         if (id == R.id.eLogoutMenu) {
             auth.signOut();
             intent = signOut;
-        }else if (id == R.id.editProfileMenu) {
+        } else if (id == R.id.eMenuMenu) {
+            intent = menu;
+        } else if (id == R.id.editProfileMenu) {
             intent = editProfile;
         } else if (id == R.id.clockInMenu) {
             intent = clockIn;
@@ -74,28 +95,10 @@ public class EMenu extends EmpSuperclass
         return true;
     }
 
-    public void emenuDidPressLogout (View view) {
-        auth.signOut();
-        navigateUpTo(signOut);
-    }
-    public void emenuDidPressEditEmp (View view) {
-        addExtras(editProfile);
-        startActivity(editProfile);
-    }
-    public void emenuDidPressClockIn (View view) {
-        addExtras(clockIn);
-        startActivity(clockIn);
-    }
-    public void emenuDidPressViewSchedule (View view) {
-        addExtras(viewCalendar);
-        startActivity(viewCalendar);
-    }
-    public void emenuDidPressPayHistory (View view) {
-        addExtras(payPeriodHistory);
-        startActivity(payPeriodHistory);
-    }
-    public void emenuDidPressTimeBank (View view) {
-        addExtras(timeBank);
-        startActivity(timeBank);
+    public void evcDidPressViewSchedule (View view) {
+        Intent viewSched = new Intent (this, EViewSchedule.class);
+        addExtras(viewSched);
+        viewSched.putExtra("selectedDate", selectedDate);
+        startActivity(viewSched);
     }
 }

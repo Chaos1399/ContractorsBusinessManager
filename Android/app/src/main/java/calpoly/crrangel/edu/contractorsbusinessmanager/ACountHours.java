@@ -264,7 +264,6 @@ public class ACountHours extends AdminSuperclass
 									locNameList.add(l.address + ", " + l.city);
 								}
 
-
 								// Had to split it up so that the locationlist and joblist get initiated at the start
 								if (isInit) {
 									cAdapter = new ArrayAdapter<>(ACountHours.this, R.layout.support_simple_spinner_dropdown_item, clientList);

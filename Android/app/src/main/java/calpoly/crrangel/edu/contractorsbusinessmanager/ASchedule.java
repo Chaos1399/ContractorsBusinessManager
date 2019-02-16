@@ -46,12 +46,10 @@ public class ASchedule extends AdminSuperclass
 		schedListZero();
 
 		selectedEmp = findViewById(R.id.asE);
-		String [] eList = new String[employeeNameList.size()];
-		for (int i = 0; i < employeeNameList.size(); i++) {
-			eList [i] = employeeNameList.get(i);
-		}
-		ArrayAdapter<String> selectedEmpAdapter = new ArrayAdapter<>(ASchedule.this, R.layout.support_simple_spinner_dropdown_item, eList);
-		selectedEmpAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		int dropdownItem = R.layout.support_simple_spinner_dropdown_item;
+		ArrayAdapter<String> selectedEmpAdapter = new ArrayAdapter<>(ASchedule.this,
+				  dropdownItem, employeeNameList);
+		selectedEmpAdapter.setDropDownViewResource(dropdownItem);
 		selectedEmp.setAdapter(selectedEmpAdapter);
 	}
 

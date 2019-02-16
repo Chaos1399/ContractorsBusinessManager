@@ -108,6 +108,8 @@ public class AAddToSchedule extends AdminSuperclass
 		emSpin.setSelection(d.getMonth(), false);
 		sdSpin.setSelection(d.getDate() - 1, false);
 		edSpin.setSelection(d.getDate() - 1, false);
+		sySpin.setSelection(d.getYear() - 119, false);
+		eySpin.setSelection(d.getYear() - 119, false);
 
 		setLocJob(0, true);
 	}
