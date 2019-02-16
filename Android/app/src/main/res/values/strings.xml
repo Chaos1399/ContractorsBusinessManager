@@ -7,7 +7,6 @@
     <string name="error_short_password">Password should be at least 6 characters</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="error_short_year">Year field must be YYYY format</string>
 
     <!-- Page Titles -->
     <string name="count_hours">Count Hours</string>
@@ -51,7 +50,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="calculate">Calculate</string>
-    <string name="filter">Filter</string>
 
     <!-- Labels -->
     <!-- Hours and Pay -->
@@ -67,10 +65,6 @@
     <string name="end_date">End Date</string>
     <string name="sick_time">Sick Time</string>
     <string name="vaca_time">Vacation Time</string>
-    <string name="day">Day</string>
-    <string name="year_format" translatable="false">YYYY</string>
-    <string name="month_format" translatable="false">MM</string>
-    <string name="day_format" translatable="false">DD</string>
 
     <!-- Names -->
     <string name="name">Name</string>
@@ -90,5 +84,4 @@
     <string name="title_activity_test" translatable="false">CBM</string>
     <string name="clock_in">Clock In</string>
     <string name="clock_out">Clock Out</string>
-    <string name="view_schedule">View Schedule</string>
 </resources>

@@ -27,6 +27,10 @@ public class workdayBoxAdapter extends RecyclerView.Adapter<workdayBoxAdapter.wo
 		notifyDataSetChanged();
 	}
 
+	public void printData () {
+		System.out.println (mDataset);
+	}
+
 	// Create new views (invoked by the layout manager)
 	@NonNull
 	@Override
@@ -50,7 +54,12 @@ public class workdayBoxAdapter extends RecyclerView.Adapter<workdayBoxAdapter.wo
 
 	// Return the size of your dataset (invoked by the layout manager)
 	@Override
-	public int getItemCount() { return (mDataset == null)? 0 : mDataset.size(); }
+	public int getItemCount() {
+		if (mDataset == null)
+			return 0;
+		else
+			return mDataset.size();
+	}
 
 	// Provide a reference to the views for each data item
 	// Complex data items may need more than one view per item, and

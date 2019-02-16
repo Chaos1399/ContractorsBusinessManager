@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -58,8 +59,8 @@ public class EMenu extends EmpSuperclass
             intent = editProfile;
         } else if (id == R.id.clockInMenu) {
             intent = clockIn;
-        } else if (id == R.id.viewCalendarEMenu) {
-            intent = viewCalendar;
+        } else if (id == R.id.viewScheduleEMenu) {
+            intent = viewSchedule;
         } else if (id == R.id.pphMenu) {
             intent = payPeriodHistory;
         } else if (id == R.id.timeBankMenu) {
@@ -87,8 +88,8 @@ public class EMenu extends EmpSuperclass
         startActivity(clockIn);
     }
     public void emenuDidPressViewSchedule (View view) {
-        addExtras(viewCalendar);
-        startActivity(viewCalendar);
+        addExtras(viewSchedule);
+        startActivity(viewSchedule);
     }
     public void emenuDidPressPayHistory (View view) {
         addExtras(payPeriodHistory);

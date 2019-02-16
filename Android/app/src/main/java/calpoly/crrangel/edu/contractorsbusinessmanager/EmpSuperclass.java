@@ -35,7 +35,7 @@ public class EmpSuperclass extends AppCompatActivity {
 	Intent menu;
 	Intent clockIn;
 	Intent editProfile;
-	Intent viewCalendar;
+	Intent viewSchedule;
 	Intent payPeriodHistory;
 	Intent timeBank;
 	DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -62,7 +62,7 @@ public class EmpSuperclass extends AppCompatActivity {
 		signOut = new Intent(c, Login.class);
 		clockIn = new Intent(c, EClockIn.class);
 		editProfile = new Intent(c, EEditProfile.class);
-		viewCalendar = new Intent(c, EViewCalendar.class);
+		viewSchedule = new Intent(c, EViewSchedule.class);
 		payPeriodHistory = new Intent(c, EPayHistory.class);
 		timeBank = new Intent(c, ETimeBank.class);
 	}

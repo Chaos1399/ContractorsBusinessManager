@@ -43,36 +43,17 @@
                 android:value="calpoly.crrangel.edu.contractorsbusinessmanager.EMenu" />
         </activity>
         <activity
-            android:name=".EViewCalendar"
-            android:label="@string/schedule"
-            android:parentActivityName=".EMenu"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.EMenu" />
-        </activity>
-        <activity
-            android:name=".EViewSchedule"
-            android:label="@string/view_schedule"
-            android:parentActivityName=".EViewCalendar" />
+            android:name=".ETimeBank"
+            android:label="@string/timebank"
+            android:parentActivityName=".EMenu" />
         <activity
             android:name=".EPayHistory"
             android:label="@string/view_history"
-            android:parentActivityName=".EMenu"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.EMenu" />
-        </activity>
+            android:parentActivityName=".EMenu" />
         <activity
-            android:name=".ETimeBank"
-            android:label="@string/timebank"
-            android:parentActivityName=".EMenu"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="calpoly.crrangel.edu.contractorsbusinessmanager.EMenu" />
-        </activity>
+            android:name=".EViewSchedule"
+            android:label="@string/schedule"
+            android:parentActivityName=".EMenu" />
         <activity
             android:name=".EEditProfile"
             android:label="@string/edit_profile"

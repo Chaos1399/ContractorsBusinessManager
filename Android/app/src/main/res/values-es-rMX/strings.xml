@@ -6,7 +6,6 @@
     <string name="error_short_password">Contraseña debe de ser a lo mínimo 6 carácteres</string>
     <string name="error_incorrect_password">Contraseña inválida</string>
     <string name="error_field_required">Esta sección es obligatorio</string>
-    <string name="error_short_year">El año debe de ser de la forma YYYY</string>
 
     <!-- Page Titles -->
     <string name="count_hours">Cuenta Horas</string>
@@ -45,7 +44,6 @@
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="calculate">Calcule</string>
-    <string name="filter">Filtra</string>
 
     <!-- Labels -->
     <!-- Hours and Pay -->
@@ -60,7 +58,6 @@
     <string name="end_date">Dato de Termina</string>
     <string name="sick_time">Tiempo Para Enfermedad</string>
     <string name="vaca_time">Tiempo Para Vacaciónes</string>
-    <string name="day">Día</string>
 
     <!-- Names -->
     <string name="name">Nombre</string>
@@ -79,5 +76,4 @@
     <string name="job_des">Descripción del Trabajo</string>
     <string name="clock_in">Trabaje</string>
     <string name="clock_out">Pare de Trabajar</string>
-    <string name="view_schedule">Ve Programa</string>
 </resources>

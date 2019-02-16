@@ -159,8 +159,8 @@ public class EClockIn extends EmpSuperclass
 			intent = editProfile;
 		} else if (id == R.id.clockInMenu) {
 			intent = clockIn;
-		} else if (id == R.id.viewCalendarEMenu) {
-			intent = viewCalendar;
+		} else if (id == R.id.viewScheduleEMenu) {
+			intent = viewSchedule;
 		} else if (id == R.id.pphMenu) {
 			intent = payPeriodHistory;
 		} else if (id == R.id.timeBankMenu) {
@@ -261,7 +261,7 @@ public class EClockIn extends EmpSuperclass
 		locs.orderByKey().addListenerForSingleValueEvent(readJList);
 	}
 
-	public void eciDidPressWorkButton (View view) {
+	public void didPressWorkButton (View view) {
 		if (isClockedIn) {
 			isClockedIn = false;
 			workButton.setText(R.string.clock_in);
